@@ -1,0 +1,6 @@
+.DS_Store
+cscope.*
+tags
+.cache
+*.orig
+
