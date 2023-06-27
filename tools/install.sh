@@ -24,15 +24,24 @@ done
 ./common.sh display_tittle 'Installation Status'
 
 for cnt in ${!install_status[@]}; do
+
+	if [ ${install_status[$cnt]} == 'failed' ]; then
+		printf "%2s." "*"
+	else
+		printf "%2d." "$(($cnt+1))"
+	fi
+
+	printf "%-20s\t" "${install_tools[$cnt]}"
+
 	if [ ${install_status[$cnt]} == 'failed' ]; then
 		echo -e -n "\033[31m"
+	else
+		echo -e -n "\033[33m"
 	fi
 
-	printf "%2d. %-20s [%-s]\n" "$(($cnt+1))" "${install_tools[$cnt]}" "${install_status[$cnt]}"
+	printf "[%-s]\n" "${install_status[$cnt]}"
 
-	if [ ${install_status[$cnt]} == 'failed' ]; then
-		echo -e -n "\033[0m"
-	fi
+	echo -e -n "\033[0m"
 done
 
 exit 0
