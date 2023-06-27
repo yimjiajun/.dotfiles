@@ -2,7 +2,7 @@
 
 install() {
 	local install=$(./get_intall_pkg_cmd.sh)
-	echo $install "$?"
+
 	if [[ -z $install ]] ||\
 		[[ $install =~ ^Error* ]] ||\
 		[[ $install =~ ^error* ]] ||\
