@@ -1,0 +1,45 @@
+[color]
+	ui = auto
+[credential]
+	helper = store
+[core]
+	editor = nvim --clean
+	excludesfile = /home/richardyim/dotfiles/tools/../data/.gitignore_global
+[alias]
+	l = log --oneline --graph --all
+	lr = reflog
+	ld = log --patch --pretty=format:%H:%s%n======================================================================================================================================
+	c = commit
+	a = add -p
+	ai = add -i
+	d = diff
+	dp = diff HEAD~
+	ds = diff --staged
+	s = status
+	co = checkout
+	get-commit-count-b = rev-list --count
+	check-whitespace = !git diff-tree --check $(git hash-object -t tree /dev/null) HEAD
+[difftool]
+    prompt = true
+[diff]
+    tool = nvim
+    tool = vim
+[difftool "nvim"]
+    cmd = "nvim -d \"$LOCAL\" \"$REMOTE\""
+[difftool "vim"]
+    cmd = "vim -d \"$LOCAL\" \"$REMOTE\""
+[merge]
+	tool = "nvim"
+	tool = "vim"
+[mergetool]
+	keepBackup = false
+	prompt = false
+[mergetool "nvim"]
+	cmd = "nvim -d -c \"wincmd l\" -c \"norm ]c\" \"$LOCAL\" \"$MERGED\" \"$REMOTE\""
+[mergetool "vim"]
+	cmd = "vim -d -c \"wincmd l\" -c \"norm ]c\" \"$LOCAL\" \"$MERGED\" \"$REMOTE\""
+[user]
+	name = JiaJun Yim
+	email = yimjiajun@icloud.com
+[commit]
+	template = /home/richardyim/dotfiles/tools/../data/.gitmessage
