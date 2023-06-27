@@ -13,6 +13,11 @@ install() {
 
 	./common.sh display_tittle "Install ncdu"
 	$install ncdu
+
+	if [[ $? -ne 0 ]]; then
+		echo -e "\033[31mError: install ncud failed ! \033[0m" >&2
+		exit 1
+	fi
 }
 
 if [[ $OSTYPE != linux-gnu* ]]; then
