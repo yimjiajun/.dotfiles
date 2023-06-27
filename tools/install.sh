@@ -25,13 +25,13 @@ done
 
 for cnt in ${!install_status[@]}; do
 	if [ ${install_status[$cnt]} == 'failed' ]; then
-		echo -e "\033[31m"
+		echo -e -n "\033[31m"
 	fi
 
 	printf "%2d. %-20s [%-s]\n" "$(($cnt+1))" "${install_tools[$cnt]}" "${install_status[$cnt]}"
 
 	if [ ${install_status[$cnt]} == 'failed' ]; then
-		echo -e "\033[0m"
+		echo -e -n "\033[0m"
 	fi
 done
 
