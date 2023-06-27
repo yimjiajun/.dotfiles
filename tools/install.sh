@@ -1,6 +1,8 @@
 #!/bin/bash
 
-install_path=$(dirnamer $(readlink -f $0))
+install_path=$(dirname $(readlink -f $0))
+cd $install_path
+
 ignore_install_tools=('install.sh common.sh get_intall_pkg_cmd.sh')
 
 for prefix in ${ignore_install_tools[@]}; do
@@ -11,7 +13,7 @@ install_tools=($(ls $install_path $ignore_install_tool_str))
 install_status=install_tools
 cnt=0
 for tool in ${install_tools[@]}; do
-	./$install_path/$tool 'install'
+	./$tool 'install'
 
 	if [ $? -ne 0 ]; then
 		install_status[$cnt]='failed'
