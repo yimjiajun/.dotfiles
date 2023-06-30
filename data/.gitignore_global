@@ -3,4 +3,4 @@ cscope.*
 tags
 .cache
 *.orig
-
+compile_commands.json
