@@ -1,0 +1,4 @@
+[submodule ".localdata"]
+	path = .localdata
+	url = https://github.com/yimjiajun/.dotdata.git
+	branch = main
