@@ -1,7 +1,9 @@
 #!/bin/bash
 
 install() {
-	local data_path="$(dirname $(readlink -f $0))/../.localdata/khal"
+	local conf_path="$(dirname $(readlink -f $0))/../.localdata/khal"
+	local local_conf_path="$HOME/.config/khal"
+	local local_data_path="$HOME/.calendars"
 	local install=$(./get_intall_pkg_cmd.sh)
 
 	if [[ -z $install ]] ||\
@@ -20,14 +22,22 @@ install() {
 		exit 1
 	fi
 
-	if ! [[ -d $HOME/.config/khal ]]; then
-		mkdir -p $HOME/.config/khal
+	if ! [[ -d ${local_conf_path} ]]; then
+		mkdir -p ${local_conf_path}
 	fi
 
-	echo -e "● Link khal configuration file ... \033[1m $HOME/.config/khal/config\033[0m"
-	ln -sf  ${data_path}/config $HOME/.config/khal/config
-	echo -e "● Link khal calendars contents ... \033[1m $HOME/.calendars\033[1m"
-	ln -sfr  ${data_path}/.calendars $HOME/.calendars
+	if ! [[ -f ${conf_path}/config ]]; then
+		return
+	fi
+
+	if ! [[ -d ${conf_path}/.calendars ]]; then
+		return
+	fi
+
+	echo -e "● Link khal configuration file ... \033[1m ${local_conf_path}/config\033[0m"
+	ln -sf  ${conf_path}/config ${local_conf_path}/config
+	echo -e "● Link khal calendars contents ... \033[1m ${local_data_path}\033[1m"
+	ln -sfr  ${conf_path}/.calendars ${local_data_path}
 }
 
 if [[ $OSTYPE != linux-gnu* ]] &&\
