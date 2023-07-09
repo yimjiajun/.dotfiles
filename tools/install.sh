@@ -3,7 +3,7 @@
 install_path=$(dirname $(readlink -f $0))
 cd $install_path
 
-ignore_install_tools=('install.sh common.sh get_intall_pkg_cmd.sh')
+ignore_install_tools=('install.sh common.sh get_intall_pkg_cmd.sh manual')
 
 for prefix in ${ignore_install_tools[@]}; do
 	ignore_install_tool_str=$ignore_install_tool_str" -I "$prefix
