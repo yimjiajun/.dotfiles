@@ -36,6 +36,8 @@ install() {
 
 	echo -e "● Link khal configuration file ... \033[1m ${local_conf_path}/config\033[0m"
 	ln -sf  ${conf_path}/config ${local_conf_path}/config
+	echo -e "● Link khal notification file ... \033[1m ${local_conf_path}/notify.sh\033[0m"
+	ln -sf  ${conf_path}/notify.sh ${local_conf_path}/notify.sh
 	echo -e "● Link khal calendars contents ... \033[1m ${local_data_path}\033[1m"
 	ln -sfr  ${conf_path}/.calendars ${local_data_path}
 }
