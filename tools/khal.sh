@@ -43,9 +43,9 @@ install() {
 
 	if [[ -f ${local_conf_path}/notify.sh ]]; then
 		if [[ -f "$HOME/.$(basename $SHELL)rc" ]]; then
-			if [[ $(grep -c ".${local_conf_path}/notify.sh" "$HOME/.$(basename $SHELL)rc") -eq 0 ]]; then
+			if [[ $(grep -c "${local_conf_path}/notify.sh" "$HOME/.$(basename $SHELL)rc") -eq 0 ]]; then
 				echo -e "● Add khal notification file on startup ... \033[1m$HOME/.$(basename $SHELL)rc\033[0m"
-				echo ".${local_conf_path}/notify.sh" >> $HOME/.$(basename $SHELL)rc
+				echo "${local_conf_path}/notify.sh" >> $HOME/.$(basename $SHELL)rc
 			fi
 		fi
 	fi
