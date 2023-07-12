@@ -14,7 +14,7 @@ install() {
 			exit 1
 		fi
 
-		$install notify-send
+		$install libnotify-bin
 
 		if [[ $? -ne 0 ]]; then
 			echo -e "\033[31mError: install notify-send failed ! \033[0m" >&2
