@@ -3,7 +3,7 @@
 install() {
 	./common.sh display_tittle "Install notify-send"
 
-	if ![[ -d /run/WSL ]]; then
+	if ! [[ -d /run/WSL ]]; then
 		local install=$(./get_intall_pkg_cmd.sh)
 
 		if [[ -z $install ]] ||\
