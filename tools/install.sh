@@ -52,7 +52,7 @@ done
 
 for cnt in ${!install_status[@]}; do
 
-	if [ ${install_status[$cnt]} == 'failed' ]; then
+	if [ "${install_status[$cnt]}" == 'failed' ]; then
 		printf "%2s." "*"
 	else
 		printf "%2d." "$(($cnt+1))"
@@ -60,7 +60,7 @@ for cnt in ${!install_status[@]}; do
 
 	printf "%-20s\t" "${install_tools[$cnt]}"
 
-	if [ ${install_status[$cnt]} == 'failed' ]; then
+	if [ "${install_status[$cnt]}" == 'failed' ]; then
 		echo -e -n "\033[31m"
 	else
 		echo -e -n "\033[33m"
