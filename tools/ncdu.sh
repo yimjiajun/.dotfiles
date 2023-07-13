@@ -1,5 +1,7 @@
 #!/bin/bash
 
+tool='ncdu'
+
 install() {
 	local install=$(./get_intall_pkg_cmd.sh)
 
@@ -11,8 +13,8 @@ install() {
 		exit 1
 	fi
 
-	./common.sh display_tittle "Install ncdu"
-	$install ncdu
+	./common.sh display_tittle "Install $tool"
+	$install $tool
 
 	if [[ $? -ne 0 ]]; then
 		echo -e "\033[31mError: install ncud failed ! \033[0m" >&2
@@ -25,7 +27,7 @@ if [[ $OSTYPE != linux-gnu* ]]; then
 	exit 1
 fi
 
-if [[ -z "$(which ncdu)" ]] ||\
+if [[ -z "$(which $tool)" ]] ||\
 	[[ $1 == "install" ]]; then
 	install
 fi

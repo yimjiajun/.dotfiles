@@ -1,5 +1,7 @@
 #!/bin/bash
 
+tool="buku"
+
 install() {
 	local install=$(./get_intall_pkg_cmd.sh)
 
@@ -11,11 +13,11 @@ install() {
 		exit 1
 	fi
 
-	./common.sh display_tittle "Install buku"
-	$install buku
+	./common.sh display_tittle "Install $tool"
+	$install $tool
 
 	if [[ $? -ne 0 ]]; then
-		echo -e "\033[31mError: install buku failed ! \033[0m" >&2
+		echo -e "\033[31mError: install $tool failed ! \033[0m" >&2
 		exit 1
 	fi
 }
@@ -23,8 +25,8 @@ install() {
 function import_replace_bookmarks {
 	local current_dir="$(dirname "$0")"
 
-	if [[ ! "$(command -v buku)" ]]; then
-		echo -e "\033[31mError: buku not installed!\033[0m" >&2
+	if [[ ! "$(command -v $tool)" ]]; then
+		echo -e "\033[31mError: $tool not installed!\033[0m" >&2
 		exit 1
 	fi
 
@@ -41,19 +43,19 @@ function import_replace_bookmarks {
 	fi
 
 	echo -e "\n● importing bookmarks..." >&1
-	buku --import "$current_dir/../.localdata/bookmarks.md"
+	$tool --import "$current_dir/../.localdata/bookmarks.md"
 }
 
 function export_bookmarks {
 	local current_dir="$(dirname "$0")"
 
-	if [[ ! "$(command -v buku)" ]]; then
-		echo -e "\033[31mError: buku not installed! \033[0m" >&2
+	if [[ ! "$(command -v $tool)" ]]; then
+		echo -e "\033[31mError: $tool not installed! \033[0m" >&2
 		exit 1
 	fi
 
 	echo -e "\n● exporting bookmarks named as \033[1mbookmarks.md\033[0m..." >&1
-	buku --export "$current_dir/../.localdata/bookmarks.md"
+	$tool --export "$current_dir/../.localdata/bookmarks.md"
 }
 
 if [[ -z "$1" ]]; then
@@ -82,7 +84,7 @@ if [[ -z "$1" ]]; then
 	done
 fi
 
-if [[ -z "$(which buku)" ]] ||\
+if [[ -z "$(which $tool)" ]] ||\
 	[[ $1 == "install" ]]; then
 	install
 fi

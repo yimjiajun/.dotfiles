@@ -1,5 +1,7 @@
 #!/bin/bash
 
+tool='htop'
+
 install() {
 	local install=$(./get_intall_pkg_cmd.sh)
 
@@ -11,21 +13,21 @@ install() {
 		exit 1
 	fi
 
-	./common.sh display_tittle "Install htop"
-	$install htop
+	./common.sh display_tittle "Install $tool"
+	$install $tool
 
 	if [[ $? -ne 0 ]]; then
-		echo -e "\033[31mError: install htop failed ! \033[0m" >&2
+		echo -e "\033[31mError: install $tool failed ! \033[0m" >&2
 		exit 1
 	fi
 }
 
 if [[ $OSTYPE != linux-gnu* ]]; then
-	echo -e "\033[31mError: htop only for Linux\033[0m"
+	echo -e "\033[31mError: $tool only for Linux\033[0m"
 	exit 1
 fi
 
-if [[ -z "$(which htop)" ]] ||\
+if [[ -z "$(which $tool)" ]] ||\
 	[[ $1 == "install" ]]; then
 	install
 fi

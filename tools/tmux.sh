@@ -1,5 +1,6 @@
 #!/bin/bash
 
+tool='tmux'
 data_path="$(dirname $(readlink -f $0))/../data"
 tmux_data="$data_path/.tmux.conf"
 
@@ -25,18 +26,18 @@ install() {
 		exit 1
 	fi
 
-	./common.sh display_tittle "Install tmux"
-	$install tmux
+	./common.sh display_tittle "Install $tool"
+	$install $tool
 
 	if [[ $? -ne 0 ]]; then
-		echo -e "\033[31mError: install tmux failed ! \033[0m" >&2
+		echo -e "\033[31mError: install $tool failed ! \033[0m" >&2
 		exit 1
 	fi
 
 	if ! [[ -d "$HOME/.tmux/plugins/tpm" ]]; then
 		git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
 		if [[ $? -ne 0 ]]; then
-			echo -e "\033[31mError: install tmux manager failed ! \033[0m" >&2
+			echo -e "\033[31mError: install $tool manager failed ! \033[0m" >&2
 			exit 1
 		fi
 	fi
@@ -48,7 +49,7 @@ install() {
 	display_info
 }
 
-if [[ -z "$(which tmux)" ]] ||\
+if [[ -z "$(which $tool)" ]] ||\
 	[[ $1 == "install" ]]; then
 	install
 fi

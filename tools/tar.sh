@@ -1,5 +1,11 @@
 #!/bin/bash
 
+if [[ $OSTYPE == "darwin"* ]]; then
+	tool='gnu-tar'
+else
+	tool='tar'
+fi
+
 install() {
 	local install=$(./get_intall_pkg_cmd.sh)
 
@@ -11,22 +17,17 @@ install() {
 		exit 1
 	fi
 
-	if [[ $OSTYPE == "darwin"* ]]; then
-		tar_pkg="gnu-tar"
-	else
-		tar_pkg="tar"
-	fi
 
-	./common.sh display_tittle "Install tar"
-	$install $tar_pkg
+	./common.sh display_tittle "Install $tool"
+	$install $tool
 
 	if [[ $? -ne 0 ]]; then
-		echo -e "\033[31mError: install tar failed ! \033[0m" >&2
+		echo -e "\033[31mError: install $tool failed ! \033[0m" >&2
 		exit 1
 	fi
 }
 
-if [[ -z "$(which tar)" ]] ||\
+if [[ -z "$(which $tool)" ]] ||\
 	[[ $1 == "install" ]]; then
 	install
 fi

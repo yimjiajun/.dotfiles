@@ -1,5 +1,7 @@
 #!/bin/bash
 
+tool="ripgrep"
+
 install() {
 	local install=$(./get_intall_pkg_cmd.sh)
 
@@ -11,11 +13,11 @@ install() {
 		exit 1
 	fi
 
-	./common.sh display_tittle "Install ripgrep"
-	$install ripgrep
+	./common.sh display_tittle "Install $tool"
+	$install $tool
 
 	if [[ $? -ne 0 ]]; then
-		echo -e "\033[31mError: install ripgrep failed ! \033[0m" >&2
+		echo -e "\033[31mError: install $tool failed ! \033[0m" >&2
 		exit 1
 	fi
 }

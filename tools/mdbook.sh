@@ -1,5 +1,7 @@
 #!/bin/bash
 
+tool='mdbook'
+
 install() {
 	if [[ -z $(which cargo) ]]; then
 		./rust.sh 'install'
@@ -7,11 +9,11 @@ install() {
 
 	local install='cargo install'
 
-	./common.sh display_tittle "Install mdbook"
-	$install mdbook
+	./common.sh display_tittle "Install $tool"
+	$install $tool
 
 	if [[ $? -ne 0 ]]; then
-		echo -e "\033[31mError: install mdbook failed ! \033[0m" >&2
+		echo -e "\033[31mError: install $tool failed ! \033[0m" >&2
 		exit 1
 	fi
 
@@ -32,7 +34,7 @@ install() {
 	fi
 }
 
-if [[ -z "$(which mdbook)" ]] ||\
+if [[ -z "$(which $tool)" ]] ||\
 	[[ $1 == "install" ]]; then
 	install
 fi

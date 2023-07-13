@@ -1,7 +1,9 @@
 #!/bin/bash
 
+tool="clangd"
+
 install() {
-	local install=$(./get_intall_pkg_cmd.sh)
+	local install="$(./get_intall_pkg_cmd.sh)"
 
 	if [[ -z $install ]] ||\
 		[[ $install =~ ^Error* ]] ||\
@@ -11,7 +13,7 @@ install() {
 		exit 1
 	fi
 
-	./common.sh display_tittle "Install clangd"
+	./common.sh display_tittle "Install $tool"
 
 	if [[ $OSTYPE == linux-gnu* ]]; then
 		$install clangd-12
@@ -21,12 +23,12 @@ install() {
 	fi
 
 	if [[ $? -ne 0 ]]; then
-		echo -e "\033[31mError: install clangd failed ! \033[0m" >&2
+		echo -e "\033[31mError: install $tool failed ! \033[0m" >&2
 		exit 1
 	fi
 }
 
-if [[ -z "$(which clangd)" ]] ||\
+if [[ -z "$(which $tool)" ]] ||\
 	[[ $1 == "install" ]]; then
 	install
 fi

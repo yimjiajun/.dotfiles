@@ -1,5 +1,7 @@
 #!/bin/bash
 
+tool="ranger"
+
 install() {
 	local install=$(./get_intall_pkg_cmd.sh)
 
@@ -11,16 +13,16 @@ install() {
 		exit 1
 	fi
 
-	./common.sh display_tittle "Install ranger"
-	$install ranger
+	./common.sh display_tittle "Install $tool"
+	$install $tool
 
 	if [[ $? -ne 0 ]]; then
-		echo -e "\033[31mError: install ranger failed ! \033[0m" >&2
+		echo -e "\033[31mError: install $tool failed ! \033[0m" >&2
 		exit 1
 	fi
 }
 
-if [[ -z "$(which ranger)" ]] ||\
+if [[ -z "$(which $tool)" ]] ||\
 	[[ $1 == "install" ]]; then
 	install
 fi

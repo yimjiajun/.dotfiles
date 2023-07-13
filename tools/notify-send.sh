@@ -1,7 +1,10 @@
 #!/bin/bash
 
+tool="notify-send"
+
 install() {
-	./common.sh display_tittle "Install notify-send"
+	local temp_path="$(mktemp -d)"
+	./common.sh display_tittle "Install $tool"
 
 	if ! [[ -d /run/WSL ]]; then
 		local install=$(./get_intall_pkg_cmd.sh)
@@ -17,17 +20,16 @@ install() {
 		$install libnotify-bin
 
 		if [[ $? -ne 0 ]]; then
-			echo -e "\033[31mError: install notify-send failed ! \033[0m" >&2
+			echo -e "\033[31mError: install $tool failed ! \033[0m" >&2
 			exit 1
 		fi
 
 		return
 	fi
 
-	curl -Lo /tmp/notify-send.zip 'https://github.com/stuartleeks/wsl-notify-send/releases/download/v0.1.871612270/wsl-notify-send_windows_amd64.zip'
-	unzip /tmp/notify-send.zip -d /tmp/notify-send
-	sudo mv /tmp/notify-send/wsl-notify-send.exe /usr/local/bin/wsl-notify-send.exe
-	rm -r /tmp/notify-send
+	curl -Lo $temp_path/$tool.zip 'https://github.com/stuartleeks/wsl-notify-send/releases/download/v0.1.871612270/wsl-notify-send_windows_amd64.zip'
+	unzip $temp_path/$tool.zip -d $temp_path/$tool
+	sudo mv $temp_path/$tool/wsl-notify-send.exe /usr/local/bin/wsl-notify-send.exe
 
 	if [[ -f "$HOME/.$(basename $SHELL)rc" ]]; then
 		if [[ $(grep -c "notify-send()" "$HOME/.$(basename $SHELL)rc") -eq 0 ]]; then
@@ -39,7 +41,7 @@ install() {
 }
 
 
-if [[ -z "$(which notify-send)" ]] ||\
+if [[ -z "$(which $tool)" ]] ||\
 	[[ $1 == "install" ]]; then
 	install
 fi

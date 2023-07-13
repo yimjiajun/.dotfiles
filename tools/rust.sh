@@ -1,15 +1,17 @@
 #!/bin/bash
 
+tool="rustc"
+
 install() {
 	if [[ -z $(which curl) ]]; then
 		./curl.sh 'install'
 	fi
 
-	./common.sh display_tittle "Install rustc"
+	./common.sh display_tittle "Install $tool"
 	curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- --default-toolchain none -y
 
 	if [[ $? -ne 0 ]]; then
-		echo -e "\033[31mError: install rustc failed ! \033[0m" >&2
+		echo -e "\033[31mError: install $tool failed ! \033[0m" >&2
 		exit 1
 	fi
 
@@ -23,12 +25,12 @@ install() {
 	fi
 
 	if [[ $? -ne 0 ]]; then
-		echo -e "\033[31mError: setup rustc failed ! \033[0m" >&2
+		echo -e "\033[31mError: setup $tool failed ! \033[0m" >&2
 		exit 1
 	fi
 }
 
-if [[ -z "$(which rustc)" ]] ||\
+if [[ -z "$(which $tool)" ]] ||\
 	[[ $1 == "install" ]]; then
 	install
 fi
