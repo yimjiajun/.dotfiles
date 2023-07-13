@@ -11,14 +11,21 @@ display_tittle () {
 
 		echo ""
 
+		echo -e -n "\e[1;33m"
 		if [ $delimiter -eq 1 ]; then
-			for ((j=0; j<display_width/2; j++)); do
-				echo -n ' '
-			done
-
-			echo -e "$tittle"
+			printf "%$(($display_width - 1))s\n" "$tittle"
 		fi
+		echo -e -n "\e[0m"
 	done
+	return
+}
+
+display_status () {
+	status="$1"
+	display_width="$(tput cols)"
+
+	printf "%$(($display_width - 1))s\n" "[ ${status} ]"
+
 	return
 }
 

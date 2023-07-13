@@ -21,6 +21,14 @@ for tool in ${install_tools[@]}; do
 		install_status[$cnt]='success'
 	fi
 
+	if [[ $install_status[$cnt] == 'failed' ]]; then
+		echo -e -n "\033[31m"
+		./common.sh display_status 'FAILED'
+		echo -e -n "\033[0m"
+	else
+		./common.sh display_status 'SUCCESS'
+	fi
+
 	cnt=$cnt+1
 done
 
