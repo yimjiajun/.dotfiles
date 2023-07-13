@@ -1,6 +1,7 @@
 #!/bin/bash
 
 tool='mdbook'
+path=$(dirname $(readlink -f $0))
 
 install() {
 	if [[ -z $(which cargo) ]]; then
@@ -9,7 +10,7 @@ install() {
 
 	local install='cargo install'
 
-	./common.sh display_tittle "Install $tool"
+	$path/../common.sh display_tittle "Install $tool"
 	$install $tool
 
 	if [[ $? -ne 0 ]]; then
