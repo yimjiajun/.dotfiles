@@ -1,5 +1,7 @@
 #!/bin/bash
 
+path=$(dirname $(readlink -f $0))
+
 debian_install() {
 	echo -e "● update package for $ID_LIKE ..."
 	sudo apt-get update 1>/dev/null
@@ -46,7 +48,7 @@ debian_install() {
 
 . /etc/os-release
 
-./../common.sh display_tittle "Install $ID_LIKE dependencies"
+$path/../common.sh display_tittle "Install $ID_LIKE dependencies"
 
 if [ "$ID_LIKE" = 'debian' ]; then
 	debian_install

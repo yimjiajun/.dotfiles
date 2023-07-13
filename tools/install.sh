@@ -3,6 +3,8 @@
 install_path=$(dirname $(readlink -f $0))
 cd $install_path
 
+./manual/install_require_dependencies_pkg.sh
+
 ignore_install_tools=('install.sh common.sh get_intall_pkg_cmd.sh manual')
 
 for prefix in ${ignore_install_tools[@]}; do
