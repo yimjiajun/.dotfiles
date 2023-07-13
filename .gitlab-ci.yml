@@ -1,8 +1,9 @@
 stages:
+  - check
   - install
 
 syntax-check:
-  stage: install
+  stage: check
   tags:
     - "docker"
   image: bitnami/git
@@ -24,11 +25,31 @@ syntax-check:
       done
       exit 0
 
-install-script:
+focal:
   stage: install
   tags:
     - "docker"
   image: ubuntu:20.04
+  retry:
+    max: 2
+    when:
+      - runner_system_failure
+      - stuck_or_timeout_failure
+  variables:
+    GIT_DEPTH: 1
+  before_script:
+      - git config --global user.name "${GITLAB_USER_NAME}"
+          && git config --global user.email "${GITLAB_USER_EMAIL}"
+  script:
+      - apt-get update 1>/dev/null && apt-get -y install sudo apt-utils 1>/dev/null
+      - echo 'debconf debconf/frontend select Noninteractive' | sudo debconf-set-selections
+      - sudo apt-get install -y -q
+      - ./tools/install.sh
+jammy:
+  stage: install
+  tags:
+    - "docker"
+  image: ubuntu:22.04
   retry:
     max: 2
     when:
