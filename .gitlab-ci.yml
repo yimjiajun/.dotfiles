@@ -40,4 +40,5 @@ install-script:
       - git config --global user.name "${GITLAB_USER_NAME}"
           && git config --global user.email "${GITLAB_USER_EMAIL}"
   script:
+      - sudo apt-get install -y -q
       - ./tools/install.sh
