@@ -17,7 +17,8 @@ install() {
 			exit 1
 		fi
 
-		$install libnotify-bin
+		echo -e "● install ..." >&1
+		$install libnotify-bin 1>/dev/null
 
 		if [[ $? -ne 0 ]]; then
 			echo -e "\033[31mError: install $tool failed ! \033[0m" >&2

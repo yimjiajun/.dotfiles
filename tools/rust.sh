@@ -8,6 +8,7 @@ install() {
 	fi
 
 	./common.sh display_tittle "Install $tool"
+	echo -e "● install ..." >&1
 	curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- --default-toolchain none -y
 
 	if [[ $? -ne 0 ]]; then

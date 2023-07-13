@@ -3,7 +3,6 @@
 tool='picocom'
 
 install() {
-	local tmp_path="$(dirname $(readlink -f $0))/../tmp"
 	local install="$(./get_intall_pkg_cmd.sh)"
 
 	if [[ -z $install ]] ||\
@@ -15,8 +14,8 @@ install() {
 	fi
 
 	./common.sh display_tittle "Install $tool"
-
-	$install $tool
+	echo -e "● install ..." >&1
+	$install $tool 1>/dev/null
 
 	if [[ $? -ne 0 ]]; then
 		echo -e "\033[31mError: install $tool failed ! \033[0m" >&2

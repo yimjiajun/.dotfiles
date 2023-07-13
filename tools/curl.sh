@@ -14,7 +14,8 @@ install() {
 	fi
 
 	./common.sh display_tittle "Install $tool"
-	$install $tool
+	echo -e "● install ..." >&1
+	$install $tool 1>/dev/null
 
 	if [[ $? -ne 0 ]]; then
 		echo -e "\033[31mError: install $tool failed ! \033[0m" >&2
