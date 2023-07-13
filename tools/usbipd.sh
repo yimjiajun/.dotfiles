@@ -43,7 +43,7 @@ fi
 
 if ! [[ -d /run/WSL ]]; then
 	echo -e "\033[31mError: usbipd only support in window os\033[0m"
-	exit 1
+	exit 3
 fi
 
 powershell.exe -C usbipd 1>/dev/null 2>&1
