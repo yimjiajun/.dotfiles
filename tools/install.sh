@@ -13,22 +13,36 @@ done
 
 install_tools=($(ls $install_path $ignore_install_tool_str))
 install_status=install_tools
+err_allow_code=(3 4)
+err_allow_code_str=('os not support' 'skip')
+err=0
+ret=0
 cnt=0
 for tool in ${install_tools[@]}; do
 	./$tool 'install'
+	ret=$?
 
-	if [ $? -ne 0 ]; then
+	if [ $ret -ne 0 ]; then
+		err=1
 		install_status[$cnt]='failed'
+
+		for err_code in ${err_allow_code[@]}; do
+			if [ $ret -eq $err_code ]; then
+				install_status[$cnt]=${err_allow_code_str[$(($err_code-${err_allow_code[0]}))]}
+				err=0
+				break
+			fi
+		done
 	else
 		install_status[$cnt]='success'
 	fi
 
 	if [[ $install_status[$cnt] == 'failed' ]]; then
 		echo -e -n "\033[31m"
-		./common.sh display_status 'FAILED'
+		./common.sh display_status "${install_status[$cnt]^^}"
 		echo -e -n "\033[0m"
 	else
-		./common.sh display_status 'SUCCESS'
+		./common.sh display_status "${install_status[$cnt]^^}"
 	fi
 
 	cnt=$cnt+1
@@ -57,4 +71,4 @@ for cnt in ${!install_status[@]}; do
 	echo -e -n "\033[0m"
 done
 
-exit 0
+exit $err
