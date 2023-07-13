@@ -1,0 +1,43 @@
+stages:
+  - install
+
+syntax-check:
+  stage: install
+  tags:
+    - "docker"
+  image: bitnami/git
+  retry:
+      max: 2
+      when:
+        - runner_system_failure
+        - stuck_or_timeout_failure
+  variables:
+      GIT_DEPTH: 10
+      ERR_CODING_STYLE: if[  else[  elseif ![
+  script:
+    - git diff-tree
+        --check $(git hash-object -t tree) HEAD
+    - |
+      for CODING_CHK in $ERR_CODING_STYLE
+      do
+        git diff $(git rev-list --max-parents=0 HEAD) HEAD **/*.sh | grep "${CODING_CHK}" && exit 1
+      done
+      exit 0
+
+install-script:
+  stage: install
+  tags:
+    - "docker"
+  image: ubuntu:20.04
+  retry:
+    max: 2
+    when:
+      - runner_system_failure
+      - stuck_or_timeout_failure
+  variables:
+    GIT_DEPTH: 1
+  before_script:
+      - git config --global user.name "${GITLAB_USER_NAME}"
+          && git config --global user.email "${GITLAB_USER_EMAIL}"
+  script:
+      - ./tools/install.sh
