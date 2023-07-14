@@ -1,0 +1,65 @@
+name: main
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  syntax-check:
+    runs-on: ubuntu-latest
+    container: bitnami/git
+    strategy:
+      matrix:
+        git-depth: [10]
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: ${{ matrix.git-depth }}
+      - name: Syntax check
+        run: |
+          git diff-tree --check $(git hash-object -t tree) HEAD
+          ERR_CODING_STYLE="if[ else[ elseif !["
+          for CODING_CHK in $ERR_CODING_STYLE
+          do
+            git diff $(git rev-list --max-parents=0 HEAD) HEAD **/*.sh | grep "${CODING_CHK}" && exit 1
+          done
+          exit 0
+
+  focal:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        git-depth: [1]
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: ${{ matrix.git-depth }}
+      - name: Install dependencies
+        run: |
+          sudo apt-get update && sudo apt-get -y install sudo apt-utils
+          echo 'debconf debconf/frontend select Noninteractive' | sudo debconf-set-selections
+          sudo apt-get install -y -q
+          ./tools/install.sh
+
+  jammy:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        git-depth: [1]
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: ${{ matrix.git-depth }}
+      - name: Install dependencies
+        run: |
+          sudo apt-get update && sudo apt-get -y install sudo apt-utils
+          echo 'debconf debconf/frontend select Noninteractive' | sudo debconf-set-selections
+          sudo apt-get install -y -q
+          ./tools/install.sh
