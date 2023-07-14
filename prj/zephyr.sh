@@ -24,7 +24,7 @@ install() {
 	  python3-dev python3-pip python3-setuptools python3-tk python3-wheel xz-utils file \
 	  make gcc gcc-multilib g++-multilib libsdl2-dev libmagic1 1>/dev/null || {
 
-	  	ehco -e "\e[31mError: Failed to install dependencies\e[0m"
+	  ehco -e "\e[31mError: Failed to install dependencies\e[0m"
 	}
 
 	pip3 install --user -U west || {
