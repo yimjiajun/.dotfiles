@@ -64,4 +64,4 @@ jammy:
       - apt-get update 1>/dev/null && apt-get -y install sudo apt-utils 1>/dev/null
       - echo 'debconf debconf/frontend select Noninteractive' | sudo debconf-set-selections
       - sudo apt-get install -y -q
-      - ./tools/install.sh
+      - ./install.sh
