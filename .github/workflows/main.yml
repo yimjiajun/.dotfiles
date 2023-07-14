@@ -22,6 +22,7 @@ jobs:
           fetch-depth: ${{ matrix.git-depth }}
       - name: Syntax check
         run: |
+          git config --global --add safe.directory /__w/.dotfile/.dotfile
           git diff-tree --check $(git hash-object -t tree) HEAD
           ERR_CODING_STYLE="if[ else[ elseif !["
           for CODING_CHK in $ERR_CODING_STYLE
@@ -59,7 +60,7 @@ jobs:
           fetch-depth: ${{ matrix.git-depth }}
       - name: Install dependencies
         run: |
-          sudo apt-get update && sudo apt-get -y install sudo apt-utils
+          sudo apt-get update 1>/dev/null && sudo apt-get -y install sudo apt-utils 1>/dev/null
           echo 'debconf debconf/frontend select Noninteractive' | sudo debconf-set-selections
-          sudo apt-get install -y -q
+          sudo apt-get install -y -q 1>/dev/null
           ./install.sh
