@@ -73,18 +73,16 @@ install() {
 
 	cd ~
 
-	echo -e "● Download zephyr-sdk-${zephyr_sdk_version}_linux-x86_64.tar.xz ..."
-
 	if ! [[ -d zephyr-sdk-${zephyr_sdk_version} ]]; then
 		if ! [[ -f zephyr-sdk-${zephyr_sdk_version}_linux-x86_64.tar.xz ]]; then
 			echo -e "● Download zephyr-sdk-${zephyr_sdk_version}_linux-x86_64.tar.xz ..."
-			wget https://github.com/zephyrproject-rtos/sdk-ng/releases/download/v${zephyr_sdk_version}/zephyr-sdk-${zephyr_sdk_version}_linux-x86_64.tar.xz 1>/dev/null || {
+			wget --quiet https://github.com/zephyrproject-rtos/sdk-ng/releases/download/v${zephyr_sdk_version}/zephyr-sdk-${zephyr_sdk_version}_linux-x86_64.tar.xz 1>/dev/null || {
 				echo -e "\e[31mError: Failed to download zephyr-sdk-${zephyr_sdk_version}_linux-x86_64.tar.xz\e[0m"
 				exit 1
 			}
 
 			echo -e "● Download zephyr-sdk-${zephyr_sdk_version}_linux-x86_64.tar.xz.sha256sum ..."
-			wget -O - https://github.com/zephyrproject-rtos/sdk-ng/releases/download/v${zephyr_sdk_version}/sha256.sum | shasum --check --ignore-missing 1>/dev/null || {
+			wget --quiet -O - https://github.com/zephyrproject-rtos/sdk-ng/releases/download/v${zephyr_sdk_version}/sha256.sum | shasum --check --ignore-missing 1>/dev/null || {
 				echo -e "\e[31mError: Failed to verify zephyr-sdk-${zephyr_sdk_version}_linux-x86_64.tar.xz\e[0m"
 				exit 1
 			}
