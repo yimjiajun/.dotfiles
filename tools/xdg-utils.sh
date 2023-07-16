@@ -1,6 +1,6 @@
 #!/bin/bash
 
-tool="xdg_utils"
+tool="xdg-utils"
 path=$(dirname $(readlink -f $0))
 common="$path/../app/common.sh"
 get_install_pkg_cmd="$path/manual/get_install_pkg_cmd.sh"
