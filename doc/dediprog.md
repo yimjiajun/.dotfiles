@@ -4,13 +4,13 @@
 
 | index | Section                                         |                                                     |
 | -     | -                                               | -                                                   |
-| 1     | [General Description](#i.-general-description)  |                                                     |
-| 2     | [Root Privileges](#ii.-root-privileges)         |                                                     |
-| 3     | [USB Installation](#iii.-usb-installation)      |                                                     |
-| 4     | [Source Code Compile](#iv.-source-code-compile) |                                                     |
-| 5     | [Introduction](#v.-introduction)                | [Basic Usages](#4.1-basic-usages)                   |
-|       |                                                 | [Basic Switches](#4.2-basic-switches)               |
-|       |                                                 | [Miscellaneous Options](#4.4-miscellaneous-options) |
+| 1     | [General Description](#i-general-description)  |                                                     |
+| 2     | [Root Privileges](#ii-root-privileges)         |                                                     |
+| 3     | [USB Installation](#iii-usb-installation)      |                                                     |
+| 4     | [Source Code Compile](#iv-source-code-compile) |                                                     |
+| 5     | [Introduction](#v-introduction)                | [Basic Usages](#41-basic-usages)                   |
+|       |                                                 | [Basic Switches](#42-basic-switches)               |
+|       |                                                 | [Miscellaneous Options](#44-miscellaneous-options) |
 
 # I. General Description
 
