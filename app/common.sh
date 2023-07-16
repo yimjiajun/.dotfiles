@@ -14,7 +14,7 @@ display_title () {
 	local text="$1"
 
 	for delimiter in {1..2}; do
-		for ((i=0; i<$screen_width; i++)); do
+		for ((i=0; i<screen_width; i++)); do
 			echo -n "="
 		done
 

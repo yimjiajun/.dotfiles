@@ -9,4 +9,4 @@
 [submodule "dediprog"]
 	path = tools/other/dediprog
 	url = https://github.com/DediProgSW/SF100Linux.git
-	branch = main
+	branch = master
