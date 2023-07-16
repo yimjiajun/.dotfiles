@@ -17,6 +17,13 @@ if [[ $# -eq 0 ]]; then
 		}
 	fi
 
+	if [[ -f $path/app/install.sh ]]; then
+		$path/other/install.sh || {
+			echo -e "\033[31mError: Install app failed.\033[0m"
+			exit 1
+		}
+	fi
+
 	exit 0
 fi
 
@@ -28,6 +35,7 @@ while [[ $# -ne 0 ]]; do
 			echo "  --help, -h		Display this help message."
 			echo "  --tools, -t		Install tools."
 			echo "  --prj, -p		Install project."
+			ehco "  --app, -a		Install app."
 			exit 0
 			;;
 		--tools|-t)
@@ -38,12 +46,17 @@ while [[ $# -ne 0 ]]; do
 			$path/prj/install.sh
 			shift
 			;;
+		--app|-a)
+			$path/app/install.sh
+			shift
+			;;
 		*)
 			echo "Usage: $0 [options]"
 			echo "Options:"
 			echo "  --help, -h		Display this help message."
 			echo "  --tools, -t		Install tools."
 			echo "  --prj, -p		Install project."
+			echo "  --app, -a		Install app."
 			exit 0
 			;;
 	esac
