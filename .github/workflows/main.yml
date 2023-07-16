@@ -22,7 +22,7 @@ jobs:
           fetch-depth: ${{ matrix.git-depth }}
       - name: Syntax check
         run: |
-          git config --global --add safe.directory /__w/.dotfile/.dotfile
+          git config --global --add safe.directory /__w/.dotfiles/.dotfiles
           git diff-tree --check $(git hash-object -t tree) HEAD
           ERR_CODING_STYLE="if[ else[ elseif !["
           for CODING_CHK in $ERR_CODING_STYLE
