@@ -3,8 +3,8 @@
 [credential]
 	helper = store
 [core]
-	editor = nvim --clean
-	excludesfile = /home/richardyim/dotfiles/tools/../data/.gitignore_global
+	editor = nvim --noplugin
+	excludesfile = ~/.gitignore_global
 [alias]
 	l = log --oneline --graph --all
 	lr = reflog
@@ -38,8 +38,8 @@
 	cmd = "nvim -d -c \"wincmd l\" -c \"norm ]c\" \"$LOCAL\" \"$MERGED\" \"$REMOTE\""
 [mergetool "vim"]
 	cmd = "vim -d -c \"wincmd l\" -c \"norm ]c\" \"$LOCAL\" \"$MERGED\" \"$REMOTE\""
+[commit]
+	template = ~/.gitmessage
 [user]
 	name = JiaJun Yim
 	email = yimjiajun@icloud.com
-[commit]
-	template = /home/richardyim/dotfiles/tools/../data/.gitmessage

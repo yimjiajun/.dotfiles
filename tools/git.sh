@@ -25,12 +25,20 @@ install() {
 		exit 1
 	fi
 
+	git_usr_name=$(git config --global --list | grep 'user.name' | awk -F '=' '{print $2}')
+	git_usr_email=$(git config --global --list | grep 'user.email' | awk -F '=' '{print $2}')
+
 	ln -sf "${git_config}" "${HOME}/.gitconfig"
 	ln -sf "${git_ignore}" "${HOME}/.gitignore_global"
 	ln -sf "${git_message}" "${HOME}/.gitmessage"
 
-	git config --global core.excludesfile "${git_ignore}"
-	git config --global commit.template "${git_message}"
+	if [[ -z $git_usr_name ]] ||\
+		[[ -z $git_usr_email ]]; then
+		echo -e "\033[31mError: git user name or email not found ! \033[0m" >&2
+	else
+		git config --global user.name "${git_usr_name}"
+		git config --global user.email "${git_usr_email}"
+	fi
 
 	git config --global --list | grep 'core.excludesfile'
 	git config --global --list | grep 'commit.template'
