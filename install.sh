@@ -18,7 +18,7 @@ if [[ $# -eq 0 ]]; then
 	fi
 
 	if [[ -f $path/app/install.sh ]]; then
-		$path/other/install.sh || {
+		$path/app/install.sh || {
 			echo -e "\033[31mError: Install app failed.\033[0m"
 			exit 1
 		}
