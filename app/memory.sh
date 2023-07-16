@@ -24,10 +24,13 @@ file_usage() {
 	du --all -h --max-depth=1
 }
 
-select option in "${func[@]}"; do
+select option in 'quit' "${func[@]}"; do
 	tput clear
 	$common display_title "${name^^}"
 	case $option in
+		'quit')
+			exit 0
+			;;
 		*)
 			$option || {
 				$common display_error "invalid option"
