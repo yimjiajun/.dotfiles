@@ -6,7 +6,7 @@ $common display_title "Install APP"
 
 $common display_message "Creating symlink for Application"
 $common display_info "Symlink" "/usr/bin/${USER}"
-sudo ln -sfr $path/app.sh /usr/bin/${USER}
+sudo ln -sf $path/app.sh /usr/bin/${USER}
 
 if [[ $? -ne 0 ]]; then
 	$common display_status "FAILED"
