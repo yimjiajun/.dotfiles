@@ -1,5 +1,9 @@
 #!/bin/bash
 
+path=$(dirname $(readlink -f $0))
+common="$path/../app/common.sh"
+get_install_pkg_cmd="$path/manual/get_install_pkg_cmd.sh"
+
 if [[ $OSTYPE == "darwin"* ]]; then
 	tool='gnu-tar'
 else
@@ -7,7 +11,7 @@ else
 fi
 
 install() {
-	local install=$(./get_intall_pkg_cmd.sh)
+	local install=$($get_install_pkg_cmd)
 
 	if [[ -z $install ]] ||\
 		[[ $install =~ ^Error* ]] ||\
@@ -18,7 +22,7 @@ install() {
 	fi
 
 
-	./common.sh display_tittle "Install $tool"
+	$common display_title "Install $tool"
 	echo -e "● install ..." >&1
 	$install $tool 1>/dev/null
 

@@ -2,15 +2,16 @@
 
 tool='mdbook'
 path=$(dirname $(readlink -f $0))
+common="$path/../../app/common.sh"
 
 install() {
 	if [[ -z $(which cargo) ]]; then
-		./rust.sh 'install'
+		$path/../rust.sh 'install'
 	fi
 
 	local install='cargo install'
 
-	$path/../common.sh display_tittle "Install $tool"
+	$common display_title "Install $tool"
 	$install $tool
 
 	if [[ $? -ne 0 ]]; then

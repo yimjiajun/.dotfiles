@@ -1,1 +1,0 @@
-../tools/get_intall_pkg_cmd.sh

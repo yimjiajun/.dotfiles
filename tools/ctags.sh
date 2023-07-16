@@ -1,12 +1,14 @@
 #!/bin/bash
 
 tool='ctags'
+path=$(dirname $(readlink -f $0))
+common="$path/../app/common.sh"
 
 install() {
 	local download_path=$(mktemp -d)
 	local install_path=/usr/local
 
-	./common.sh display_tittle "Install $tool"
+	$common display_title "Install $tool"
 
 	git clone https://github.com/universal-ctags/ctags.git $download_path
 

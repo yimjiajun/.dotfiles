@@ -1,5 +1,9 @@
 #!/bin/bash
 
+path=$(dirname $(readlink -f $0))
+common="$path/../app/common.sh"
+get_install_pkg_cmd="$path/manual/get_install_pkg_cmd.sh"
+
 install() {
 	. /etc/os-release
 
@@ -9,7 +13,7 @@ install() {
 		exit 3
 	fi
 
-	./common.sh display_tittle "Install usbpid"
+	$common display_title "Install usbpid"
 	echo -e "● install ..." >&1
 	sudo apt install -y linux-tools-5.4.0-77-generic hwdata 1>/dev/null
 

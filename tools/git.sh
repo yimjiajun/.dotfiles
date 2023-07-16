@@ -1,12 +1,16 @@
 #!/bin/bash
 
 data_path="$(dirname $(readlink -f $0))/../data"
+path=$(dirname $(readlink -f $0))
+common="$path/../app/common.sh"
+get_install_pkg_cmd="$path/manual/get_install_pkg_cmd.sh"
+
 git_config="$data_path/.gitconfig"
 git_ignore="$data_path/.gitignore_global"
 git_message="$data_path/.gitmessage"
 
 install() {
-	local install=$(./get_intall_pkg_cmd.sh)
+	local install=$($get_install_pkg_cmd)
 
 	if [[ -z $install ]] ||\
 		[[ $install =~ ^Error* ]] ||\
@@ -16,7 +20,7 @@ install() {
 		exit 1
 	fi
 
-	./common.sh display_tittle "Install git"
+	$common display_title "Install git"
 	echo -e "● install ..." >&1
 	$install git 1>/dev/null
 

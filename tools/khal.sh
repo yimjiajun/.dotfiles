@@ -1,12 +1,15 @@
 #!/bin/bash
 
 tool='khal'
+path=$(dirname $(readlink -f $0))
+common="$path/../app/common.sh"
+get_install_pkg_cmd="$path/manual/get_install_pkg_cmd.sh"
 
 install() {
 	local conf_path="$(dirname $(readlink -f $0))/../.localdata/khal"
 	local local_conf_path="$HOME/.config/khal"
 	local local_data_path="$HOME/.calendars"
-	local install=$(./get_intall_pkg_cmd.sh)
+	local install=$($get_install_pkg_cmd)
 
 	if [[ -z $install ]] ||\
 		[[ $install =~ ^Error* ]] ||\
@@ -16,7 +19,7 @@ install() {
 		exit 1
 	fi
 
-	./common.sh display_tittle "Install $tool"
+	$common display_title "Install $tool"
 	echo -e "● install ..." >&1
 	$install $tool 1>/dev/null
 

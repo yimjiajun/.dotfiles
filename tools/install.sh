@@ -1,23 +1,27 @@
 #!/bin/bash
 
-install_path=$(dirname $(readlink -f $0))
-cd $install_path
-
-./manual/install_require_dependencies_pkg.sh
-
-ignore_install_tools=('install.sh common.sh get_intall_pkg_cmd.sh manual')
+path=$(dirname $(readlink -f $0))
+common="$path/../app/common.sh"
+get_install_pkg_cmd="$path/manual/get_install_pkg_cmd.sh"
+install_require_dependencies_pkg="$path/manual/install_require_dependencies_pkg.sh"
+ignore_install_tools=("$(basename $0)" 'manual')
 
 for prefix in ${ignore_install_tools[@]}; do
 	ignore_install_tool_str=$ignore_install_tool_str" -I "$prefix
 done
 
-install_tools=($(ls $install_path $ignore_install_tool_str))
+cd $path
+
+install_tools=($(ls $path $ignore_install_tool_str))
 install_status=install_tools
 err_allow_code=(3 4)
 err_allow_code_str=('os not support' 'skip')
 err=0
 ret=0
 cnt=0
+
+$install_require_dependencies_pkg
+
 for tool in ${install_tools[@]}; do
 	./$tool 'install'
 	ret=$?
@@ -39,16 +43,16 @@ for tool in ${install_tools[@]}; do
 
 	if [[ $install_status[$cnt] == 'failed' ]]; then
 		echo -e -n "\033[31m"
-		./common.sh display_status "${install_status[$cnt]^^}"
+		$common display_status "${install_status[$cnt]^^}"
 		echo -e -n "\033[0m"
 	else
-		./common.sh display_status "${install_status[$cnt]^^}"
+		$common display_status "${install_status[$cnt]^^}"
 	fi
 
 	cnt=$cnt+1
 done
 
-./common.sh display_tittle 'Installation Status'
+$common display_title 'Installation Status'
 
 for cnt in ${!install_status[@]}; do
 

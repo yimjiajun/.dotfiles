@@ -1,13 +1,14 @@
 #!/bin/bash
 
-path=$(dirname $(readlink -f $0))
 zephyr_sdk_version="0.16.1"
+path=$(dirname $(readlink -f $0))
+common="$path/../app/common.sh"
 
 install() {
 	local tmp_dir=$(mktemp -d)
 	local zephyr_dir="$HOME/zephyrproject"
 
-	$path/common.sh display_tittle "Zephyr Project"
+	$common display_title "Zephyr Project"
 
 	echo -e "● Downlaod kitware-archive.sh ..."
 	wget https://apt.kitware.com/kitware-archive.sh -O $tmp_dir/kitware-archive.sh 1>/dev/null || {

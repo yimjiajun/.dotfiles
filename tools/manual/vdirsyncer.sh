@@ -1,6 +1,7 @@
 #!/bin/bash
 
-common="$(dirname $(readlink -f $0))/../common.sh"
+path=$(dirname $(readlink -f $0))
+common="$path/../../app/common.sh"
 
 install() {
 	local data_path="$(dirname $(readlink -f $0))/../..//.localdata/vdirsyncer"
@@ -8,7 +9,7 @@ install() {
 	local discover_module_name="personal_sync"
 	local install="pip3 install --upgrade-strategy eager"
 
-	$common display_tittle "Install vdirsyncer"
+	$common display_title "Install vdirsyncer"
 	$install vdirsyncer
 
 	if [[ $? -ne 0 ]]; then

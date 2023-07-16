@@ -1,11 +1,13 @@
 #!/bin/bash
 
 tool='bpytop'
+path=$(dirname $(readlink -f $0))
+common="$path/../app/common.sh"
 
 install() {
 	local install='pip3 install --upgrade-strategy eager'
 
-	./common.sh display_tittle "Install $tool"
+	$common display_title "Install $tool"
 	echo -e "● install ..." >&1
 	$install $tool 1>/dev/null
 

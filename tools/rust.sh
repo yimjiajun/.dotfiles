@@ -1,13 +1,15 @@
 #!/bin/bash
 
 tool="rustc"
+path=$(dirname $(readlink -f $0))
+common="$path/../app/common.sh"
 
 install() {
 	if [[ -z $(which curl) ]]; then
 		./curl.sh 'install'
 	fi
 
-	./common.sh display_tittle "Install $tool"
+	$common display_title "Install $tool"
 	echo -e "● install ..." >&1
 	curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- --default-toolchain none -y
 

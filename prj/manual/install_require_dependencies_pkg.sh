@@ -1,1 +1,0 @@
-../../tools/manual/install_require_dependencies_pkg.sh

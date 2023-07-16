@@ -1,9 +1,12 @@
 #!/bin/bash
 
 tool="clangd"
+path=$(dirname $(readlink -f $0))
+common="$path/../app/common.sh"
+get_install_pkg_cmd="$path/manual/get_install_pkg_cmd.sh"
 
 install() {
-	local install="$(./get_intall_pkg_cmd.sh)"
+	local install="$($get_install_pkg_cmd)"
 
 	if [[ -z $install ]] ||\
 		[[ $install =~ ^Error* ]] ||\
@@ -13,7 +16,7 @@ install() {
 		exit 1
 	fi
 
-	./common.sh display_tittle "Install $tool"
+	$common display_title "Install $tool"
 
 	if [[ $OSTYPE == linux-gnu* ]]; then
 		echo -e "● install ..." >&1

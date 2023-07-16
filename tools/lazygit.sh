@@ -1,7 +1,11 @@
 #!/bin/bash
 
+path=$(dirname $(readlink -f $0))
+common="$path/../app/common.sh"
+get_install_pkg_cmd="$path/manual/get_install_pkg_cmd.sh"
+
 install() {
-	./common.sh display_tittle "Install LazyGit"
+	$common display_title "Install LazyGit"
 
 	if [[ $OSTYPE == linux-gnu* ]]; then
 		. /etc/os-release
@@ -22,7 +26,7 @@ install() {
 		fi
 	fi
 
-	local install=$(./get_intall_pkg_cmd.sh)
+	local install=$($get_install_pkg_cmd)
 
 	if [[ -z $install ]] ||\
 		[[ $install =~ ^Error* ]] ||\
