@@ -4,7 +4,7 @@ path=$(dirname $(readlink -f $0))
 common="$path/../../app/common.sh"
 
 install() {
-	local data_path="$(dirname $(readlink -f $0))/../..//.localdata/vdirsyncer"
+	local data_path="$(dirname $(readlink -f $0))/../../.localdata/vdirsyncer"
 	local local_data_path="$HOME/.config/vdirsyncer"
 	local discover_module_name="personal_sync"
 	local install="pip3 install --upgrade-strategy eager"
@@ -15,10 +15,6 @@ install() {
 	if [[ $? -ne 0 ]]; then
 		echo -e "\033[31mError: install vdirsyncer failed ! \033[0m" >&2
 		exit 1
-	fi
-
-	if ! [[ -d $data_path ]]; then
-		mkdir -p $data_path
 	fi
 
 	if ! [[ -f ${data_path}/config ]]; then

@@ -21,6 +21,16 @@ overview() {
 	fi
 }
 
+system_info() {
+	$common display_subtitle "SYSTEM INFO"
+
+	if [[ $(command -v neofetch) ]]; then
+		neofetch
+	else
+		uname -a
+	fi
+}
+
 process_usage() {
 	$common display_subtitle "CHECK PROCESS"
 

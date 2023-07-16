@@ -2,13 +2,35 @@
 tput clear
 
 func=('file_manager' 'git_manager' 'calendar_manager'\
-	'task_manager' 'browser_bookmarks_manager')
+	'task_manager' 'browser_bookmarks_manager'\
+	'fun_manager')
 
 func=($(printf '%s\n' "${func[@]}"|sort))
 common="$(dirname $(readlink -f "$0"))/common.sh"
 path="$(dirname $(readlink -f "$0"))"
 name="$(basename $0 | sed 's/\.sh$//')"
 $common display_title "${name^^}"
+
+vim_manager() {
+	$common display_subtitle "VIM MANAGER"
+
+	if [[ $(command -v nvim) ]]; then
+		nvim
+		return
+	fi
+
+	if [[ $(command -v vim) ]]; then
+		vim
+		return
+	fi
+
+	if [[ -n "$EDITOR" ]]; then
+		$EDITOR
+		return
+	fi
+
+	$common display_error "not supporting vim manager"
+}
 
 file_manager() {
 	$common display_subtitle "FILE MANAGER"
@@ -86,13 +108,16 @@ browser_bookmarks_manager() {
 	$common display_error "not supporting browser bookmarks manager"
 }
 
-select option in 'quit' "${func[@]}"; do
+select option in 'quit' 'vim' "${func[@]}"; do
 	tput clear
 	$common display_title "${name^^}"
 
 	case $option in
 		'quit')
 			exit 0
+			;;
+		'vim')
+			vim_manager
 			;;
 		*)
 			$option || {
