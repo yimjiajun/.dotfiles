@@ -108,6 +108,30 @@ browser_bookmarks_manager() {
 	$common display_error "not supporting browser bookmarks manager"
 }
 
+fun_manager() {
+	$common display_subtitle "FUN MANAGER"
+	pkgs=('cmatrix' 'neofetch' 'bastet' 'ninvaders' 'hollywood')
+
+	select pkg in 'quit' "${pkgs[@]}"; do
+		tput clear
+		$common display_title "${name^^}"
+		$common display_subtitle "FUN MANAGER"
+
+		case $pkg in
+			'quit')
+				return 0
+				;;
+			*)
+				$pkg || {
+					$common display_error "invalid option"
+					exit 1
+				}
+				;;
+		esac
+	done
+
+}
+
 select option in 'quit' 'vim' "${func[@]}"; do
 	tput clear
 	$common display_title "${name^^}"
