@@ -3,7 +3,7 @@
 </div>
 
 <div align="right">
-  <img src="https://github.com/yimjiajun/.dotfile/actions/workflows/main.yml/badge.svg" alt="github_workflow_status">
+  <img src="https://github.com/yimjiajun/.dotfiles/actions/workflows/main.yml/badge.svg" alt="github_workflow_status">
 </div>
 
 <div align="center">
@@ -16,11 +16,11 @@
 
 1. Clone git repository
 
-        git clone https://github.com/yimjiajun/.dotfile.git ~/.dotfile
+        git clone https://github.com/yimjiajun/.dotfiles.git ~/.dotfiles
 
 2. Run `install.sh` to start install [^install_1]
 
-        ~/.dotfile/install.sh
+        ~/.dotfiles/install.sh
 
 <div align="center">
   <h2> Tools </h2>
