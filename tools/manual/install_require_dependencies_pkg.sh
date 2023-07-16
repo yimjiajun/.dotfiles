@@ -30,6 +30,7 @@ debian_install() {
 	 \
 	 gcc make pkg-config autoconf automake python3-docutils \
 		libseccomp-dev libjansson-dev libyaml-dev libxml2-dev \
+		libusb-dev \
 	\
 	 build-essential libncurses-dev libjansson-dev 1>/dev/null
 

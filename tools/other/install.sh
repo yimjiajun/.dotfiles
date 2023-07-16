@@ -24,8 +24,8 @@ install_dediprog() {
 
 	cd $path/dediprog
 
-	$common display_message "install libusb-1.0 ..."
-	$install libusb-1.0 1>/dev/null || {
+	$common display_message "install libusb-1.0 libusb-dev ..."
+	$install libusb-1.0 libusb-dev 1>/dev/null || {
 		$common display_error "Failed to install libusb-1.0"
 		return 1
 	}
