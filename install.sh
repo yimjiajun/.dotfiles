@@ -1,27 +1,37 @@
 #!/bin/bash
 
 path=$(dirname $(readlink -f $0))
+common="$path/app/common.sh"
 
 if [[ $# -eq 0 ]]; then
 	if [[ -f $path/tools/install.sh ]]; then
 		$path/tools/install.sh || {
-			echo -e "\033[31mError: Install tools failed.\033[0m"
+			$common display_error "Install tools failed."
 			exit 1
 		}
 	fi
 
 	if [[ -f $path/prj/install.sh ]]; then
 		$path/prj/install.sh || {
-			echo -e "\033[31mError: Install project failed.\033[0m"
+			$common display_error "Install project failed."
 			exit 1
 		}
 	fi
 
 	if [[ -f $path/app/install.sh ]]; then
 		$path/app/install.sh || {
-			echo -e "\033[31mError: Install app failed.\033[0m"
+			$common display_error "Install app failed."
 			exit 1
 		}
+	fi
+
+	if [[ -f $path/nvim/setup.sh ]]; then
+		$path/nvim/setup.sh || {
+			$common display_error "Setup NeoVim failed."
+			exit 1
+		}
+
+		ln -sfr $path/nvim $HOME/.config/nvim
 	fi
 
 	exit 0

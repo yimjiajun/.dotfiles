@@ -2,3 +2,7 @@
 	path = .localdata
 	url = https://github.com/yimjiajun/.dotdata.git
 	branch = main
+[submodule "neovim"]
+	path = nvim
+	url = https://github.com/yimjiajun/neovim.git
+	branch = main
