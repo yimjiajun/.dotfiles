@@ -76,4 +76,16 @@
 | - | -                                                                                  | -                                                                                    |
 | 1 | [zephyr](https://docs.zephyrproject.org/latest/develop/getting_started/index.html) | small-footprint kernel designed for use on resource-constrained and embedded systems |
 
+<div align="center">
+  <h2> Link </h2>
+</div>
+
+[.dotfiles Guide and Introduction](https://github.com/yimjiajun/.dotfiles/wiki)
+
+|   | Tools                                                            | Extension                                                                        |
+| - | -                                                                | -                                                                                |
+| 1 | [Dediprog](https://github.com/yimjiajun/.dotfiles/wiki/dediprog) |                                                                                  |
+| 2 | [Khal](https://github.com/yimjiajun/.dotfiles/wiki/khal)         | [Khal + at](https://github.com/yimjiajun/.dotfiles/wiki/khal_at)                 |
+|   |                                                                  | [Khal + vdirsyncer](https://github.com/yimjiajun/.dotfiles/wiki/khal_vdirsyncer) |
+
 [^install_1]: install specific project. `~/.dotfiles/install.sh --tools` or `~/.dotfiles/install.sh --prj`. `~/.dotfiles/install.sh --help` for more information
