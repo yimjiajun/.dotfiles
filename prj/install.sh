@@ -4,7 +4,7 @@ path=$(dirname $(readlink -f $0))
 common="$path/../app/common.sh"
 get_install_pkg_cmd="$path/manual/get_install_pkg_cmd.sh"
 install_require_dependencies_pkg="$path/manual/install_require_dependencies_pkg.sh"
-ignore_install_tools=("$(basename $0)" 'manual')
+ignore_install_tools=("$(basename $0)" 'other' 'manual')
 
 for prefix in ${ignore_install_tools[@]}; do
 	ignore_install_tool_str=$ignore_install_tool_str" -I "$prefix

@@ -45,7 +45,7 @@ while [[ $# -ne 0 ]]; do
 			echo "  --help, -h		Display this help message."
 			echo "  --tools, -t		Install tools."
 			echo "  --prj, -p		Install project."
-			ehco "  --app, -a		Install app."
+			echo "  --app, -a		Install app."
 			exit 0
 			;;
 		--tools|-t)
