@@ -10,3 +10,6 @@
 	path = tools/other/dediprog
 	url = https://github.com/DediProgSW/SF100Linux.git
 	branch = master
+[submodule "doc"]
+	path = doc
+	url = https://github.com/yimjiajun/.dotfiles.wiki.git
