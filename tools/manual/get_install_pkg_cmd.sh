@@ -3,7 +3,12 @@
 if [[ "$OSTYPE" == "linux-gnu"* ]]; then
 	if [[ -f /etc/os-release ]]; then
 		. /etc/os-release
-		os=$ID
+
+		if [[ -n $ID_LIKE ]]; then
+			os=$ID_LIKE
+		else
+			os=$ID
+		fi
 	fi
 
 	if [[ -z $os ]]; then
@@ -11,7 +16,7 @@ if [[ "$OSTYPE" == "linux-gnu"* ]]; then
 		exit 1
 	fi
 
-	if [[ "$os" == "ubuntu" ]]; then
+	if [[ "$os" == "debian" ]]; then
 		pkt_install_cmd="sudo apt-get install -y "
 	else
 		echo -e "\033[31mError: OS not support! \033[0m" >&2
