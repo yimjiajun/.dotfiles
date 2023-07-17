@@ -23,6 +23,22 @@
         ~/.dotfiles/install.sh
 
 <div align="center">
+  <h2> Application </h2>
+</div>
+
+> this will installed when called `~/.dotfiles/install.sh` or ` ~/.dotfiles/install.sh --app`)
+
+    $USER
+
+|   | Name    | Description                              |
+| - | -       | -                                        |
+| 1 | Manager | Invokes installed tools                  |
+| 2 | System  | Indicates and Control system information |
+| 3 | Network | Indicates and Control device Network     |
+| 4 | Memory  | Indicates device disk usage              |
+
+
+<div align="center">
   <h2> Tools </h2>
 </div>
 
@@ -58,4 +74,4 @@
 | - | -                                                                                  | -                                                                                    |
 | 1 | [zephyr](https://docs.zephyrproject.org/latest/develop/getting_started/index.html) | small-footprint kernel designed for use on resource-constrained and embedded systems |
 
-[^install_1]: install specific project. `~/.dotfile/install.sh --tools` or `~/.dotfile/install.sh --prj`. `~/.dotfile/install.sh --help` for more information
+[^install_1]: install specific project. `~/.dotfiles/install.sh --tools` or `~/.dotfiles/install.sh --prj`. `~/.dotfiles/install.sh --help` for more information
