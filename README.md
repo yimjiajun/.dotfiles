@@ -67,7 +67,6 @@
 | 21 | [wireless-tools](https://en.wikipedia.org/wiki/Wireless_tools_for_Linux)           | Collection of user-space utilities written for Linux kernel-based operating systems to support and facilitate the configuration of device drivers of wireless network interface controllers |
 | 22 | [xdg-utils](https://packages.debian.org/sid/xdg-utils)                             | Utilities for integrating applications with the desktop environment, regardless of which desktop environment is used                                                                                  |
 
-
 <div align="center">
   <h2> Project </h2>
 </div>
@@ -75,6 +74,18 @@
 |   | Name                                                                               | Description                                                                          |
 | - | -                                                                                  | -                                                                                    |
 | 1 | [zephyr](https://docs.zephyrproject.org/latest/develop/getting_started/index.html) | small-footprint kernel designed for use on resource-constrained and embedded systems |
+
+<div align="center">
+  <h2> NeoVim </h2>
+</div>
+
+Vim is a highly configurable text editor built to make creating and changing any kind of text very efficient. It is included as "vi" with most UNIX systems and with Apple OS X.
+
+<div align="center">
+  <a href="https://github.com/yimjiajun/neovim">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/4/4f/Neovim-logo.svg" alt="Neovim-logo" width="200">
+  </a>
+</div>
 
 <div align="center">
   <h2> Link </h2>
