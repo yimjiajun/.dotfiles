@@ -4,6 +4,10 @@ zephyr_sdk_version="0.16.1"
 path=$(dirname $(readlink -f $0))
 common="$path/../app/common.sh"
 
+if ! [[ -f $common ]]; then
+	common="echo"
+fi
+
 install() {
 	local tmp_dir=$(mktemp -d)
 	local zephyr_dir="$HOME/zephyrproject"
@@ -107,6 +111,7 @@ install() {
 }
 
 if [[ -z $(which west) ]] || \
+	[[ $# -eq 0 ]] || \
 	[[ $1 == 'install' ]]; then
 	install
 fi
