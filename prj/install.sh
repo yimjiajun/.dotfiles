@@ -2,7 +2,6 @@
 
 path=$(dirname $(readlink -f $0))
 common="$path/../app/common.sh"
-get_install_pkg_cmd="$path/manual/get_install_pkg_cmd.sh"
 install_require_dependencies_pkg="$path/manual/install_require_dependencies_pkg.sh"
 ignore_install_tools=("$(basename $0)" 'other' 'manual')
 

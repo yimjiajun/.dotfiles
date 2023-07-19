@@ -2,17 +2,16 @@
 
 path=$(dirname $(readlink -f $0))
 common="$path/../../app/common.sh"
-get_install_pkg_cmd="$path/get_install_pkg_cmd.sh"
+install="$path/install_pkg_cmd.sh"
 
 packages=('cmatrix' 'neofetch' \
 	'bastet' 'ninvaders' \
 	'hollywood')
 
 install() {
-	local install="$(${get_install_pkg_cmd})"
+	$common display_title "install fun"
 
 	for package in ${packages[@]}; do
-		$common display_title "Install $package"
 		$install $package || {
 			$common display_error "failed to install $package"
 		}

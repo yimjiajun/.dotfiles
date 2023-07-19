@@ -4,7 +4,7 @@ func=('install_dediprog')
 
 path=$(dirname $(readlink -f $0))
 common="$path/../../app/common.sh"
-install="$path/../manual/get_install_pkg_cmd.sh"
+install="$path/../manual/install_pkg_cmd.sh"
 install_require_dependencies_pkg="$path/../manual/install_require_dependencies_pkg.sh"
 
 install_status=func

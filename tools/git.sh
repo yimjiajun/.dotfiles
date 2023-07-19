@@ -4,7 +4,7 @@ tool='git'
 data_path="$(dirname $(readlink -f $0))/../data"
 path=$(dirname $(readlink -f $0))
 common="$path/../app/common.sh"
-install="$path/manual/get_install_pkg_cmd.sh"
+install="$path/manual/install_pkg_cmd.sh"
 
 git_config="$data_path/.gitconfig"
 git_ignore="$data_path/.gitignore_global"

@@ -2,7 +2,7 @@
 
 path=$(dirname $(readlink -f $0))
 common="$path/../app/common.sh"
-install="$path/manual/get_install_pkg_cmd.sh"
+install="$path/manual/install_pkg_cmd.sh"
 
 install() {
 	local tmp_dir=$(mktemp -d)

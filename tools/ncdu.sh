@@ -3,7 +3,7 @@
 tool='ncdu'
 path=$(dirname $(readlink -f $0))
 common="$path/../app/common.sh"
-install="$path/manual/get_install_pkg_cmd.sh"
+install="$path/manual/install_pkg_cmd.sh"
 
 install() {
 	$common display_title "Install $tool"
