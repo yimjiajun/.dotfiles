@@ -4,7 +4,7 @@ func=('install_dediprog')
 
 path=$(dirname $(readlink -f $0))
 common="$path/../../app/common.sh"
-get_install_pkg_cmd="$path/../manual/get_install_pkg_cmd.sh"
+install="$path/../manual/get_install_pkg_cmd.sh"
 install_require_dependencies_pkg="$path/../manual/install_require_dependencies_pkg.sh"
 
 install_status=func
@@ -13,9 +13,8 @@ cnt=0
 err=0
 
 install_dediprog() {
-	local install="$($get_install_pkg_cmd)"
-	local bin_path="/usr/local/bin"
 	$common display_title "Install Dediprog"
+	local bin_path="/usr/local/bin"
 
 	if ! [[ -f $path/dediprog/Makefile ]]; then
 		$common display_error "Failed to find dediprog"
@@ -24,13 +23,12 @@ install_dediprog() {
 
 	cd $path/dediprog
 
-	$common display_message "install libusb-1.0 libusb-dev ..."
-	$install libusb-1.0 libusb-dev 1>/dev/null || {
+	$install libusb-1.0 libusb-dev || {
 		$common display_error "Failed to install libusb-1.0"
 		return 1
 	}
 
-	$common display_message "build dediprog ..."
+	$common display_info "build" "dediprog ..."
 	make 1>/dev/null || {
 		$common display_error "Failed to make dediprog"
 		return 1
@@ -41,8 +39,11 @@ install_dediprog() {
 		return 1
 	fi
 
-	$common display_message "symlink dediprog to $bin_path/dpcmd ..."
-	sudo ln -sf $path/dediprog/dpcmd $bin_path/dpcmd
+	$common display_info "link" "dediprog to $bin_path/dpcmd ..."
+	sudo ln -sfr $path/dediprog/dpcmd $bin_path/dpcmd || {
+		$common display_error "Failed to link dediprog to $bin_path/dpcmd"
+		return 1
+	}
 
 	dpcmd -v
 

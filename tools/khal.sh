@@ -3,30 +3,19 @@
 tool='khal'
 path=$(dirname $(readlink -f $0))
 common="$path/../app/common.sh"
-get_install_pkg_cmd="$path/manual/get_install_pkg_cmd.sh"
+install="$path/manual/get_install_pkg_cmd.sh"
 
 install() {
 	local conf_path="$(dirname $(readlink -f $0))/../.localdata/khal"
 	local local_conf_path="$HOME/.config/khal"
 	local local_data_path="$HOME/.calendars"
-	local install=$($get_install_pkg_cmd)
-
-	if [[ -z $install ]] ||\
-		[[ $install =~ ^Error* ]] ||\
-		[[ $install =~ ^error* ]] ||\
-		[[ $install =~ ^err:* ]]; then
-		echo -e "\033[31mError: install package not found ! \033[0m" >&2
-		exit 1
-	fi
 
 	$common display_title "Install $tool"
-	echo -e "● install ..." >&1
-	$install $tool 1>/dev/null
 
-	if [[ $? -ne 0 ]]; then
-		echo -e "\033[31mError: install $tool failed ! \033[0m" >&2
+	$install $tool || {
+		$common display_error "install $tool failed !"
 		exit 1
-	fi
+	}
 
 	if ! [[ -d ${local_conf_path} ]]; then
 		mkdir -p ${local_conf_path}
@@ -40,26 +29,27 @@ install() {
 		return
 	fi
 
-	echo -e "● Link $tool configuration file ... \033[1m ${local_conf_path}/config\033[0m"
+	$common display_info "Link" "configuration file -> \033[1m ${local_conf_path}/config\033[0m"
 	ln -sf  ${conf_path}/config ${local_conf_path}/config
-	echo -e "● Link $tool notification file ... \033[1m ${local_conf_path}/notify.sh\033[0m"
+
+	$common display_info "Link" "notification file -> \033[1m ${local_conf_path}/notify.sh\033[0m"
 	ln -sf  ${conf_path}/notify.sh ${local_conf_path}/notify.sh
-	echo -e "● Link $tool calendars contents ... \033[1m ${local_data_path}\033[0m"
+
+	$common display_info "Link" "calendar file -> \033[1m ${local_conf_path}/calendar\033[0m"
 	ln -sfr  ${conf_path}/.calendars ${local_data_path}
 
-	if [[ -f ${local_conf_path}/notify.sh ]]; then
-		if [[ -f "$HOME/.$(basename $SHELL)rc" ]]; then
-			if [[ $(grep -c "${local_conf_path}/notify.sh" "$HOME/.$(basename $SHELL)rc") -eq 0 ]]; then
-				echo -e "● Add $tool notification file on startup ... \033[1m$HOME/.$(basename $SHELL)rc\033[0m"
-				echo "${local_conf_path}/notify.sh" >> $HOME/.$(basename $SHELL)rc
-			fi
-		fi
+	if [[ -f ${local_conf_path}/notify.sh ]] &&\
+		[[ -f "$HOME/.$(basename $SHELL)rc" ]] &&\
+		[[ $(grep -c "${local_conf_path}/notify.sh" "$HOME/.$(basename $SHELL)rc") -eq 0 ]]; \
+	then
+		$common display_info "Add" "notification file on startup -> \033[1m$HOME/.$(basename $SHELL)rc\033[0m"
+		echo "${local_conf_path}/notify.sh" >> $HOME/.$(basename $SHELL)rc
 	fi
 }
 
 if [[ $OSTYPE != linux-gnu* ]] &&\
 	[[ $OSTYPE != darwin* ]]; then
-	echo -e "\033[31mError: $tool only for Unix-like\033[0m"
+	$common display_error "not support $tool on $OSTYPE !"
 	exit 1
 fi
 

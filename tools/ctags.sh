@@ -10,46 +10,46 @@ install() {
 
 	$common display_title "Install $tool"
 
-	git clone https://github.com/universal-ctags/ctags.git $download_path
-
-	if [[ $? -ne 0 ]]; then
-		echo -e "\033[31mError: git clone $tool failed ! \033[0m" >&2
+	git clone https://github.com/universal-ctags/ctags.git  \
+		$download_path 1>/dev/null || \
+	{
+		$common display_error "git clone $tool failed !"
 		exit 1
-	fi
+	}
 
 	cd $download_path
 
-	echo -e "● Auto generate $tool ...."
-	./autogen.sh 1>/dev/null 2>&1
+	$common display_info "upadate" "auto generate $tool..."
 
-	if [[ $? -ne 0 ]]; then
-		echo -e "\033[31mError: auto generate $tool failed ! \033[0m" >&2
+	./autogen.sh 1>/dev/null 2>&1 || {
+		$common display_error "auto generate $tool failed !"
 		exit 1
-	fi
+	}
 
-	echo -e "● Configure $tool ...."
-	./configure --prefix="$install_path" 1>/dev/null 2>&1
+	$common display_info "config" "$tool..."
 
-	if [[ $? -ne 0 ]]; then
-		echo -e "\033[31mError: configure $tool failed ! \033[0m" >&2
+	./configure --prefix="$install_path" 1>/dev/null 2>&1 || {
+		$common display_error "configure $tool failed !"
 		exit 1
-	fi
+	}
 
-	echo -e "● Build $tool ...."
-	make 1>/dev/null 2>&1
+	$common display_info "build" "$tool..."
+	$common display_message "It may take a long time, please wait..."
 
-	if [[ $? -ne 0 ]]; then
-		echo -e "\033[31merror: build $tool failed ! \033[0m" >&2
+	make 1>/dev/null 2>&1 || {
+		$common display_error "build $tool failed !"
 		exit 1
-	fi
+	}
 
-	echo -e "● Install $tool ...."
-	sudo make install 1>/dev/null
+	$common display_info "install" "$tool..."
+	$common display_message "It may take a long time, please wait..."
 
-	if [[ $? -ne 0 ]]; then
-		echo -e "\033[31merror: install $tool failed ! \033[0m" >&2
+	sudo make install 1>/dev/null || {
+		$common display_error "install $tool failed !"
 		exit 1
-	fi
+	}
+
+	$common display_info "installed" "$tool"
 }
 
 if [[ -z "$(which $tool)" ]] ||\

@@ -3,12 +3,12 @@
 tool='tmux'
 path=$(dirname $(readlink -f $0))
 common="$path/../app/common.sh"
+install="$path/manual/get_install_pkg_cmd.sh"
 
-get_install_pkg_cmd="$path/manual/get_install_pkg_cmd.sh"
 data_path="$(dirname $(readlink -f $0))/../data"
 tmux_data="$data_path/.tmux.conf"
 
-display_info() {
+display_tmux_info() {
 	local -a info=('prefix key' '<ctrl> + <space>'\
 		'update plugins' '<prefix> + <I>')
 
@@ -20,38 +20,34 @@ display_info() {
 }
 
 install() {
-	local install=$($get_install_pkg_cmd)
-
-	if [[ -z $install ]] ||\
-		[[ $install =~ ^Error* ]] ||\
-		[[ $install =~ ^error* ]] ||\
-		[[ $install =~ ^err:* ]]; then
-		echo -e "\033[31mError: install package not found ! \033[0m" >&2
-		exit 1
-	fi
-
-	$common display_title "Install $tool"
-	echo -e "● install ..." >&1
-	$install $tool 1>/dev/null
-
-	if [[ $? -ne 0 ]]; then
-		echo -e "\033[31mError: install $tool failed ! \033[0m" >&2
-		exit 1
-	fi
-
-	if ! [[ -d "$HOME/.tmux/plugins/tpm" ]]; then
-		git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
-		if [[ $? -ne 0 ]]; then
-			echo -e "\033[31mError: install $tool manager failed ! \033[0m" >&2
-			exit 1
-		fi
-	fi
-
 	local tmux_conf="$HOME/.tmux.conf"
 
-	ln -sf "$tmux_data" "$tmux_conf"
+	$common display_title "Install $tool"
 
-	display_info
+	$install $tool || {
+		$common display_error "Install $tool"
+		exit 1
+	}
+
+	if ! [[ -d "$HOME/.tmux/plugins/tpm" ]]; then
+		$common display_info "download" "$tool manager"
+
+		git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm || {
+			$common display_error "Install $tool manager"
+			exit 1
+		}
+	fi
+
+	$common display_info "link" "$tmux_conf"
+
+	ln -sfr "$tmux_data" "$tmux_conf" || {
+		$common display_error "Create $tmux_conf"
+		exit 1
+	}
+
+	$common display_info "install" "$tool manager"
+
+	display_tmux_info
 }
 
 if [[ -z "$(which $tool)" ]] ||\

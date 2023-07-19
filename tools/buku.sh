@@ -3,34 +3,24 @@
 tool="buku"
 path=$(dirname $(readlink -f $0))
 common="$path/../app/common.sh"
-get_install_pkg_cmd="$path/manual/get_install_pkg_cmd.sh"
+install="$path/manual/get_install_pkg_cmd.sh"
 
 install() {
-	local install="$(${get_install_pkg_cmd})"
-
-	if [[ -z $install ]] ||\
-		[[ $install =~ ^Error* ]] ||\
-		[[ $install =~ ^error* ]] ||\
-		[[ $install =~ ^err:* ]]; then
-		echo -e "\033[31mError: install package not found ! \033[0m" >&2
-		exit 1
-	fi
-
 	$common display_title "Install $tool"
-	echo -e "● install ..." >&1
-	$install $tool 1>/dev/null
 
-	if [[ $? -ne 0 ]]; then
-		echo -e "\033[31mError: install $tool failed ! \033[0m" >&2
+	$install $tool || {
+		$common display_error "install $tool failed !"
 		exit 1
-	fi
+	}
+
+	$common display_info "installed" "$tool"
 }
 
 function import_replace_bookmarks {
 	local current_dir="$(dirname "$0")"
 
 	if [[ ! "$(command -v $tool)" ]]; then
-		echo -e "\033[31mError: $tool not installed!\033[0m" >&2
+		$common display_error "$tool not installed !"
 		exit 1
 	fi
 
@@ -38,31 +28,37 @@ function import_replace_bookmarks {
 		read -p "Do you want to delete current bookmarks? [y/n] " -n 1
 
 		if [[ "$REPLY" =~ [yY] ]]; then
-			echo -e "\n● deleting current bookmarks..." >&1
+			$common display_warning "deleting current bookmarks..."
 			rm "$HOME/.local/share/buku/bookmarks.db"
 		else
-			echo -e "\n● skipping importing current bookmarks..." >&1
+			$common display_warning "skipping importing current bookmarks..."
 			return
 		fi
 	fi
 
-	echo -e "\n● importing bookmarks..." >&1
-	$tool --import "$current_dir/../.localdata/bookmarks.md"
+	$common display_info "import" "importing bookmarks named as \033[1mbookmarks.md\033[0m..."
+	$tool --import "$current_dir/../.localdata/bookmarks.md" || {
+		$common display_error "import bookmarks failed !"
+		exit 1
+	}
 }
 
 function export_bookmarks {
 	local current_dir="$(dirname "$0")"
 
 	if [[ ! "$(command -v $tool)" ]]; then
-		echo -e "\033[31mError: $tool not installed! \033[0m" >&2
+		$common display_error "$tool not installed !"
 		exit 1
 	fi
 
-	echo -e "\n● exporting bookmarks named as \033[1mbookmarks.md\033[0m..." >&1
-	$tool --export "$current_dir/../.localdata/bookmarks.md"
+	$common display_info "export" "exporting bookmarks to \033[1mbookmarks.md\033[0m..."
+	$tool --export "$current_dir/../.localdata/bookmarks.md" || {
+		$common display_error "export bookmarks failed !"
+		exit 1
+	}
 }
 
-if [[ -z "$1" ]]; then
+if [[ $# -eq 0 ]]; then
 	selection=("import" "export" "install" "init")
 	select sel in "${selection[@]}"; do
 		case "$sel" in
@@ -80,7 +76,7 @@ if [[ -z "$1" ]]; then
 				import_replace_bookmarks
 				;;
 			*)
-				echo -e "\033[31mError: Invalid option.\033[0m" >&2
+				$common display_error "invalid selection !"
 				exit 1
 				;;
 		esac

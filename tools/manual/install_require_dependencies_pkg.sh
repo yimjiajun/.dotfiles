@@ -4,23 +4,20 @@ path=$(dirname $(readlink -f $0))
 common="$path/../../app/common.sh"
 
 debian_install() {
-	echo -e "● update package for $ID_LIKE ..."
-	sudo apt-get update 1>/dev/null
-
-	if [ $? -ne 0 ]; then
-		echo -e "\033[31merror: failed to update package\033[0m"
+	$common display_info "update" "$ID dependencies"
+	sudo apt-get update 1>/dev/null || {
+		$common display_message "failed to update package"
 		exit 1
-	fi
+	}
 
-	echo -e "● upgrade package for $ID_LIKE ..."
-	sudo apt-get upgrade -y 1>/dev/null
-
-	if [ $? -ne 0 ]; then
-		echo -e "\033[31merror: failed to upgrade package\033[0m"
+	$common display_info "upgrade" "package for $ID ..."
+	sudo apt-get upgrade -y 1>/dev/null || {
+		$common display_message "failed to upgrade package"
 		exit 1
-	fi
+	}
 
-	echo -e "● installing dependencies for $ID_LIKE ..."
+	$common display_info "install" "build-essential dependencies for $ID ..."
+
 	sudo apt-get install -y --no-install-recommends git cmake ninja-build gperf \
 	  ccache dfu-util device-tree-compiler wget \
 	  python3-dev python3-pip python3-setuptools python3-tk python3-wheel xz-utils file \
@@ -32,27 +29,28 @@ debian_install() {
 		libseccomp-dev libjansson-dev libyaml-dev libxml2-dev \
 		libusb-dev \
 	\
-	 build-essential libncurses-dev libjansson-dev 1>/dev/null
-
-	if [ $? -ne 0 ]; then
-		echo -e "\033[31merror: failed to install build-essential dependencies\033[0m"
+	 build-essential libncurses-dev libjansson-dev 1>/dev/null || {
+	 	$common display_message "failed to install build-essential dependencies"
 		exit 1
-	fi
+	}
 
-	echo -e "● autoremove unnecessary package for $ID_LIKE ..."
-	sudo apt-get autoremove -y 1>/dev/null
+	$common display_info "remove" "unnecessary package for $ID ..."
 
-	if [ $? -ne 0 ]; then
-		echo -e "\033[31merror: failed to autoremove dependencies\033[0m"
+	sudo apt-get autoremove -y 1>/dev/null || {
+		$common display_message "failed to remove unnecessary package"
 		exit 1
-	fi
+	}
 }
 
 . /etc/os-release
 
-$common display_title "Install $ID_LIKE dependencies"
+if [[ -n $ID_LIKE ]]; then
+	ID=$ID_LIKE
+fi
 
-if [ "$ID_LIKE" = 'debian' ]; then
+$common display_title "Install $ID dependencies"
+
+if [ "$ID" = 'debian' ]; then
 	debian_install
 fi
 
