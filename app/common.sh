@@ -54,7 +54,7 @@ display_info() {
 	local info="$1"
 
 	echo -e -n "\e[1;32m"
-	echo -e -n "[ $info ] "
+	printf "[ %10s ] " "$info"
 	echo -e -n "\e[0m"
 
 	if [[ $# -gt 1 ]]; then
