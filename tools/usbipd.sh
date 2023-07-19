@@ -14,15 +14,17 @@ install() {
 	fi
 
 	$common display_title "Install usbpid"
-	echo -e "● install ..." >&1
-	sudo apt install -y linux-tools-5.4.0-77-generic hwdata 1>/dev/null
+
+	echo -e "● install linux-tools-generic hwdata ..." >&1
+	sudo apt-get install linux-tools-generic hwdata 1>/dev/null
 
 	if [[ $? -ne 0 ]]; then
 		echo -e "\033[31mError: install usbipd failed ! \033[0m" >&2
 		exit 1
 	fi
 
-	sudo update-alternatives --install /usr/local/bin/usbip usbip /usr/lib/linux-tools/5.4.0-77-generic/usbip 20 1>/dev/null
+	echo -e "● install usbip..." >&1
+	sudo update-alternatives --install /usr/local/bin/usbip usbip /usr/lib/linux-tools/*-generic/usbip 20 1>/dev/null
 
 	if [[ $? -ne 0 ]]; then
 		echo -e "\033[31mError: install usbipd failed ! \033[0m" >&2
