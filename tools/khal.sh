@@ -47,6 +47,30 @@ install() {
 	fi
 }
 
+define_dates_times_format() {
+	$common display_subtitle "formatting dates, times, numbers, and currency"
+
+	$common display_info "generate" "en_US.UTF-8"
+
+	sudo locale-gen en_US.UTF-8 1>/dev/null || {
+		$common display_error "generate en_US.UTF-8 failed !"
+		exit 1
+	}
+
+	$common display_info "set" "en_US.UTF-8"
+
+	sudo update-locale LANG=en_US.UTF-8 1>/dev/null || {
+		$common display_error "set en_US.UTF-8 failed !"
+		exit 1
+	}
+
+	$common display_info "result" "locale specific settings"
+	locale || {
+		$common display_error "locale specific settings failed !"
+		exit 1
+	}
+}
+
 if [[ $OSTYPE != linux-gnu* ]] &&\
 	[[ $OSTYPE != darwin* ]]; then
 	$common display_error "not support $tool on $OSTYPE !"
@@ -56,6 +80,7 @@ fi
 if [[ -z "$(which $tool)" ]] ||\
 	[[ $1 == "install" ]]; then
 	install
+	define_dates_times_format
 fi
 
 exit 0
