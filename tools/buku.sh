@@ -3,10 +3,20 @@
 tool="buku"
 path=$(dirname $(readlink -f $0))
 common="$path/../app/common.sh"
-install="$path/manual/install_pkg_cmd.sh"
 
 install() {
+	local install="pip3 install --upgrade-strategy eager"
+
 	$common display_title "Install $tool"
+
+	if [[ ! "$(command -v pip3)" ]]; then
+		if [[ ! "$(command -v pip)" ]]; then
+			$common display_error "pip3 or pip not installed !"
+			exit 1
+		fi
+
+		install="pip install --upgrade-strategy eager"
+	fi
 
 	$install $tool || {
 		$common display_error "install $tool failed !"
@@ -14,6 +24,8 @@ install() {
 	}
 
 	$common display_info "installed" "$tool"
+
+	$common display_info "manual" "run this $0 script without arguments with selection to import bookmarks"
 }
 
 function import_replace_bookmarks {
@@ -25,18 +37,14 @@ function import_replace_bookmarks {
 	fi
 
 	if [[ -f "$HOME/.local/share/buku/bookmarks.db" ]]; then
-		read -p "Do you want to delete current bookmarks? [y/n] " -n 1
-
-		if [[ "$REPLY" =~ [yY] ]]; then
-			$common display_warning "deleting current bookmarks..."
+		buku -d || {
+			$common display_info "warn" "manual deleting current bookmarks..."
 			rm "$HOME/.local/share/buku/bookmarks.db"
-		else
-			$common display_warning "skipping importing current bookmarks..."
-			return
-		fi
+		}
 	fi
 
 	$common display_info "import" "importing bookmarks named as \033[1mbookmarks.md\033[0m..."
+
 	$tool --import "$current_dir/../.localdata/bookmarks.md" || {
 		$common display_error "import bookmarks failed !"
 		exit 1
