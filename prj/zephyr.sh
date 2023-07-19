@@ -43,8 +43,9 @@ install() {
 
 	if [[ $(grep -c "export PATH=~/.local/bin:$PATH" ~/.bashrc) -eq 0 ]]; then
 		echo 'export PATH=~/.local/bin:"$PATH"' >> ~/.bashrc
-		source ~/.bashrc
 	fi
+
+	source ~/.bashrc
 
 	echo -e "● Clone zephyrproject ..."
 	west init $zephyr_dir 2>/dev/null || {
