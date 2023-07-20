@@ -30,6 +30,11 @@ install() {
 			$common display_error "source $HOME/.cargo/env failed !"
 			exit 1
 		}
+
+		rustup default stable || {
+			$common display_error "install stable failed !"
+			exit 1
+		}
 	else
 		$common display_error ".cargo/eve not found !"
 		exit 1
