@@ -41,8 +41,8 @@ install() {
 		exit 1
 	}
 
-	if [[ $(grep -c "export PATH=~/.local/bin:$PATH" ~/.bashrc) -eq 0 ]]; then
-		echo 'export PATH=~/.local/bin:"$PATH"' >> ~/.bashrc
+	if [[ $(grep -c 'export PATH=~/.local/bin:$PATH' ~/.bashrc) -eq 0 ]]; then
+		echo 'export PATH=~/.local/bin:$PATH' >> ~/.bashrc
 	fi
 
 	source ~/.bashrc
