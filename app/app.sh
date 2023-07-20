@@ -4,7 +4,7 @@ tput clear
 common="$(dirname $(readlink -f "$0"))/common.sh"
 path="$(dirname $(readlink -f "$0"))"
 name="$(basename $0 | sed 's/\.sh$//')"
-ignore_tools=("$(basename $0)" 'app.sh' 'install.sh' 'common.sh')
+ignore_tools=("$(basename $0)" 'app.sh' 'install.sh' 'common.sh' '*_*.sh')
 
 for prefix in ${ignore_tools[@]}; do
 	ignore_tool_str=$ignore_tool_str" -I "$prefix

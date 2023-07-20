@@ -1,7 +1,7 @@
 #!/bin/bash
 tput clear
 
-func=('device_ip' 'wifi_manager' 'open_url')
+func=('device_ip' 'wifi_manager' 'ssh_manager' 'open_url')
 func=($(printf '%s\n' "${func[@]}"|sort))
 
 common="$(dirname $(readlink -f "$0"))/common.sh"
@@ -100,6 +100,10 @@ wifi_manager() {
 		$common display_title "${name^^}"
 		$common display_subtitle "WIFI MANAGER"
 	done
+}
+
+ssh_manager() {
+	$path/network_ssh.sh
 }
 
 open_url() {
