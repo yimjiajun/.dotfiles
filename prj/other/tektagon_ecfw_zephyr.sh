@@ -268,7 +268,7 @@ for re_install in {1..3}; do
 
 		sudo dpkg --add-architecture i386 && \
 		sudo apt-get update 1>/dev/null && \
-		sudo apt-get install -y wine32 1>/dev/null || \
+		sudo apt-get install -y wine64 wine32 1>/dev/null || \
 		{
 			display_msg 'err' 'Failed to install wine'
 			break
