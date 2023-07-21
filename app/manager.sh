@@ -3,7 +3,7 @@ tput clear
 
 func=('file_manager' 'git_manager' 'calendar_manager'\
 	'task_manager' 'browser_bookmarks_manager'\
-	'fun_manager')
+	'fun_manager' 'disk_manager')
 
 func=($(printf '%s\n' "${func[@]}"|sort))
 common="$(dirname $(readlink -f "$0"))/common.sh"
@@ -43,6 +43,48 @@ file_manager() {
 	$common display_error "not supporting file manager"
 }
 
+disk_manager() {
+	$common display_subtitle "DISK MANAGER"
+
+	local disk_tool=( \
+		$(which ncdu) \
+		$(which dutree) \
+	)
+
+	for i in ${!disk_tool[@]}; do
+		if [[ -z "${disk_tool[$i]}" ]]; then
+			unset disk_tool[$i]
+			continue
+		fi
+
+		disk_tool[$i]="$(basename ${disk_tool[$i]})"
+	done
+
+	if [[ -z "${disk_tool[@]}" ]]; then
+		du --all -h --max-depth=1
+		return
+	fi
+
+	select tool in 'quit' "${disk_tool[@]}"; do
+		tput clear
+		$common display_subtitle "${name^^}"
+
+		if [[ $tool == 'quit' ]]; then
+			return 0
+		fi
+
+		if [[ $tool == 'ncdu' ]]; then
+			$tool -rr -x --exclude .git --exclude node_modules
+			return
+		fi
+
+		if [[ $tool == 'dutree' ]]; then
+			$tool -d1
+			return
+		fi
+	done
+}
+
 git_manager() {
 	$common display_subtitle "GIT MANAGER"
 
@@ -51,10 +93,37 @@ git_manager() {
 		return
 	fi
 
-	if [[ $(command -v lazygit) ]]; then
-		lazygit
-		return
-	fi
+	local git_tool=( \
+		$(which lazygit)  \
+		$(which gitui) \
+		$(which tig) \
+	)
+
+	for i in ${!git_tool[@]}; do
+		if [[ -z "${git_tool[$i]}" ]]; then
+			unset git_tool[$i]
+			continue
+		fi
+
+		git_tool[$i]="$(basename ${git_tool[$i]})"
+	done
+
+	select tool in 'quit' "${git_tool[@]}"; do
+		tput clear
+		$common display_subtitle "${name^^}"
+
+		case $tool in
+			'quit')
+				return 0
+				;;
+			*)
+				$tool || {
+					$common display_error "invalid option"
+					exit 1
+				}
+				;;
+		esac
+	done
 
 	$common display_error "not supporting git manager"
 }
