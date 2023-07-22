@@ -43,3 +43,5 @@
 [user]
 	name = JiaJun Yim
 	email = yimjiajun@icloud.com
+[init]
+	defaultBranch = main
