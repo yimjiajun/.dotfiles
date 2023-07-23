@@ -1,0 +1,6 @@
+[book]
+authors = ["JiaJun Yim"]
+language = "en"
+multilingual = false
+src = "."
+title = "dotfiles"
