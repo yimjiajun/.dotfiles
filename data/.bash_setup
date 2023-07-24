@@ -1,10 +1,10 @@
-[[ $(command -v nvim) ]] && {
+if [[ $(command -v nvim) ]]; then
 	export EDITOR=nvim
-} || [ $(command -v vim) ] && {
+elif [[ $(command -v vim) ]]; then
 	export EDITOR=vim
-} || {
+else
 	export EDITOR=vi
-}
+fi
 
 [[ -n $TERM ]] && {
 	# colorise man pages
