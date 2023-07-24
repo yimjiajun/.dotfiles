@@ -35,8 +35,8 @@ install() {
 			exit 1
 		}
 
-		$common display_info "install" "success"
 		$common display_info "manual" "WezTerm Installtion will pop up on the screen, please follow the instructions to complete the installation"
+		$common display_info "installed" "$tool"
 
 		exit 0
 	elif [[ $OSTYPE == linux-gnu* ]]; then
