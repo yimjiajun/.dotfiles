@@ -18,7 +18,7 @@
 
         git clone https://github.com/yimjiajun/.dotfiles.git ~/.dotfiles
 
-2. Run `install.sh` to start install [^install_1]
+2. Run `install.sh` to start install [^i1]
 
         ~/.dotfiles/install.sh
 
@@ -95,16 +95,6 @@ Vim is a highly configurable text editor built to make creating and changing any
   <h2> Link </h2>
 </div>
 
-[.dotfiles Guide and Introduction](https://github.com/yimjiajun/.dotfiles/wiki/SUMMARY)
+[.dotfiles Guide and Introduction](https://yimjiajun.github.io/.dotfiles/)
 
-|   | tools                                                            | extension                                                                           |
-| - | -                                                                | -                                                                                   |
-| 1 | [cron](https://github.com/yimjiajun/.dotfiles/wiki/cron)         |                                                                                     |
-| 2 | [dediprog](https://github.com/yimjiajun/.dotfiles/wiki/dediprog) |                                                                                     |
-| 3 | [gpg](https://github.com/yimjiajun/.dotfiles/wiki/gpg)           |                                                                                     |
-| 4 | [khal](https://github.com/yimjiajun/.dotfiles/wiki/khal)         | [khal + at](https://github.com/yimjiajun/.dotfiles/wiki/khal_at)                    |
-|   |                                                                  | [khal + vdirsyncer](https://github.com/yimjiajun/.dotfiles/wiki/khal_vdirsyncer) |
-| 5 | [pass](https://github.com/yimjiajun/.dotfiles/wiki/pass)
-| 6 | [ssh](https://github.com/yimjiajun/.dotfiles/wiki/ssh)           |                                                                                     |
-
-[^install_1]: install specific project. `~/.dotfiles/install.sh --tools` or `~/.dotfiles/install.sh --prj`. `~/.dotfiles/install.sh --help` for more information
+[^i1]: install specific project. `~/.dotfiles/install.sh --tools` or `~/.dotfiles/install.sh --prj`. `~/.dotfiles/install.sh --help` for more information
