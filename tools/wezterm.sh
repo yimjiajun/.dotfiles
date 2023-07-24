@@ -29,9 +29,9 @@ install() {
 				-o -name 'Administrator' -o -name 'User' \) \
 				-not -path /mnt/c/Users)
 
-		$common display_info "copy" "conifguration file to \e[1m$usr_path/.wezterm.lua\e[0m"
-		dd if=$data_path/$data_file of=$usr_path/.wezterm.lua || {
-			$common display_error "copy $tool configuration $data_path/$data_file to $usr_path/.wezterm.lua failed"
+		$common display_info "copy" "conifguration file to \e[1m$usr_path/$data_file\e[0m"
+		dd if=$data_path/$data_file of=$usr_path/$data_file || {
+			$common display_error "copy $tool configuration $data_path/$data_file to $usr_path/$data_file failed"
 			exit 1
 		}
 
