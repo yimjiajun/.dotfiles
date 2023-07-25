@@ -8,7 +8,6 @@ install="$path/manual/install_pkg_cmd.sh"
 install() {
 	local conf_path="$(dirname $(readlink -f $0))/../.localdata/khal"
 	local local_conf_path="$HOME/.config/khal"
-	local local_data_path="$HOME/.calendars"
 
 	$common display_title "Install $tool"
 
@@ -25,18 +24,11 @@ install() {
 		return
 	fi
 
-	if ! [[ -d ${conf_path}/.calendars ]]; then
-		return
-	fi
-
 	$common display_info "Link" "configuration file -> \033[1m ${local_conf_path}/config\033[0m"
-	ln -sf  ${conf_path}/config ${local_conf_path}/config
+	ln -sfr  ${conf_path}/config ${local_conf_path}/config
 
 	$common display_info "Link" "notification file -> \033[1m ${local_conf_path}/notify.sh\033[0m"
-	ln -sf  ${conf_path}/notify.sh ${local_conf_path}/notify.sh
-
-	$common display_info "Link" "calendar file -> \033[1m ${local_conf_path}/calendar\033[0m"
-	ln -sfr  ${conf_path}/.calendars ${local_data_path}
+	ln -sfr  ${conf_path}/notify.sh ${local_conf_path}/notify.sh
 
 	if [[ -f ${local_conf_path}/notify.sh ]] &&\
 		[[ -f "$HOME/.$(basename $SHELL)rc" ]] &&\
