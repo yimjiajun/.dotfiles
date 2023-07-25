@@ -45,7 +45,7 @@ install() {
 		# sed -i '/notify-send()/d' $HOME/.$(basename $SHELL)rc
 		$common display_info "add" "notification file on startup -> \033[1m$HOME/.$(basename $SHELL)rc\033[0m"
 		echo 'notify-send() { wsl-notify-send.exe "${@}"; }' >> $HOME/.$(basename $SHELL)rc
-		source "source $HOME/.$(basename $SHELL)rc"
+		source "$HOME/.$(basename $SHELL)rc"
 	fi
 
 	$common display_info "installed" "$tool"
