@@ -10,12 +10,15 @@ common="$path/../app/common.sh"
 data_path="$path/../data"
 data_file="$data_path/.crontab"
 
-log_time=$(date +%Y-%m-%d_%H:%M:%S)
-
-
 setup_vdirsyncer_schedule_job() {
 	cat <<-EOF >> $dest_file
-	*/30 * * * * ($(which vdirsyncer) sync | echo "$log_time : vdirsyncer sync") 1>> $log_file 2>&1
+	*/30 * * * * (date; echo "\n* [vdirsyncer sync]\n"; $(which vdirsyncer) sync ) 1>> /tmp/.crontab.log 2>&1
+	EOF
+}
+
+setup_khal_schedule_job() {
+	cat <<-EOF >> $dest_file
+	*/9 * * * * (date; echo "\n* [Khal Calendar]\n"; $HOME/.config/khal/notify.sh --add ) 1>> /tmp/.crontab.log 2>&1
 	EOF
 }
 
@@ -68,7 +71,10 @@ sync_local_defined_crontab_file() {
 }
 
 install() {
-	local schedule_jobs=('setup_vdirsyncer_schedule_job')
+	local schedule_jobs=( \
+		'setup_vdirsyncer_schedule_job' \
+		'setup_khal_schedule_job' \
+	)
 
 	$common display_title "Install $tool schedule command"
 
