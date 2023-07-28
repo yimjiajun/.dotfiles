@@ -3,9 +3,10 @@ tput clear
 
 func=('file_manager' 'git_manager' 'calendar_manager'\
 	'task_manager' 'browser_bookmarks_manager'\
-	'fun_manager' 'disk_manager')
+	'fun_manager' 'disk_manager' 'vim_manager' \
+	'image_manager')
 
-func=($(printf '%s\n' "${func[@]}"|sort))
+func=($(printf '%s\n' "${func[@]}" | sed 's/_manager//g' | sort))
 common="$(dirname $(readlink -f "$0"))/common.sh"
 path="$(dirname $(readlink -f "$0"))"
 name="$(basename $0 | sed 's/\.sh$//')"
@@ -201,7 +202,25 @@ fun_manager() {
 
 }
 
-select option in 'quit' 'vim' "${func[@]}"; do
+image_manager() {
+	local image_manager="$(dirname $(readlink -f "$0"))/manager_convert.sh"
+
+	$common display_subtitle "IMAGE MANAGER"
+
+	! [[ -f $image_manager ]] && {
+		$common display_error "not supported image manager"
+		return 1
+	}
+
+	$image_manager || {
+		$common display_error "image operating failed"
+		return 1
+	}
+
+	return 0
+}
+
+select option in 'quit' "${func[@]}"; do
 	tput clear
 	$common display_title "${name^^}"
 
@@ -209,11 +228,8 @@ select option in 'quit' 'vim' "${func[@]}"; do
 		'quit')
 			exit 0
 			;;
-		'vim')
-			vim_manager
-			;;
 		*)
-			$option || {
+			"${option}"_manager || {
 				$common display_error "invalid option"
 				exit 1
 			}
