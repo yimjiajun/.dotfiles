@@ -52,7 +52,6 @@ change_ratio() {
 		return 1
 	fi
 
-
 	convert "$img" -resize "$ratio" "$img_new" || {
 		$common display_error "convert $img failed !"
 		return 1

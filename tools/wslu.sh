@@ -15,10 +15,7 @@ install() {
 		exit 1
 	}
 
-	local usr_path=$(find /mnt/c/Users -maxdepth 1 -type d -not \( \
-			-name 'Default' -o -name 'Public' \
-			-o -name 'Administrator' -o -name 'User' \) \
-			-not -path /mnt/c/Users)
+	local usr_path="$(wslpath $(wslvar USERPROFILE))"
 
 	$common display_info "copy" "conifguration file to \e[1m$usr_path/$data_file\e[0m"
 	dd if=$data_path/$data_file of=$usr_path/$data_file || {
@@ -32,6 +29,15 @@ install() {
 		$common display_error "unable to run wslu package"
 		exit 1
 	}
+
+	$common display_info "link" "Windows user directory to \e[1m$HOME\e[0m"
+	$common display_info "link" "$usr_path/Desktop -> \e[1m$HOME/Desktop\e[0m"
+	$common display_info "link" "$usr_path/Downloads -> \e[1m$HOME/Downloads\e[0m"
+	$common display_info "link" "$usr_path/Pictures -> \e[1m$HOME/Pictures\e[0m"
+
+	ln -sf "$usr_path/Desktop" "$HOME"
+	ln -sf "$usr_path/Downloads" "$HOME"
+	ln -sf "$usr_path/Pictures" "$HOME"
 }
 
 if [[ $OSTYPE != linux-gnu* ]]; then
