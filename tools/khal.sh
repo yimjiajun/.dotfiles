@@ -5,9 +5,31 @@ path=$(dirname $(readlink -f $0))
 common="$path/../app/common.sh"
 install="$path/manual/install_pkg_cmd.sh"
 
+setup_conf_path="$(dirname $(readlink -f $0))/../.localdata/khal"
+local_conf_path="$HOME/.config/khal"
+local_conf_notify="$HOME/.config/khal/notify.sh"
+
+add_calendar_notify_in_schedule() {
+	local job="*/20 * * * * (date; echo -e '\n* [Khal Calendar]\n'; $HOME/.config/khal/notify.sh) 1>> /tmp/.crontab.log 2>&1"
+
+	if [[ $(crontab -l | grep -c "$local_conf_notify") -ne 0 ]]; then
+		$common display_info "added" "Schedule calendar notification"
+		return 0
+	fi
+
+	$common display_info "add" "calendar notification on schedule"
+
+	(crontab -l 2>/dev/null; echo "$job") \
+		| crontab - || \
+	{
+		$common display_error "add calendar notification on crontab failed !"
+		return 1
+	}
+
+	return 0
+}
+
 install() {
-	local conf_path="$(dirname $(readlink -f $0))/../.localdata/khal"
-	local local_conf_path="$HOME/.config/khal"
 
 	$common display_title "Install $tool"
 
@@ -20,22 +42,23 @@ install() {
 		mkdir -p ${local_conf_path}
 	fi
 
-	if ! [[ -f ${conf_path}/config ]]; then
-		return
+	if ! [[ -f ${setup_conf_path}/config ]]; then
+		return 0
 	fi
 
 	$common display_info "Link" "configuration file -> \033[1m ${local_conf_path}/config\033[0m"
-	ln -sfr  ${conf_path}/config ${local_conf_path}/config
+	ln -sfr  ${setup_conf_path}/config ${local_conf_path}/config
 
-	$common display_info "Link" "notification file -> \033[1m ${local_conf_path}/notify.sh\033[0m"
-	ln -sfr  ${conf_path}/notify.sh ${local_conf_path}/notify.sh
+	$common display_info "Link" "notification file -> \033[1m${local_conf_notify}\033[0m"
+	ln -sfr  ${setup_conf_path}/notify.sh $local_conf_notify
 
-	if [[ -f ${local_conf_path}/notify.sh ]] &&\
-		[[ -f "$HOME/.$(basename $SHELL)rc" ]] &&\
-		[[ $(grep -c "${local_conf_path}/notify.sh" "$HOME/.$(basename $SHELL)rc") -eq 0 ]]; \
-	then
-		$common display_info "Add" "notification file on startup -> \033[1m$HOME/.$(basename $SHELL)rc\033[0m"
-		echo "${local_conf_path}/notify.sh" >> $HOME/.$(basename $SHELL)rc
+
+	if [[ -f $local_conf_notify ]]; then
+		add_calendar_notify_in_schedule
+		local ret="$?"
+
+		[[ "$ret" -ne 0 ]] && \
+			exit 1
 	fi
 }
 

@@ -11,14 +11,34 @@ data_path="$path/../data"
 data_file="$data_path/.crontab"
 
 setup_vdirsyncer_schedule_job() {
+	read -p "Add vdirsyncer schedule job ? [Y/n]: " -r choice
+
+	if ! [[ $choice =~ ^[Yy]$ ]] || [[ -z $choice ]];
+	then
+		$common display_info "skip" "vdirsyncer schedule job"
+		return 0
+	fi
+
+	$common display_info "add" "vdirsyncer schedule job"
+
 	cat <<-EOF >> $dest_file
 	*/30 * * * * (date; echo "\n* [vdirsyncer sync]\n"; $(which vdirsyncer) sync ) 1>> /tmp/.crontab.log 2>&1
 	EOF
 }
 
 setup_khal_schedule_job() {
+	read -p "Add khal schedule job ? [Y/n]: " -r choice
+
+	if ! [[ $choice =~ ^[Yy]$ ]] || [[ -z $choice ]];
+	then
+		$common display_info "skip" "khal schedule job"
+		return 0
+	fi
+
+	$common display_info "add" "khal schedule job"
+
 	cat <<-EOF >> $dest_file
-	*/9 * * * * (date; echo "\n* [Khal Calendar]\n"; $HOME/.config/khal/notify.sh --add ) 1>> /tmp/.crontab.log 2>&1
+	*/20 * * * * (date; echo -e '\n* [Khal Calendar]\n'; $HOME/.config/khal/notify.sh) 1>> /tmp/.crontab.log 2>&1
 	EOF
 }
 
@@ -95,7 +115,7 @@ install() {
 	$common display_subtitle "Setup $tool schedule command"
 
 	for job in ${schedule_jobs[@]}; do
-		$common display_info "add" "$job"
+		$common display_info "schedule" "$job"
 
 		$job || {
 			$common display_error "$job failed !"
@@ -105,11 +125,13 @@ install() {
 
 	$tool -u $USER $dest_file
 
-	$common display_info "intalled" "$tool schedule command!"
+	$common display_info "intalled" "$tool schedule command"
 
 	$common display_subtitle "Lists of $tool schedule command"
 
+	echo -e "\e[1m"
 	$tool -u $USER -l
+	echo -e "\e[0m"
 }
 
 if [[ -z "$(which $tool)" ]];
