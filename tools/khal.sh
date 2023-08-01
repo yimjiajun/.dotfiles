@@ -7,12 +7,16 @@ install="$path/manual/install_pkg_cmd.sh"
 
 setup_conf_path="$(dirname $(readlink -f $0))/../.localdata/khal"
 local_conf_path="$HOME/.config/khal"
-local_conf_notify="$HOME/.config/khal/notify.sh"
+local_conf_notify="~/.config/khal/notify.sh"
+
+setup_bash_file="$path/../data/.bash_setup"
+local_bash_file="$HOME/.bash_$USER"
+install_bash_setup="$path/bash.sh install"
 
 add_calendar_notify_in_schedule() {
 	local job="*/20 * * * * (date; echo -e '\n* [Khal Calendar]\n'; $HOME/.config/khal/notify.sh) 1>> /tmp/.crontab.log 2>&1"
 
-	if [[ $(crontab -l | grep -c "$local_conf_notify") -ne 0 ]]; then
+	if [[ $(crontab -l | grep -c "$local_conf_path/notify.sh") -ne 0 ]]; then
 		$common display_info "added" "Schedule calendar notification"
 		return 0
 	fi
@@ -46,12 +50,35 @@ install() {
 		return 0
 	fi
 
-	$common display_info "Link" "configuration file -> \033[1m ${local_conf_path}/config\033[0m"
+	$common display_info "link" "configuration file -> \033[1m ${local_conf_path}/config\033[0m"
 	ln -sfr  ${setup_conf_path}/config ${local_conf_path}/config
 
-	$common display_info "Link" "notification file -> \033[1m${local_conf_notify}\033[0m"
-	ln -sfr  ${setup_conf_path}/notify.sh $local_conf_notify
+	$common display_info "link" "notification file -> \033[1m ${local_conf_path}/notify.sh\033[0m"
+	ln -sfr  ${setup_conf_path}/notify.sh ${local_conf_path}/notify.sh
 
+	if ! [[ -f $local_bash_file ]]; then
+		$install_bash_setup || {
+			$common display_info "warn" "failed to setup customize bash startup"
+		}
+	fi
+
+	if [[ -f $local_bash_file ]] && \
+		[[ $(grep -c "$local_conf_notify --dry-run" "$local_bash_file") -eq 0 ]];
+	then
+		if [[ $(grep -c "$local_conf_notify --dry-run" "$HOME/.$(basename "$SHELL")rc") -ne 0 ]];
+		then
+			sed -i "/$local_conf_notify --dry-run/d" "$HOME/.$(basename "$SHELL")rc"
+		fi
+
+		$common display_info "append" "$local_conf_notify --dry-run -> \033[1m$local_bash_file\033[0m"
+		echo -e "\n$local_conf_notify --dry-run" >> "$local_bash_file"
+	fi
+
+	if [[ $(grep -c "source $local_bash_file" "$HOME/.$(basename "$SHELL")rc") -eq 0 ]];
+	then
+		$common display_info "append" "bash startup file -> \033[1m$local_bash_file\033[0m"
+		echo -e "\nsource $local_bash_file" >> "$HOME/.$(basename "$SHELL")rc"
+	fi
 
 	if [[ -f $local_conf_notify ]]; then
 		add_calendar_notify_in_schedule
