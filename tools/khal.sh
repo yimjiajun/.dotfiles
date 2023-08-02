@@ -24,7 +24,7 @@ add_calendar_notify_in_schedule() {
 	$common display_info "add" "calendar notification on schedule"
 
 	(crontab -l 2>/dev/null; echo "$job") \
-		| crontab - || \
+		| crontab -u $USER - || \
 	{
 		$common display_error "add calendar notification on crontab failed !"
 		return 1
@@ -80,7 +80,7 @@ install() {
 		echo -e "\nsource $local_bash_file" >> "$HOME/.$(basename "$SHELL")rc"
 	fi
 
-	if [[ -f $local_conf_notify ]]; then
+	if [[ -f ${local_conf_path}/notify.sh ]]; then
 		add_calendar_notify_in_schedule
 		local ret="$?"
 
