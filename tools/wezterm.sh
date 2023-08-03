@@ -44,23 +44,20 @@ install() {
 
 		. /etc/os-release
 
-		$common display_info "download" "wezterm.AppImage"
-		curl -Lo $tmp_dir/wezterm.AppImage "https://github.com/wez/wezterm/releases/download/20230712-072601-f4abf8fd/WezTerm-20230712-072601-f4abf8fd-${ID}${VERSION_ID}.AppImage" || {
-			$common display_error "download wezterm.AppImage failed"
+		[[ $ID != 'ubuntu' ]] && {
+			$common display_error "$ID not support"
+			exit 3
+		}
+
+		$common display_info "download" "wezterm.deb"
+		curl -Lo $tmp_dir/wezterm.deb "https://github.com/wez/wezterm/releases/download/20230712-072601-f4abf8fd/wezterm-20230712-072601-f4abf8fd.${ID}${VERSION_ID}.deb" || {
+			$common display_error "download wezterm.deb failed"
 			exit 1
 		}
 
-		$common display_info "executable" "wezterm.AppImage"
-		chmod +x $tmp_dir/wezterm.AppImage || {
-			$common display_error "chmod wezterm.AppImage failed"
-			exit 1
-		}
-
-		[[ -d $HOME/.local/bin ]] || mkdir -p $HOME/.local/bin
-
-		$common display_info "copy" "\e[1mwezterm.AppImage to $HOME/.local/bin/wezterm\e[0m"
-		dd if=$tmp_dir/wezterm.AppImage of=$HOME/.local/bin/wezterm || {
-			$common display_error "install wezterm failed"
+		$common display_info "install" "wezterm.deb"
+		sudo apt-get install -y $tmp_dir/wezterm.deb || {
+			$common display_error "chmod wezterm.deb failed"
 			exit 1
 		}
 	elif [[ $OSTYPE == darwin* ]]; then
@@ -74,7 +71,7 @@ install() {
 	fi
 
 	$common display_info "link" "$data_path/$data_file to $HOME/.wezterm.lua"
-	ln -s $data_path/$data_file $HOME/.wezterm.lua || {
+	ln -sf $data_path/$data_file $HOME/.wezterm.lua || {
 		$common display_error "link $data_path/$data_file to $HOME/.wezterm.lua failed"
 		exit 1
 	}
