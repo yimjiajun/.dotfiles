@@ -14,7 +14,7 @@ install() {
 		exit 1
 	}
 
-	if [[ $(grep -c 'export PATH=~/.local/bin:$PATH' ~/.bashrc) -eq 0 ]]; then
+	if [[ $(grep -c 'export PATH=~/.local/bin:\"$PATH\"' ~/.bashrc) -eq 0 ]]; then
 		$common display_info "$(basename $SHELL)" 'export PATH=~/.local/bin:$PATH to ~/.bashrc'
 		echo 'export PATH=~/.local/bin:$PATH' >> ~/.bashrc
 	fi

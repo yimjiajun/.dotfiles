@@ -3,9 +3,9 @@
 path=$(dirname $(readlink -f $0))
 common="$path/app/common.sh"
 
-if [[ $(grep -c "export PATH=~/.local/bin:$PATH" ~/.bashrc) -eq 0 ]]; then
-	echo 'export PATH=~/.local/bin:"$PATH"' >> ~/.bashrc
-	source ~/.bashrc
+if [[ $(grep -c 'export PATH=~/.local/bin:\"$PATH\"' ~/.bashrc) -eq 0 ]]; then
+	echo 'export PATH=~/.local/bin:$PATH' >> ~/.bashrc
+	export PATH="$HOME/.local/bin:$PATH"
 fi
 
 if [[ $# -eq 0 ]]; then
