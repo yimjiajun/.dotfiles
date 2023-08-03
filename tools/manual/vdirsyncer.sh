@@ -12,15 +12,16 @@ install() {
 
 	$common display_title "Install vdirsyncer"
 
-	$install $tool python3-aiohttp python3-oauthlib python3-requests-oauthlib || \
-	{
-		pip3 install --upgrade-strategy eager $tool aiohttp-oauthlib || {
-			$common display_error "Install vdirsyncer failed !"
-			exit 1
-		}
-
-		$common display_info "warn" "installed in .local/bin/vdirsyncer"
+	$install $tool python3-aiohttp python3-oauthlib python3-requests-oauthlib || {
+		$common display_info "warn" "install by pip3 will installed in .local/bin/vdirsyncer"
 		$common display_info "warn" "crontab will not work ! if not provided by full path of vdirsyncer"
+	}
+
+	$common display_info "install" "override installed on root $tool, to access APIs properly"
+	$common display_info "fork" "will keep both diferrent path of $tool"
+	pip3 install --upgrade-strategy eager $tool aiohttp-oauthlib || {
+		$common display_error "Install vdirsyncer failed !"
+		exit 1
 	}
 
 	if ! [[ -f ${data_path}/config ]]; then
