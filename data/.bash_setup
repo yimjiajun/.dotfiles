@@ -1,3 +1,49 @@
+export LANG=en_US.UTF-8
+
+if [ -f "$HOME/.cargo/env" ];
+then
+	. "$HOME/.cargo/env"
+	source /home/jun/.cargo/env
+fi
+
+if [ -d "$HOME/.local/bin" ] \
+	&& [[ $(echo "$PATH" | grep -c "$HOME/.local/bin") -eq 0 ]];
+then
+	export PATH=~/.local/bin:"$PATH"
+fi
+
+if [ -d "$HOME/.nvm" ] && [[ -z "$NVM_DIR" ]];
+then
+	export NVM_DIR="$HOME/.nvm"
+	[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+	[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+fi
+
+if [ -f "$HOME/.bash_aliases" ] \
+	&& [[ -z "$BASH_ALIASES" ]];
+then
+	source ~/.bash_aliases
+fi
+
+if [[ $SHELL =~ 'zsh' ]];
+then
+	local zsh_plugins=()
+
+	if [[ -n "$(command -v tmux)" ]]; then
+		export ZSH_TMUX_AUTOSTART='true'
+		zsh_plugins+=(tmux)
+	fi
+
+	if [[ -n "$(command -v git)" ]]; then
+		zsh_plugins+=(git)
+	fi
+
+	plugins=( \
+		vi-mode \
+		${zsh_plugins[@]} \
+	)
+fi
+
 if [[ $(command -v nvim) ]]; then
 	export EDITOR=nvim
 elif [[ $(command -v vim) ]]; then

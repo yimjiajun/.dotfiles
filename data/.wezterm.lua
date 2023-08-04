@@ -87,12 +87,12 @@ if is_windows() then
 	})
 
 elseif is_unix() then
-	config.default_prog = { 'bash' }
+	-- config.default_prog = { 'bash' }
 end
 
 config.initial_cols = 80
 config.initial_rows = 30
-config.font_size = 12.0
+config.font_size = 14.0
 config.window_padding = {
   left = 0,
   right = 0,
