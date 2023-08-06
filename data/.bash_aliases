@@ -26,5 +26,3 @@ fi
 
 alias p='cd -'
 alias c='cd ..'
-
-export BASH_ALIASES="$HOME/.bash_aliases"
