@@ -27,7 +27,7 @@ fi
 
 if [[ $SHELL =~ 'zsh' ]];
 then
-	local zsh_plugins=()
+	zsh_plugins=()
 
 	if [[ -n "$(command -v tmux)" ]]; then
 		export ZSH_TMUX_AUTOSTART='true'
