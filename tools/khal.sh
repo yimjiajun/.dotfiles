@@ -13,8 +13,10 @@ setup_bash_file="$path/../data/.bash_setup"
 local_bash_file="$HOME/.bash_$USER"
 install_bash_setup="$path/bash.sh install"
 
+sync_interval_min=15
+
 add_calendar_notify_in_schedule() {
-	local job="*/20 * * * * (date; echo -e '\n* [Khal Calendar]\n'; $HOME/.config/khal/notify.sh) 1>> /tmp/.crontab.log 2>&1"
+	local job="*/$sync_interval_min * * * * (date; echo -e '\n* [Khal Calendar]\n'; $HOME/.config/khal/notify.sh --sync) 1>> /tmp/.crontab.log 2>&1"
 
 	if [[ $(crontab -l | grep -c "$local_conf_path/notify.sh") -ne 0 ]]; then
 		$common display_info "added" "Schedule calendar notification"
@@ -62,16 +64,18 @@ install() {
 		}
 	fi
 
+	local notify_cmd="$local_conf_notify --dry-run -p $sync_interval_min"
+
 	if [[ -f $local_bash_file ]] && \
-		[[ $(grep -c "$local_conf_notify --dry-run" "$local_bash_file") -eq 0 ]];
+		[[ $(grep -c "$notify_cmd" "$local_bash_file") -eq 0 ]];
 	then
-		if [[ $(grep -c "$local_conf_notify --dry-run" "$HOME/.$(basename "$SHELL")rc") -ne 0 ]];
+		if [[ $(grep -c "$notify_cmd" "$HOME/.$(basename "$SHELL")rc") -ne 0 ]];
 		then
-			sed -i "/$local_conf_notify --dry-run/d" "$HOME/.$(basename "$SHELL")rc"
+			sed -i "/$notify_cmd/d" "$HOME/.$(basename "$SHELL")rc"
 		fi
 
-		$common display_info "append" "$local_conf_notify --dry-run -> \033[1m$local_bash_file\033[0m"
-		echo -e "\n$local_conf_notify --dry-run" >> "$local_bash_file"
+		$common display_info "append" "$notify_cmd -> \033[1m$local_bash_file\033[0m"
+		echo -e "$notify_cmd" >> "$local_bash_file"
 	fi
 
 	if [[ $(grep -c "source $local_bash_file" "$HOME/.$(basename "$SHELL")rc") -eq 0 ]];

@@ -24,25 +24,6 @@ then
 	source ~/.bash_aliases
 fi
 
-if [[ $SHELL =~ 'zsh' ]];
-then
-	zsh_plugins=()
-
-	if [[ -n "$(command -v tmux)" ]]; then
-		export ZSH_TMUX_AUTOSTART='true'
-		zsh_plugins+=(tmux)
-	fi
-
-	if [[ -n "$(command -v git)" ]]; then
-		zsh_plugins+=(git)
-	fi
-
-	plugins=( \
-		vi-mode \
-		${zsh_plugins[@]} \
-	)
-fi
-
 if [[ $(command -v nvim) ]]; then
 	export EDITOR=nvim
 elif [[ $(command -v vim) ]]; then
@@ -62,4 +43,4 @@ fi
 	export LESS_TERMCAP_us=$'\e[1;4;31m'
 }
 
-~/.config/khal/notify.sh --dry-run
+~/.config/khal/notify.sh --dry-run -p 15

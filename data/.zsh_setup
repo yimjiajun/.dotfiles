@@ -1,0 +1,15 @@
+zsh_plugins=()
+
+if [[ -n "$(command -v tmux)" ]]; then
+	export ZSH_TMUX_AUTOSTART='true'
+	zsh_plugins+=(tmux)
+fi
+
+if [[ -n "$(command -v git)" ]]; then
+	zsh_plugins+=(git)
+fi
+
+plugins=( \
+	vi-mode \
+	${zsh_plugins[@]} \
+)
