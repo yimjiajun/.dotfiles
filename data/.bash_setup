@@ -44,3 +44,4 @@ fi
 }
 
 ~/.config/khal/notify.sh --dry-run -p 15
+eval "$(zoxide init bash)"
