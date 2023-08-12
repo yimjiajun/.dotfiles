@@ -50,7 +50,12 @@ fi
 
 if [[ $(which zoxide) ]];
 then
-	eval "$(zoxide init bash)"
+	if [[ "$(basename "$SHELL")" == zsh ]];
+	then
+		eval "$(zoxide init zsh)"
+	else
+		eval "$(zoxide init bash)"
+	fi
 fi
 
 if [[ $(which thefuck) ]];

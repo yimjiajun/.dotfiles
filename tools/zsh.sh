@@ -54,7 +54,16 @@ setup_zsh() {
 	fi
 }
 
+pre_setup() {
+	if [[ $(which zsh) ]]; then
+		rm $HOME/.zshrc 1>/dev/null 2>&1
+		rm -rf $HOME/.oh-my-zsh 1>/dev/null 2>&1
+	fi
+}
+
 install() {
+	pre_setup
+
 	$common display_title "Install $tool"
 
 	$install $tool || {
