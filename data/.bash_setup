@@ -48,17 +48,19 @@ then
 	~/.config/khal/notify.sh --dry-run -p 15
 fi
 
-if [[ $(which zoxide) ]];
-then
-	if [[ "$(basename "$SHELL")" == zsh ]];
+if [[ $(which zoxide) ]] \
+	&& [[ "$(basename "$SHELL")" == bash ]];
 	then
-		eval "$(zoxide init zsh)"
-	else
-		eval "$(zoxide init bash)"
-	fi
+	eval "$(zoxide init bash)"
 fi
 
 if [[ $(which thefuck) ]];
 then
 	eval "$(thefuck --alias)"
+fi
+
+if [[ $(command -v zsh) ]] \
+	|| [[ "$(basename "$SHELL")" ]];
+then
+	zsh
 fi

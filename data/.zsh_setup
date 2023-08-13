@@ -1,3 +1,9 @@
+if [[ -z $(command -v zsh) ]] \
+	|| [[ "$(basename "$SHELL")" != zsh ]];
+then
+	exit 0
+fi
+
 zsh_plugins=()
 
 if [[ -n "$(command -v tmux)" ]]; then
@@ -13,3 +19,10 @@ plugins=( \
 	vi-mode \
 	${zsh_plugins[@]} \
 )
+
+if [[ $(which zoxide) ]]; then
+	eval "$(zoxide init zsh)"
+fi
+
+# come from bash have to change the $PATH.
+export PATH=$HOME/bin:/usr/local/bin:$PATH

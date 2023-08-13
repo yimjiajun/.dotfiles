@@ -5,6 +5,13 @@ path=$(dirname $(readlink -f $0))
 common="$path/../app/common.sh"
 install="$path/manual/install_pkg_cmd.sh"
 
+pre_setup() {
+	if [[ $(which zsh) ]]; then
+		rm $HOME/.zshrc 1>/dev/null 2>&1
+		rm -rf $HOME/.oh-my-zsh 1>/dev/null 2>&1
+	fi
+}
+
 setup_zsh() {
 	if [ -f "$path/../data/.zsh_setup" ]; then
 		$common display_info "link" ".zshrc -> \033[1m $HOME/.zsh_${USER}\033[0m"
@@ -40,11 +47,9 @@ setup_zsh() {
 
 	local src_oh_my_zsh_line=$(grep -n 'source $ZSH/oh-my-zsh.sh' $HOME/.zshrc \
 		| cut -d ':' -f 1)
-	local source_usr_bash_setup='[[ -f "$HOME/.bash_$USER" ]] && source "$HOME/.bash_$USER"'
 	local source_usr_zsh_setup='[[ -f "$HOME/.bash_$USER" ]] && source "$HOME/.zsh_$USER"'
 
 	if [[ -n "$src_oh_my_zsh_line" ]]; then
-		sed -i "$src_oh_my_zsh_line a $source_usr_bash_setup" $HOME/.zshrc
 		sed -i "$src_oh_my_zsh_line i $source_usr_zsh_setup" $HOME/.zshrc
 	fi
 
@@ -53,14 +58,6 @@ setup_zsh() {
 		exit 1
 	fi
 }
-
-pre_setup() {
-	if [[ $(which zsh) ]]; then
-		rm $HOME/.zshrc 1>/dev/null 2>&1
-		rm -rf $HOME/.oh-my-zsh 1>/dev/null 2>&1
-	fi
-}
-
 install() {
 	pre_setup
 
@@ -84,10 +81,6 @@ install() {
 		$common display_error "install $tool failed !"
 		exit 1
 	fi
-
-	$common display_info "chg shell" "$tool"
-
-	sudo chsh -s $(which $tool) $USER
 
 	setup_zsh
 
