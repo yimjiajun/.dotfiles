@@ -43,14 +43,13 @@ fi
 	export LESS_TERMCAP_us=$'\e[1;4;31m'
 }
 
-if [[ -f '~/.config/khal/notify.sh' ]];
+if [[ -f "$HOME/.config/khal/notify.sh" ]];
 then
 	~/.config/khal/notify.sh --dry-run -p 15
 fi
 
-if [[ $(which zoxide) ]] \
-	&& [[ "$(basename "$SHELL")" == bash ]];
-	then
+if [[ $(which zoxide) ]];
+then
 	eval "$(zoxide init bash)"
 fi
 
@@ -59,8 +58,8 @@ then
 	eval "$(thefuck --alias)"
 fi
 
-if [[ $(command -v zsh) ]] \
-	|| [[ "$(basename "$SHELL")" ]];
+if [[ "$(command -v zsh)" ]] \
+	&& [[ "$(basename "$SHELL")" != 'zsh' ]];
 then
 	zsh
 fi
