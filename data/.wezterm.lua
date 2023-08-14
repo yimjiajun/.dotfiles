@@ -70,7 +70,7 @@ if is_windows() then
 	})
 
 elseif is_unix() then
-	-- config.default_prog = { 'bash' }
+	config.default_prog = { 'bash' }
 end
 
 config.initial_cols = 80
