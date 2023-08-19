@@ -13,3 +13,4 @@
 [submodule "doc"]
 	path = doc
 	url = https://github.com/yimjiajun/.dotfiles.wiki.git
+	branch = main
