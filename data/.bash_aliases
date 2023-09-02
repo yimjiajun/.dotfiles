@@ -40,5 +40,10 @@ then
 	}
 fi
 
+if [[ $(which zoxide) ]];
+then
+	alias zd='z $(zqi)'
+fi
+
 alias p='cd -'
 alias c='cd ..'
