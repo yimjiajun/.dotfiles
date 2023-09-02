@@ -6,6 +6,7 @@
 	alias n='nvim'
 	alias nn='nvim --noplugin'
 	alias nc='nvim --clean'
+	alias ns='nvim +"Session"'
 }
 
 [[ -n $(command -v xxd) ]] && {
