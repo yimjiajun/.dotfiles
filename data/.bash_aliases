@@ -3,10 +3,24 @@
 }
 
 [[ -n $(command -v nvim) ]] && {
-	alias n='nvim'
-	alias nn='nvim --noplugin'
-	alias nc='nvim --clean'
-	alias ns='nvim +"Session"'
+	if [[ -n $(command -v neovide) ]];
+	then
+		nvim_cmd='neovide'
+		nvim_cmd_delimiter='--'
+
+		[[ -d '/run/WSL' ]] && {
+			nvim_cmd="$nvim_cmd --wsl"
+		}
+
+	else
+		nvim_cmd='nvim'
+		nvim_cmd_delimiter=''
+	fi
+
+	alias n="$nvim_cmd"
+	alias nn="$nvim_cmd $nvim_cmd_delimiter --noplugin"
+	alias nc="$nvim_cmd $nvim_cmd_delimiter --clean"
+	alias ns="$nvim_cmd $nvim_cmd_delimiter +'Session'"
 }
 
 [[ -n $(command -v xxd) ]] && {
