@@ -26,7 +26,7 @@ then
 	[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 fi
 
-if [ -f "$HOME/.bash_aliases" ];
+if [[ -f "$HOME/.bash_aliases" && -z $BASH_ALIASES_LOADED ]];
 then
 	source ~/.bash_aliases
 fi

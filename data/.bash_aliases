@@ -61,3 +61,5 @@ fi
 
 alias p='cd -'
 alias c='cd ..'
+
+export BASH_ALIASES_LOADED=1
