@@ -1,5 +1,12 @@
 export LANG=en_US.UTF-8
 
+dotfiles="$(find $HOME -maxdepth 1 -type d -name '.dotfiles' | head -n 1)"
+
+if [[ -d "$dotfiles" ]];
+then
+	export DOTFILES="$dotfiles"
+fi
+
 if [ -f "$HOME/.cargo/env" ];
 then
 	. "$HOME/.cargo/env"
