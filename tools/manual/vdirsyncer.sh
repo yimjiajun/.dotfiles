@@ -12,8 +12,8 @@ install() {
 
 	$common display_title "Install vdirsyncer"
 
-	$install $tool python3-aiohttp python3-oauthlib python3-requests-oauthlib || {
-		$common display_info "warn" "install by pip3 will installed in .local/bin/vdirsyncer"
+	$install python3-aiohttp python3-oauthlib python3-requests-oauthlib || {
+		$common display_info "warn" "install by pip3 will installed in $HOME/.local/bin/vdirsyncer"
 		$common display_info "warn" "crontab will not work ! if not provided by full path of vdirsyncer"
 	}
 
@@ -52,7 +52,19 @@ install() {
 		exit 1
 	}
 
-	$common display_info "installed" "vdirsyncer"
+	$common display_info "tips" "currently only pip3 installed $tool is working on discover on redirect urls"
+	$common display_info "tips" "install /usr/bin/$tool for crontab after discover"
+
+	$install $tool || {
+		$common display_info "warn" "install by pip3 will installed in $HOME/.local/bin/vdirsyncer"
+		$common display_info "warn" "crontab will not work ! if not provided by full path of vdirsyncer"
+	}
+
+	[[ -f "/usr/bin/$tool" ]] || {
+		$common display_info "warn" "failed to install $tool on /usr/bin/$tool for crontab"
+	}
+
+	$common display_info "installed" "vdirsyncer and discovered"
 }
 
 if [[ $OSTYPE != linux-gnu* ]]; then
