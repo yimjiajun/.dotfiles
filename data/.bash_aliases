@@ -30,7 +30,7 @@
 	alias n="neovim"
 	alias nn="neovim --noplugin"
 	alias nc="neovim --clean"
-	alias ns="neovim +'Session'"
+	alias ns="neovim +'GetSession'"
 }
 
 [[ -n $(command -v xxd) ]] && {
