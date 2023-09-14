@@ -8,7 +8,7 @@
 		local nvim_cmd='neovide'
 
 		if [[ -d '/run/WSL' ]]; then
-			nvim_cmd='neovide.exe'
+			nvim_cmd='neovide.exe --wsl '
 		fi
 
 		if [[ $(command -v $nvim_cmd) ]];
