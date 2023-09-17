@@ -1,6 +1,6 @@
 #!/bin/bash
 
-tool='translate-shell'
+tool='trans'
 path=$(dirname $(readlink -f $0))
 common="$path/../app/common.sh"
 
