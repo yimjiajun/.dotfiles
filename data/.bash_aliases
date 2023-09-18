@@ -19,18 +19,17 @@
 			nvim_cmd_delimiter=''
 		fi
 
-		if [[ $# -eq 0 ]];
-		then
-			$nvim_cmd
-		else
-			$nvim_cmd "$nvim_cmd_delimiter" "$@"
+		if [[ $# -gt 0 ]]; then
+			nvim_cmd="$nvim_cmd $nvim_cmd_delimiter $@"
 		fi
+
+		eval "$nvim_cmd"
 	}
 
 	alias n="neovim"
 	alias nn="neovim --noplugin"
 	alias nc="neovim --clean"
-	alias ns="neovim +'GetSession'"
+	alias ns="neovim +\'GetSession\'"
 }
 
 [[ -n $(command -v xxd) ]] && {
