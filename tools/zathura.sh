@@ -6,14 +6,24 @@ common="$path/../app/common.sh"
 install="$path/manual/install_pkg_cmd.sh"
 
 function install() {
+	$common display_title "Install $tool"
+
 	local tmp_dir="/tmp/$tool"
 	local git_url_packs=("https://github.com/pwmt/zathura-pdf-poppler.git" \
 		"https://github.com/pwmt/zathura.git")
+
+	local build_tool="ninja-build"
+
+	if [[ $OSTYPE == "darwin"* ]]; then
+		build_tool="ninja"
+	fi
+
 	local dep_packs=("meson" "libgtk-3-dev" "libglib2.0-dev" "libgirara-gtk3-3" "libmagic-dev" \
 		"libjson-glib-dev" "json-glib-1.0" "json-glib-1.0-common" \
 		"libpoppler-glib-dev" \
 		"gettext" "pkgconf" \
-		"sqlite3" "libsynctex2" "libseccomp2")
+		"sqlite3" "libsynctex2" "libseccomp2" "$build_tool")
+	
 	local install_cmd_seq=("meson build" "cd build" "ninja" "sudo ninja install")
 
 	for p in "${dep_packs[@]}"; do
