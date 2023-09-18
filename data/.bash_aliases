@@ -52,6 +52,32 @@ then
 	alias fh="\$(history | cut -d ' ' -f 3- | fzf --tac --no-sort --border=rounded)"
 fi
 
+function system_open() {
+	if [[ "$#" -eq 0 ]]; then
+		open --help
+	else
+		while [[ "$#" -gt 0 ]]; do
+			local arg="$1"; shift
+			local filename="$(basename $arg)"
+			local extension="${filename##*.}"
+
+			case "$extension" in
+				"pdf")
+					if [[ $(command -v zathura) ]]; then
+						zathura --fork --mode='fullscreen' "$arg"
+					else
+						open $arg
+					fi
+					;;
+				*) open $arg
+					;;
+			esac
+		done
+	fi
+}
+
+alias open='system_open'
+
 if [[ -z $(which d) ]];
 then
 	d () {
