@@ -5,6 +5,8 @@ path=$(dirname $(readlink -f $0))
 common="$path/../app/common.sh"
 
 install() {
+	$common display_title "Install $tool"
+
 	local tmp_dir="/tmp/translate-shell"
 
 	[ -d $tmp_dir ] && rm -rf $tmp_dir
