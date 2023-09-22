@@ -54,7 +54,7 @@ function install() {
 		$common display_info "install" "$(basename $url) ..."
 
 		for cmd in "${install_cmd_seq[@]}"; do
-			$cmd 1>/dev/null || {
+			$cmd || {
 				$common display_error "run $cmd failed !"
 				exit 1
 			}
