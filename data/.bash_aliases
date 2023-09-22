@@ -36,8 +36,11 @@
 	alias txt2bin='xxd -r'
 }
 
-if [[ -n $(command -v fzf) ]];
-then
+if [[ -n $(command -v exa) ]]; then
+	alias ls='exa'
+fi
+
+if [[ -n $(command -v fzf) ]]; then
 	alias fd="dir=\$(find . -type d -not -path '*/\.*' | \
 		fzf --border=rounded --preview-window=right:40% \
 		--preview=\"ls -ta --group-directories-first {}\" \
