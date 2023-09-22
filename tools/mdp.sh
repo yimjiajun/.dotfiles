@@ -32,7 +32,7 @@ function install() {
 		exit 1
 	}
 
-	make install 1>/dev/null || {
+	sudo make install 1>/dev/null || {
 		$common display_error "failed to install $tool !"
 		exit 1
 	}
