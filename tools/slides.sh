@@ -41,7 +41,7 @@ function install() {
 		exit 1
 	}
 
-	tar -C /usr/local/bin -xzf "$install_file" || {
+	sudo tar -C /usr/local/bin -xzf "$install_file" || {
 		$common display_error "failed to extract slides_${version}_${os_pkg_name}.tar.gz !"
 		exit 1
 	}
