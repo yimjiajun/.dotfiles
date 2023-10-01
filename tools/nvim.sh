@@ -1,5 +1,7 @@
 #!/bin/bash
 
+local neovim_config_git_link='https://github.com/yimjiajun/neovim.git'
+
 display_center() {
 	local text="$1"
 	local text_width=${#text}
@@ -853,6 +855,27 @@ function install_neovide() {
 	fi
 
 	return 0
+}
+
+function post_install_neovim(){
+	if [[ ~/.config/nvim -ef "$DOTFILES/nvim" ]]; then
+		echo -e "● Skip to download neovim configuration files, have been linked!" >&1
+		return 0
+	fi
+
+	if [[ -d ~/.config/nvim ]]; then
+		echo -e "● remove ~/.config/nvim" >&1
+
+		rm -rf ~/.config/nvim 1>/dev/null || {
+			echo -e "\033[31mError: Remove ~/.config/nvim failed!\033[0m" >&2
+			return 1
+		}
+	fi
+
+	git clone "$neovim_config_git_link" ~/.config/nvim || {
+		echo -e "\033[31mError: Download neovim configuration files failed!\033[0m" >&2
+		return 1
+	}
 }
 
 function main {
