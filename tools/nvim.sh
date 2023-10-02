@@ -872,6 +872,15 @@ function post_install_neovim(){
 		}
 	fi
 
+	if [[ ! -d ~/.config ]]; then
+		echo -e "● mkdir ~/.config" >&1
+
+		mkdir -p ~/.config 1>/dev/null || {
+			echo -e "\033[31mError: mkdir ~/.config failed!\033[0m" >&2
+			return 1
+		}
+	fi
+
 	git clone $neovim_config_git_link ~/.config/nvim || {
 		echo -e "\033[31mError: Download neovim configuration files failed!\033[0m" >&2
 		return 1
