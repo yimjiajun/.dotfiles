@@ -30,13 +30,11 @@ if [[ $# -eq 0 ]]; then
 		}
 	fi
 
-	if [[ -f $path/nvim/setup.sh ]]; then
-		$path/nvim/setup.sh || {
-			$common display_error "Setup NeoVim failed."
+	if [[ -d $path/nvim && ! -d ~/.config/nvim ]]; then
+		ln -sfr $path/nvim $HOME/.config/nvim || {
+			$common display_error "Link nvim failed."
 			exit 1
 		}
-
-		ln -sfr $path/nvim $HOME/.config/nvim
 	fi
 
 	exit 0
