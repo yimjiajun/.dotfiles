@@ -1,6 +1,6 @@
 #!/bin/bash
 
-local neovim_config_git_link='https://github.com/yimjiajun/neovim.git'
+neovim_config_git_link='https://github.com/yimjiajun/neovim.git'
 
 display_center() {
 	local text="$1"
