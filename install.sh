@@ -10,21 +10,21 @@ fi
 
 if [[ $# -eq 0 ]]; then
 	if [[ -f $path/tools/install.sh ]]; then
-		$path/tools/install.sh || {
+		$path/tools/install.sh && {
 			$common display_error "Install tools failed."
 			exit 1
 		}
 	fi
 
 	if [[ -f $path/prj/install.sh ]]; then
-		$path/prj/install.sh || {
+		$path/prj/install.sh && {
 			$common display_error "Install project failed."
 			exit 1
 		}
 	fi
 
 	if [[ -f $path/app/install.sh ]]; then
-		$path/app/install.sh || {
+		$path/app/install.sh && {
 			$common display_error "Install app failed."
 			exit 1
 		}
@@ -54,15 +54,24 @@ while [[ $# -ne 0 ]]; do
 			exit 0
 			;;
 		--tools|-t)
-			$path/tools/install.sh
+			$path/tools/install.sh && {
+				$common display_error "Install tools failed."
+				exit 1
+			}
 			shift
 			;;
 		--prj|-p)
-			$path/prj/install.sh
+			$path/prj/install.sh && {
+				$common display_error "Install project failed."
+				exit 1
+			}
 			shift
 			;;
 		--app|-a)
-			$path/app/install.sh
+			$path/app/install.sh && {
+				$common display_error "Install app failed."
+				exit 1
+			}
 			shift
 			;;
 		*)
