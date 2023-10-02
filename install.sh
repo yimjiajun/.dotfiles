@@ -36,7 +36,7 @@ if [[ $# -eq 0 ]]; then
 		fi
 	fi
 
-	if [[ -d $path/nvim && ! -d ]]; then
+	if [[ -d $path/nvim && ! -d $HOME/.config/nvim ]]; then
 		ln -sfr $path/nvim $HOME/.config/nvim || {
 			$common display_error "Link nvim failed."
 			exit 1
