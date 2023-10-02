@@ -10,27 +10,33 @@ fi
 
 if [[ $# -eq 0 ]]; then
 	if [[ -f $path/tools/install.sh ]]; then
-		$path/tools/install.sh && {
+		$path/tools/install.sh
+
+		if [[ $? -ne 0 ]]; then
 			$common display_error "Install tools failed."
 			exit 1
-		}
+		fi
 	fi
 
 	if [[ -f $path/prj/install.sh ]]; then
-		$path/prj/install.sh && {
+		$path/prj/install.sh
+
+		if [[ $? -ne 0 ]]; then
 			$common display_error "Install project failed."
 			exit 1
-		}
+		fi
 	fi
 
 	if [[ -f $path/app/install.sh ]]; then
-		$path/app/install.sh && {
+		$path/app/install.sh
+
+		if [[ $? -ne 0 ]]; then
 			$common display_error "Install app failed."
 			exit 1
-		}
+		fi
 	fi
 
-	if [[ -d $path/nvim && ! -d ~/.config/nvim ]]; then
+	if [[ -d $path/nvim && ! -d ]]; then
 		ln -sfr $path/nvim $HOME/.config/nvim || {
 			$common display_error "Link nvim failed."
 			exit 1
@@ -52,24 +58,30 @@ while [[ $# -ne 0 ]]; do
 			exit 0
 			;;
 		--tools|-t)
-			$path/tools/install.sh && {
+			$path/tools/install.sh
+
+			if [[ $? -ne 0 ]]; then
 				$common display_error "Install tools failed."
 				exit 1
-			}
+			fi
 			shift
 			;;
 		--prj|-p)
-			$path/prj/install.sh && {
+			$path/prj/install.sh
+
+			if [[ $? -ne 0 ]]; then
 				$common display_error "Install project failed."
 				exit 1
-			}
+			fi
 			shift
 			;;
 		--app|-a)
-			$path/app/install.sh && {
+			$path/app/install.sh
+
+			if [[ $? -ne 0 ]]; then
 				$common display_error "Install app failed."
 				exit 1
-			}
+			fi
 			shift
 			;;
 		*)
