@@ -872,7 +872,7 @@ function post_install_neovim(){
 		}
 	fi
 
-	git clone "$neovim_config_git_link" ~/.config/nvim || {
+	git clone $neovim_config_git_link ~/.config/nvim || {
 		echo -e "\033[31mError: Download neovim configuration files failed!\033[0m" >&2
 		return 1
 	}
@@ -970,5 +970,3 @@ main "$@" || {
 }
 
 display_title "Success Setup Neovim!"
-
-exit 0
