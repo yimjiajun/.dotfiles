@@ -586,7 +586,7 @@ function install_lsp_bash() {
 	fi
 
 	echo -e "● Install bash-language-server ..." >&1
-	npm install -g bash-language-server 1>/dev/null || {
+	sudo npm install -g bash-language-server 1>/dev/null || {
 		echo -e "\033[31mError: Install bash-language-server failed!\033[0m" >&2
 		return 1
 	}
@@ -728,12 +728,12 @@ function install_linter_markdown() {
 		return 0
 	fi
 
-	npm install markdownlint --save-dev || {
+	sudo npm install markdownlint --save-dev || {
 		echo -e "\033[31mError: Install markdownlint failed!\033[0m" >&2
 		return 1
 	}
 
-	npm install -g markdownlint-cli || {
+	sudo npm install -g markdownlint-cli || {
 		echo -e "\033[31mError: Install markdownlint-cli failed!\033[0m" >&2
 		return 1
 	}
