@@ -34,7 +34,7 @@ function pre_install_build_prerequisites {
 	echo -e "● Install build prerequisites..." >&1
 	echo -e "● $(uname -s) - $(uname -m)..." >&1
 
-	if [[ $OSTYPE == "linux-gnu" ]]; then
+	if [[ $OSTYPE =~ linux-gnu* ]]; then
 		$pkg_install_cmd \
 			ninja-build gettext libtool libtool-bin autoconf automake cmake g++ pkg-config unzip curl doxygen \
 			1>/dev/null || {
