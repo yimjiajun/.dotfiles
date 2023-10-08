@@ -823,15 +823,25 @@ function install_neovide() {
 
 		return 0
 	elif [[ $OSTYPE == "linux-gnu"* ]]; then
-		sudo apt-get install -y curl \
-			gnupg ca-certificates git \
-			gcc-multilib g++-multilib cmake libssl-dev pkg-config \
+		$pkg_install_cmd curl gnupg ca-certificates git cmake libssl-dev pkg-config \
 			libfreetype6-dev libasound2-dev libexpat1-dev libxcb-composite0-dev \
 			libbz2-dev libsndio-dev freeglut3-dev libxmu-dev libxi-dev libfontconfig1-dev \
 			libxcursor-dev || {
 			echo -e "\033[31mError: Install neovide failed!\033[0m" >&2
 			return 1
 		}
+
+		if [[ $(uname -m) == 'aarch64' ]]; then
+			local gcc_multilib="gcc-arm-linux-gnueabihf g++-arm-linux-gnueabihf"
+		else
+			local gcc_multilib="gcc-multilib g++-multilib"
+		fi
+
+		$pkg_install_cmd $gcc_multilib || {
+			echo -e "\033[31mError: Install gcc multilib failed!\033[0m" >&2
+			return 1
+		}
+
 
 		if [[ -z $(command -v rustc) ]]; then
 			curl --proto '=https' --tlsv1.2 -sSf "https://sh.rustup.rs" | sh || {
