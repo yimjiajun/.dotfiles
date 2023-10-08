@@ -490,7 +490,12 @@ function pre_install_luarocks() {
 		return 0
 	fi
 
-	if [[ "$OSTYPE" == darwin* ]]; then
+	if [[ "$OS_TYPE" =~ linux-gnu* ]]; then
+		$pkg_install_cmd luarocks lua5.3 || {
+			echo -e "\033[31mError: Install lua5.3 failed!\033[0m" >&2
+			return 1
+		}
+	elif [[ "$OSTYPE" =~ darwin* ]]; then
 	   brew install luarocks || {
 		   return 1
 	   }
