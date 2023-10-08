@@ -392,8 +392,6 @@ function pre_install_cargo {
 		return 0
 	fi
 
-	display_center "Install cargo"
-
 	curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- --default-toolchain none -y || {
 		echo -e "\033[31mError: Install rustup failed!\033[0m" >&2
 		return 1
@@ -427,7 +425,6 @@ function install_dutree {
 		return 0
 	fi
 
-	display_center "Install dutree"
 
 	if [[ -z $(command -v cargo) ]]; then
 		echo -e "\e[33mWarning: skip to install dutree ... cargo nout found\e[0m" >&2
@@ -448,7 +445,6 @@ function install_gitui {
 		return 0
 	fi
 
-	display_center "Install gitui"
 
 	local arch="$(uname -m)"
 	local pkg=nil
