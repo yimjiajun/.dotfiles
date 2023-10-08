@@ -392,10 +392,18 @@ function pre_install_cargo {
 		return 0
 	fi
 
-	curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- --default-toolchain none -y || {
-		echo -e "\033[31mError: Install rustup failed!\033[0m" >&2
-		return 1
-	}
+	if [[ $(uname -m) == 'aarch64' ]]; then
+		$pkg_install_cmd cargo || {
+			echo -e "\033[31mError: Install cargo failed!\033[0m" >&2
+			return 1
+		}
+	else
+		curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | \
+			sh -s -- --default-toolchain none -y || {
+			echo -e "\033[31mError: Install rustup failed!\033[0m" >&2
+			return 1
+		}
+	fi
 
 	if [[ -f "$HOME/.cargo/env" ]]; then
 		if [[ -f "$HOME/.$(basename "$SHELL")rc" ]] && \
