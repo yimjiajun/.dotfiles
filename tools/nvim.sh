@@ -988,7 +988,7 @@ case "$OSTYPE" in
 esac
 
 main "$@" || {
-	display_center "\e[31mSetup Neovim failed !\e[0m"
+	echo -e "\e[31mSetup Neovim failed !\e[0m" >&2
 	exit 1
 }
 
