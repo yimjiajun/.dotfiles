@@ -34,6 +34,11 @@ function pre_install_build_prerequisites {
 	echo -e "● Install build prerequisites..." >&1
 	echo -e "● $(uname -s) - $(uname -m)..." >&1
 
+	if [[ $(grep -c 'export PATH=~/.local/bin:$PATH' ~/.bashrc) -eq 0 ]]; then
+		echo 'export PATH=~/.local/bin:$PATH' >> ~/.bashrc
+		export PATH="$HOME/.local/bin:$PATH"
+	fi
+
 	if [[ $OSTYPE =~ linux-gnu* ]]; then
 		$pkg_install_cmd \
 			ninja-build gettext libtool libtool-bin autoconf automake cmake g++ pkg-config unzip curl doxygen \
