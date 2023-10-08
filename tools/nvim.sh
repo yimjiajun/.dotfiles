@@ -94,6 +94,9 @@ function pre_install_build_prerequisites {
 			echo -e "\033[31mError: Install neovim build prerequisites failed!\033[0m" >&2
 			exit 1
 		}
+	else
+		echo -e "\033[31mError: Unsupport $OSTYPE an install build prerequisites\033[0m" >&2
+		exit 1
 	fi
 }
 

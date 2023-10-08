@@ -19,6 +19,10 @@ then
 	export PATH=~/.local/bin:"$PATH"
 fi
 
+if [[ -d /usr/local/go/bin ]]; then
+	export PATH=$PATH:/usr/local/go/bin
+fi
+
 if [ -d "$HOME/.nvm" ] && [[ -z "$NVM_DIR" ]];
 then
 	export NVM_DIR="$HOME/.nvm"
