@@ -42,7 +42,7 @@ function pre_install_build_prerequisites {
 	if [[ $OSTYPE =~ linux-gnu* ]]; then
 		$pkg_install_cmd \
 			ninja-build gettext libtool libtool-bin autoconf automake cmake g++ pkg-config unzip curl doxygen \
-			1>/dev/null || {
+			|| {
 				echo -e "\033[31mError: Install build prerequisites failed!\033[0m" >&2
 				exit 1
 			}
@@ -50,7 +50,7 @@ function pre_install_build_prerequisites {
 		$pkg_install_cmd \
 			gcc make pkg-config autoconf automake python3-docutils \
 			libseccomp-dev libjansson-dev libyaml-dev libxml2-dev \
-			1>/dev/null || {
+			|| {
 				echo -e "\033[31mError: Install build prerequisites failed!\033[0m" >&2
 				exit 1
 			}
@@ -61,7 +61,7 @@ function pre_install_build_prerequisites {
 			python3-dev python3-pip python3-setuptools python3-tk python3-wheel xz-utils file \
 			python-is-python3 \
 			make gcc libsdl2-dev libmagic1 \
-			1>/dev/null || {
+			|| {
 			echo -e "\033[31mError: Install build prerequisites failed!\033[0m" >&2
 				exit 1
 			}
@@ -72,7 +72,7 @@ function pre_install_build_prerequisites {
 			local gcc_multilib="gcc-multilib g++-multilib"
 		fi
 
-		$pkg_install_cmd $gcc_multilib 1>/dev/null || {
+		$pkg_install_cmd $gcc_multilib || {
 			echo -e "\033[31mError: Install gcc multilib failed!\033[0m" >&2
 			exit 1
 		}
@@ -80,22 +80,22 @@ function pre_install_build_prerequisites {
 		$pkg_install_cmd \
 			build-essential libncurses-dev libjansson-dev \
 			libreadline-dev \
-			1>/dev/null || {
+			|| {
 				echo -e "\033[31mError: Install build prerequisites failed!\033[0m" >&2
 				exit 1
 			}
 	elif [[ $OSTYPE == "darwin"* ]]; then
-		brew tap universal-ctags/universal-ctags 1>/dev/null || {
+		brew tap universal-ctags/universal-ctags || {
 			echo -e "\033[31mError: Install build prerequisites failed!\033[0m" >&2
 			exit 1
 		}
 
-		brew install --head universal-ctags 1>/dev/null || {
+		brew install --head universal-ctags || {
 			echo -e "\033[31mError: Install build prerequisites failed!\033[0m" >&2
 			exit 1
 		}
 
-		$pkg_install_cmd ninja cmake gettext curl 1>/dev/null || {
+		$pkg_install_cmd ninja cmake gettext curl || {
 			echo -e "\033[31mError: Install neovim build prerequisites failed!\033[0m" >&2
 			exit 1
 		}
@@ -120,13 +120,13 @@ function post_install_nvim {
 	}
 
 	echo -e "● Build neovim..." >&1
-	make -C "${path}" CMAKE_BUILD_TYPE=RelWithDebInfo 1>/dev/null || {
+	make -C "${path}" CMAKE_BUILD_TYPE=RelWithDebInfo || {
 		echo -e "\033[31mError: make neovim failed!\033[0m" >&2
 		exit 1
 	}
 
 	echo -e "● Install neovim..." >&1
-	sudo make -C "${path}" install 1>/dev/null || {
+	sudo make -C "${path}" install || {
 		echo -e "\033[31mError: make install neovim failed!\033[0m" >&2
 		exit 1
 	}
@@ -140,7 +140,7 @@ function pre_install_node {
 	fi
 
 	echo -e "● Install nvm ..." >&1
-	curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/master/install.sh | bash 1>/dev/null || {
+	curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/master/install.sh | bash || {
 		echo -e "\033[31mError: Install nvm failed!\033[0m" >&2
 		return 1
 	}
@@ -153,7 +153,7 @@ function pre_install_node {
 
 	echo -e "● Install node and npm ..." >&1
 
-	nvm install node 1>/dev/null || {
+	nvm install node || {
 		echo -e "\033[31mError: Install node and npm failed!\033[0m" >&2
 		echo -e "\033[31m● sudo apt-get remove --purge nodejs npm\033[0m" >&2
 		echo -e "\033[31m● Re-install node and npm !\033[0m" >&2
@@ -161,7 +161,7 @@ function pre_install_node {
 	}
 
 	echo -e "● Install npm ... NeoVim LSP" >&1
-	$pkg_install_cmd npm 1>/dev/null || {
+	$pkg_install_cmd npm || {
 		echo -e "\033[31mError: Install npm failed!\033[0m" >&2
 		echo -e"\033[31m● sudo apt-get remove --purge npm\033[0m" >&1
 		return 1
@@ -180,12 +180,12 @@ function pre_install_node {
 }
 
 function pre_install_python {
-	$pkg_install_cmd python3 1>/dev/null || {
+	$pkg_install_cmd python3 || {
 		echo -e "\033[31mError: Install python3 failed!\033[0m" >&2
 		return 1
 	}
 
-	$pkg_install_cmd python3-pip 1>/dev/null || {
+	$pkg_install_cmd python3-pip || {
 		echo -e "\033[31mError: Install python3-pip failed!\033[0m" >&2
 		return 1
 	}
@@ -194,13 +194,13 @@ function pre_install_python {
 
 	if awk 'BEGIN { exit !('"$version"' >= 22.04) }'; then
 		echo -e "Install python env for cmake and py lsp ..." >&1
-		$pkg_install_cmd python3.10-venv 1>/dev/null || {
+		$pkg_install_cmd python3.10-venv || {
 			echo -e "\033[31mError: Install python3.10-venv failed!\033[0m" >&2
 			return 1
 		}
 	fi
 
-   python3 -m pip install --user --upgrade pynvim 1>/dev/null || {
+   python3 -m pip install --user --upgrade pynvim || {
 	   echon -e "\033[31mError: Install pynvim failed!\033[0m" >&2
    }
 }
@@ -215,7 +215,7 @@ function install_ctags {
 
 	echo -e "● Install ctags ..." >&1
 
-	git clone https://github.com/universal-ctags/ctags.git "$path" 1>/dev/null || {
+	git clone https://github.com/universal-ctags/ctags.git "$path" || {
 		echo -e "\033[31mError: git clone ctags failed!\033[0m" >&2
 		return 1
 	}
@@ -223,25 +223,25 @@ function install_ctags {
 	cd "$path" || exit
 
 	echo -e "● ctags auto generation ..." >&1
-	./autogen.sh 1>/dev/null || {
+	./autogen.sh || {
 		echo -e "\033[31mError: autogen ctags failed!\033[0m" >&2
 		return 1
 	}
 
 	echo -e "● ctags configure ..." >&1
-	./configure --prefix="$install_path" 1>/dev/null || {
+	./configure --prefix="$install_path" || {
 		echo -e "\033[31mError: configure ctags failed!\033[0m" >&2
 		return 1
 	}
 
 	echo -e "● ctags make ..." >&1
-	make 1>/dev/null 2>&1 || {
+	make 2>&1 || {
 		echo -e "\033[31mError: make ctags failed!\033[0m" >&2
 		return 1
 	}
 
 	echo -e "● ctags make install ..." >&1
-	sudo make install 1>/dev/null || {
+	sudo make install || {
 		echo -e "\033[31mError: make install ctags failed!\033[0m" >&2
 		return 1
 	}
@@ -253,7 +253,7 @@ function install_ripgrep {
 	fi
 
 	echo -e "● Install ripgrep ..." >&1
-	$pkg_install_cmd ripgrep 1>/dev/null || {
+	$pkg_install_cmd ripgrep || {
 		echo -e "\033[31mError: Install ripgrep failed!\033[0m" >&2
 		return 1
 	}
@@ -265,7 +265,7 @@ function install_ranger {
 	fi
 
 	echo -e "● Install ranger ..." >&1
-	$pkg_install_cmd ranger 1>/dev/null || {
+	$pkg_install_cmd ranger || {
 		echo -e "\033[31mError: Install ranger failed!\033[0m" >&2
 		return 1
 	}
@@ -281,7 +281,7 @@ function install_htop {
 	fi
 
 	echo -e "● Install htop ..." >&1
-	$pkg_install_cmd htop 1>/dev/null || {
+	$pkg_install_cmd htop || {
 		echo -e "\033[31mError: Install htop failed!\033[0m" >&2
 		return 1
 	}
@@ -293,7 +293,7 @@ function install_fzf {
 	fi
 
 	echo -e "● Install fzf ..." >&1
-	$pkg_install_cmd fzf 1>/dev/null || {
+	$pkg_install_cmd fzf || {
 		echo -e "\033[31mError: Install fzf failed!\033[0m" >&2
 		return 1
 	}
@@ -309,7 +309,7 @@ function install_ncdu {
 	fi
 
 	echo -e "● Install ncdu ..." >&1
-	$pkg_install_cmd ncdu 1>/dev/null || {
+	$pkg_install_cmd ncdu || {
 		echo -e "\033[31mError: Install ncdu failed!\033[0m" >&2
 		return 1
 	}
@@ -328,7 +328,7 @@ function install_lazygit {
 		cd "$tmp_path" || exit
 		echo -e "● Download lazygit ..." >&1
 		LAZYGIT_VERSION=$(curl -s "https://api.github.com/repos/jesseduffield/lazygit/releases/latest" | grep -Po '"tag_name": "v\K[^"]*')
-		curl -Lo "$tmp_path"/lazygit.tar.gz "https://github.com/jesseduffield/lazygit/releases/latest/download/lazygit_${LAZYGIT_VERSION}_Linux_x86_64.tar.gz" 1>/dev/null || {
+		curl -Lo "$tmp_path"/lazygit.tar.gz "https://github.com/jesseduffield/lazygit/releases/latest/download/lazygit_${LAZYGIT_VERSION}_Linux_x86_64.tar.gz" || {
 			echo -e "\033[31mError: Download lazygit failed!\033[0m" >&2
 			return 1
 		}
@@ -347,7 +347,7 @@ function install_lazygit {
 			return 1
 		}
 	else
-		$pkg_install_cmd lazygit 1>/dev/null || {
+		$pkg_install_cmd lazygit || {
 			echo -e "\033[31mError: Install lazygit failed!\033[0m" >&2
 			return 1
 		}
@@ -364,7 +364,7 @@ function install_khal {
 	fi
 
 	echo -e "● Install khal ..." >&1
-	$pkg_install_cmd khal 1>/dev/null || {
+	$pkg_install_cmd khal || {
 		echo -e "\033[31mError: Install khal failed!\033[0m" >&2
 		return 1
 	}
@@ -380,7 +380,7 @@ function install_bpytop {
 	fi
 
 	echo -e "● Install bpytop ..." >&1
-	pip3 install --upgrade-strategy eager bpytop 1>/dev/null || {
+	pip3 install --upgrade-strategy eager bpytop || {
 		echo -e "\033[31mError: Install bpytop failed!\033[0m" >&2
 		return 1
 	}
@@ -434,7 +434,7 @@ function install_dutree {
 		return 0
 	fi
 
-	cargo install dutree 1>/dev/null || {
+	cargo install dutree || {
 		echo -e "\033[31mError: Install dutree failed!\033[0m" >&2
 		return 1
 	}
@@ -523,12 +523,12 @@ function pre_install_luarocks() {
 		return 1
 	}
 
-	make linux test 1>/dev/null || {
+	make linux test || {
 		echo -e "\033[31mError: configure luarocks failed!\033[0m" >&2
 		return 1
 	}
 
-	sudo make install 1>/dev/null || {
+	sudo make install || {
 		echo -e "\033[31mError: make luarocks failed!\033[0m" >&2
 		return 1
 	}
@@ -556,22 +556,22 @@ function pre_install_luarocks() {
 		return 1
 	}
 
-	./configure 1>/dev/null || {
+	./configure || {
 		echo -e "\033[31mError: configure luarocks failed!\033[0m" >&2
 		return 1
 	}
 
-	make 1>/dev/null || {
+	make || {
 		echo -e "\033[31mError: make luarocks failed!\033[0m" >&2
 		return 1
 	}
 
-	sudo make install 1>/dev/null || {
+	sudo make install || {
 		echo -e "\033[31mError: make luarocks failed!\033[0m" >&2
 		return 1
 	}
 
-	sudo luarocks install luasocket 1>/dev/null || {
+	sudo luarocks install luasocket || {
 		echo -e "\033[31mError: install luasocket failed!\033[0m" >&2
 		return 1
 	}
@@ -594,7 +594,7 @@ function install_lsp_bash() {
 	fi
 
 	echo -e "● Install bash-language-server ..." >&1
-	sudo npm install -g bash-language-server 1>/dev/null || {
+	sudo npm install -g bash-language-server || {
 		echo -e "\033[31mError: Install bash-language-server failed!\033[0m" >&2
 		return 1
 	}
@@ -637,7 +637,7 @@ function install_lsp_cmake() {
 		return 0
 	fi
 
-	pip install cmake-language-server 1>/dev/null || {
+	pip install cmake-language-server || {
 		echo -e "\033[31mError: Install cmake-language-server failed!\033[0m" >&2
 		return 1
 	}
@@ -653,12 +653,12 @@ function install_lsp_lua() {
 		return 1
 	fi
 
-	sudo luarocks install --server=http://luarocks.org/dev lua-lsp 1>/dev/null || {
+	sudo luarocks install --server=http://luarocks.org/dev lua-lsp || {
 		echo -e "\033[31mError: Install lua-language-server failed!\033[0m" >&2
 		return 1
 	}
 
-	sudo luarocks install luacheck 1>/dev/null || {
+	sudo luarocks install luacheck || {
 		echo -e "\033[31mError: Install luacheck failed!\033[0m" >&2
 		return 1
 	}
@@ -669,7 +669,7 @@ function install_lsp_python() {
 		return 0
 	fi
 
-	pip install pyright 1>/dev/null || {
+	pip install pyright || {
 		echo -e "\033[31mError: Install pyright failed!\033[0m" >&2
 		return 1
 	}
@@ -832,7 +832,7 @@ function install_neovide() {
 			gcc-multilib g++-multilib cmake libssl-dev pkg-config \
 			libfreetype6-dev libasound2-dev libexpat1-dev libxcb-composite0-dev \
 			libbz2-dev libsndio-dev freeglut3-dev libxmu-dev libxi-dev libfontconfig1-dev \
-			libxcursor-dev 1>/dev/null || {
+			libxcursor-dev || {
 			echo -e "\033[31mError: Install neovide failed!\033[0m" >&2
 			return 1
 		}
@@ -844,7 +844,7 @@ function install_neovide() {
 			}
 		fi
 
-		cargo install --git https://github.com/neovide/neovide 1>/dev/null || {
+		cargo install --git https://github.com/neovide/neovide || {
 				echo -e "\033[31mError: Install neovide via cargo failed!\033[0m" >&2
 				return 1
 			}
@@ -874,7 +874,7 @@ function post_install_neovim(){
 	if [[ -d ~/.config/nvim ]]; then
 		echo -e "● remove ~/.config/nvim" >&1
 
-		rm -rf ~/.config/nvim 1>/dev/null || {
+		rm -rf ~/.config/nvim || {
 			echo -e "\033[31mError: Remove ~/.config/nvim failed!\033[0m" >&2
 			return 1
 		}
@@ -883,7 +883,7 @@ function post_install_neovim(){
 	if [[ ! -d ~/.config ]]; then
 		echo -e "● mkdir ~/.config" >&1
 
-		mkdir -p ~/.config 1>/dev/null || {
+		mkdir -p ~/.config || {
 			echo -e "\033[31mError: mkdir ~/.config failed!\033[0m" >&2
 			return 1
 		}
@@ -956,7 +956,7 @@ display_title "Setup Neovim"
 
 case "$OSTYPE" in
 	"linux-gnu"*)
-		(sudo apt-get update -y 1>/dev/null && sudo apt-get upgrade -y 1>/dev/null) || {
+		(sudo apt-get update -y && sudo apt-get upgrade -y 1>/dev/null) || {
 			echo -e "\033[31mError: Update apt failed!\033[0m" >&2
 			exit 1
 		}
@@ -968,7 +968,7 @@ case "$OSTYPE" in
 		fi
 		;;
 	"darwin"*)
-		brew update 1>/dev/null || {
+		brew update || {
 			echo -e "\033[31mError: Update brew failed!\033[0m" >&2
 			exit 1
 		}
