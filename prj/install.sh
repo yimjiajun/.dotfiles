@@ -2,7 +2,7 @@
 
 path=$(dirname $(readlink -f $0))
 common="$path/../app/common.sh"
-install_require_dependencies_pkg="$path/manual/install_require_dependencies_pkg.sh"
+install_require_dependencies_pkg="$path/../tools/manual/install_require_dependencies_pkg.sh"
 ignore_install_tools=("$(basename $0)" 'other' 'manual')
 
 for prefix in ${ignore_install_tools[@]}; do
