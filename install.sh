@@ -9,7 +9,7 @@ if [[ $(grep -c 'export PATH=~/.local/bin:$PATH' ~/.bashrc) -eq 0 ]]; then
 fi
 
 if [[ $# -eq 0 ]]; then
-	install_dir=("$(find . -maxdepth 1 -type d | sed 's/\.\///g' | sed 's/\..*//g')")
+	install_dir=("$(find . -maxdepth 1 -type d -not -name "scripts" | sed 's/\.\///g' | sed 's/\..*//g')")
 
 	for dir in ${install_dir[@]}; do
 		if [[ -f $path/$dir/install.sh ]]; then
