@@ -9,39 +9,16 @@ if [[ $(grep -c 'export PATH=~/.local/bin:$PATH' ~/.bashrc) -eq 0 ]]; then
 fi
 
 if [[ $# -eq 0 ]]; then
-	if [[ -f $path/tools/install.sh ]]; then
-		$path/tools/install.sh
+	install_dir=("$(find . -maxdepth 1 -type d | sed 's/\.\///g' | sed 's/\..*//g')")
 
-		if [[ $? -ne 0 ]]; then
-			$common display_error "Install tools failed."
-			exit 1
+	for dir in ${install_dir[@]}; do
+		if [[ -f $path/$dir/install.sh ]]; then
+			$path/$dir/install.sh || {
+				$common display_error "Install $dir failed."
+				exit 1
+			}
 		fi
-	fi
-
-	if [[ -f $path/prj/install.sh ]]; then
-		$path/prj/install.sh
-
-		if [[ $? -ne 0 ]]; then
-			$common display_error "Install project failed."
-			exit 1
-		fi
-	fi
-
-	if [[ -f $path/app/install.sh ]]; then
-		$path/app/install.sh
-
-		if [[ $? -ne 0 ]]; then
-			$common display_error "Install app failed."
-			exit 1
-		fi
-	fi
-
-	if [[ -d $path/nvim && ! -d $HOME/.config/nvim ]]; then
-		ln -sfr $path/nvim $HOME/.config/nvim || {
-			$common display_error "Link nvim failed."
-			exit 1
-		}
-	fi
+	done
 
 	exit 0
 fi
