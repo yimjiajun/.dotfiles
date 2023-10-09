@@ -387,7 +387,6 @@ function install_bpytop {
 }
 
 function pre_install_cargo {
-
 	if [[ $(command -v rustup) ]]; then
 		return 0
 	fi
@@ -492,95 +491,96 @@ function install_gitui {
 }
 
 function pre_install_luarocks() {
-	local lua_version='5.3.5'
-	local luarocks_version='3.9.2'
-	local temp_path=$(mktemp -d)
-
 	if [[ $(command -v luarocks) ]]; then
 		return 0
 	fi
 
-	if [[ "$OS_TYPE" =~ linux-gnu* ]]; then
-		$pkg_install_cmd luarocks lua5.3 || {
-			echo -e "\033[31mError: Install lua5.3 failed!\033[0m" >&2
-			return 1
-		}
-	elif [[ "$OSTYPE" =~ darwin* ]]; then
+	if [[ "$OSTYPE" == "darwin"* ]]; then
 	   brew install luarocks || {
 		   return 1
 	   }
+	elif [[ "$OSTYPE" == "linux-gnu"* ]]; then
+		if [[ "$(uname -m)" == 'aarch64' ]]; then
+			$pkg_install_cmd luarocks lua5.3 || {
+				echo -e "\033[31mError: Install lua5.3 failed!\033[0m" >&2
+				return 1
+			}
+		else
+			local lua_version='5.3.5'
+			local luarocks_version='3.9.2'
+			local temp_path=$(mktemp -d)
+			local version="$lua_version"
+
+			curl -Lo $temp_path/lua-${version}.tar.gz \
+				http://www.lua.org/ftp/lua-${version}.tar.gz || {
+				echo -e "\033[31mError: Download luarocks failed!\033[0m" >&2
+				return 1
+			}
+
+			cd $temp_path || {
+				echo -e "\033[31mError: cd $temp_path failed!\033[0m" >&2
+				return 1
+			}
+
+			tar -zxf lua-${version}.tar.gz || {
+				echo -e "\033[31mError: Extract luarocks failed!\033[0m" >&2
+				return 1
+			}
+
+			cd lua-${version} || {
+				echo -e "\033[31mError: cd luarocks-${version} failed!\033[0m" >&2
+				return 1
+			}
+
+			make linux test || {
+				echo -e "\033[31mError: configure luarocks failed!\033[0m" >&2
+				return 1
+			}
+
+			sudo make install || {
+				echo -e "\033[31mError: make luarocks failed!\033[0m" >&2
+				return 1
+			}
+
+			version="$luarocks_version"
+
+			curl -Lo $temp_path/luarocks-${version}.tar.gz \
+				https://luarocks.org/releases/luarocks-${version}.tar.gz || {
+				echo -e "\033[31mError: Download luarocks failed!\033[0m" >&2
+				return 1
+			}
+
+			cd $temp_path || {
+				echo -e "\033[31mError: cd $temp_path failed!\033[0m" >&2
+				return 1
+			}
+
+			tar zxpf luarocks-${version}.tar.gz || {
+				echo -e "\033[31mError: Extract luarocks failed!\033[0m" >&2
+				return 1
+			}
+
+			cd luarocks-${version} || {
+				echo -e "\033[31mError: cd luarocks-${version} failed!\033[0m" >&2
+				return 1
+			}
+
+			./configure || {
+				echo -e "\033[31mError: configure luarocks failed!\033[0m" >&2
+				return 1
+			}
+
+			make || {
+				echo -e "\033[31mError: make luarocks failed!\033[0m" >&2
+				return 1
+			}
+
+			sudo make install || {
+				echo -e "\033[31mError: make luarocks failed!\033[0m" >&2
+				return 1
+			}
+		fi
 	fi
-
-	version="$lua_version"
-
-	curl -Lo $temp_path/lua-${version}.tar.gz \
-		http://www.lua.org/ftp/lua-${version}.tar.gz || {
-		echo -e "\033[31mError: Download luarocks failed!\033[0m" >&2
-		return 1
-	}
-
-	cd $temp_path || {
-		echo -e "\033[31mError: cd $temp_path failed!\033[0m" >&2
-		return 1
-	}
-
-	tar -zxf lua-${version}.tar.gz || {
-		echo -e "\033[31mError: Extract luarocks failed!\033[0m" >&2
-		return 1
-	}
-
-	cd lua-${version} || {
-		echo -e "\033[31mError: cd luarocks-${version} failed!\033[0m" >&2
-		return 1
-	}
-
-	make linux test || {
-		echo -e "\033[31mError: configure luarocks failed!\033[0m" >&2
-		return 1
-	}
-
-	sudo make install || {
-		echo -e "\033[31mError: make luarocks failed!\033[0m" >&2
-		return 1
-	}
-
-	version="$luarocks_version"
-
-	curl -Lo $temp_path/luarocks-${version}.tar.gz \
-		https://luarocks.org/releases/luarocks-${version}.tar.gz || {
-		echo -e "\033[31mError: Download luarocks failed!\033[0m" >&2
-		return 1
-	}
-
-	cd $temp_path || {
-		echo -e "\033[31mError: cd $temp_path failed!\033[0m" >&2
-		return 1
-	}
-
-	tar zxpf luarocks-${version}.tar.gz || {
-		echo -e "\033[31mError: Extract luarocks failed!\033[0m" >&2
-		return 1
-	}
-
-	cd luarocks-${version} || {
-		echo -e "\033[31mError: cd luarocks-${version} failed!\033[0m" >&2
-		return 1
-	}
-
-	./configure || {
-		echo -e "\033[31mError: configure luarocks failed!\033[0m" >&2
-		return 1
-	}
-
-	make || {
-		echo -e "\033[31mError: make luarocks failed!\033[0m" >&2
-		return 1
-	}
-
-	sudo make install || {
-		echo -e "\033[31mError: make luarocks failed!\033[0m" >&2
-		return 1
-	}
 
 	sudo luarocks install luasocket || {
 		echo -e "\033[31mError: install luasocket failed!\033[0m" >&2
