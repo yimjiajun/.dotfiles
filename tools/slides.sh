@@ -20,17 +20,17 @@ function install() {
 		elif [[ $os_machine == "aarch64" ]]; then
 			os_pkg_name='linux_arm64'
 		else
-			$common display_error "$OS_TYPE not supported !"
+			$common display_error "$OSTYPE not supported !"
 			exit 3
 		fi
 	elif [[ $OSTYPE == "darwin"* ]]; then
 		if [[ $os_machine == "x86_64" ]]; then
 			os_pkg_name='darwin_amd64'
 		else
-			os_pkg_name='darwin_amd64'
+			os_pkg_name='darwin_arm64'
 		fi
 	else
-		$common display_error "$OS_TYPE not supported !"
+		$common display_error "$OSTYPE not supported !"
 		exit 3
 	fi
 
