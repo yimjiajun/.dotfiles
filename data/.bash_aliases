@@ -58,23 +58,21 @@ function system_open() {
 	if [[ "$#" -eq 0 ]]; then
 		open --help
 	else
-		while [[ "$#" -gt 0 ]]; do
-			local arg="$1"; shift
-			local filename="$(basename $arg)"
-			local extension="${filename##*.}"
+		local arg="${@}"; shift
+		local filename="$(basename "$arg")"
+		local extension="${filename##*.}"
 
-			case "$extension" in
-				"pdf")
-					if [[ $(command -v zathura) ]]; then
-						zathura --fork --mode='fullscreen' "$arg"
-					else
-						open $arg
-					fi
-					;;
-				*) open $arg
-					;;
-			esac
-		done
+		case "$extension" in
+			"pdf")
+				if [[ $(command -v zathura) ]]; then
+					zathura --fork --mode='fullscreen' "$arg"
+				else
+					open "$arg"
+				fi
+				;;
+			*) open "$arg"
+				;;
+		esac
 	fi
 }
 
