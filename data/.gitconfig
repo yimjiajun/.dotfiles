@@ -5,6 +5,7 @@
 [core]
 	editor = nvim --noplugin
 	excludesfile = ~/.gitignore_global
+	autocrlf = input
 [alias]
 	l = log --oneline --graph --all
 	lr = reflog
