@@ -32,12 +32,12 @@ if [[ "$OSTYPE" == "linux-gnu"* ]]; then
 	fi
 
 elif [[ $OSTYPE == "darwin"* ]]; then
-	if ![[ $(command -v brew) ]]; then
+	if [[ -z $(command -v brew) ]]; then
 		$common display_error "brew not install, please install brew first!"
 		exit 1
 	fi
 
-	pkg_install_cmd="brew install -y"
+	pkg_install_cmd="brew install"
 
 else
 	$common display_error "kernel-${OSTYPE} Not Support!"
