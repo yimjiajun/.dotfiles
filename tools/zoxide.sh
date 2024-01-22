@@ -15,7 +15,7 @@ install() {
 	}
 
 	if [[ ! -f "$usr_bash_setup" ]]; then
-		bash.sh install || {
+		./bash.sh install || {
 			$common display_error "setup bash failed !"
 			exit 1
 		}
