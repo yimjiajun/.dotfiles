@@ -30,11 +30,6 @@ then
 	[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 fi
 
-if [[ -f "$HOME/.bash_aliases" && -z $BASH_ALIASES_LOADED ]];
-then
-	source ~/.bash_aliases
-fi
-
 if [[ $(command -v nvim) ]]; then
 	export EDITOR=nvim
 elif [[ $(command -v vim) ]]; then
@@ -71,4 +66,9 @@ fi
 
 if [[ -f /opt/homebrew/bin/brew ]]; then
 	 eval "$(/opt/homebrew/bin/brew shellenv)"
+fi
+
+if [[ -f "$HOME/.bash_aliases" && -z $BASH_ALIASES_LOADED ]];
+then
+	source ~/.bash_aliases
 fi
