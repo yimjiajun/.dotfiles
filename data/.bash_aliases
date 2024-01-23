@@ -92,7 +92,15 @@ fi
 
 if [[ $(which zoxide) ]];
 then
-	alias zd='z $(zqi)'
+	function zoxide_selection() {
+		local path="$(zoxide query -i)"
+
+		if [ ! -z $path ]; then
+			cd $path
+		fi
+	}
+
+	alias zd='zoxide_selection'
 fi
 
 alias p='cd -'
