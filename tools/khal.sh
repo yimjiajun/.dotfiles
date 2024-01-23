@@ -26,7 +26,7 @@ add_calendar_notify_in_schedule() {
 	$common display_info "add" "calendar notification on schedule"
 
 	(crontab -l 2>/dev/null; echo "$job") \
-		| crontab -u $USER - || \
+		| sudo crontab -u $USER - || \
 	{
 		$common display_error "add calendar notification on crontab failed !"
 		return 1
@@ -53,10 +53,10 @@ install() {
 	fi
 
 	$common display_info "link" "configuration file -> \033[1m ${local_conf_path}/config\033[0m"
-	ln -sfr  ${setup_conf_path}/config ${local_conf_path}/config
+	ln -sf  ${setup_conf_path}/config ${local_conf_path}/config
 
 	$common display_info "link" "notification file -> \033[1m ${local_conf_path}/notify.sh\033[0m"
-	ln -sfr  ${setup_conf_path}/notify.sh ${local_conf_path}/notify.sh
+	ln -sf  ${setup_conf_path}/notify.sh ${local_conf_path}/notify.sh
 
 	if ! [[ -f $local_bash_file ]]; then
 		$install_bash_setup || {
@@ -94,6 +94,10 @@ install() {
 }
 
 define_dates_times_format() {
+	if [[ $OSTYPE == darwin* ]]; then
+		return
+	fi
+
 	$common display_subtitle "formatting dates, times, numbers, and currency"
 
 	$common display_info "generate" "en_US.UTF-8"
