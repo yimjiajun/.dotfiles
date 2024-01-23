@@ -1,6 +1,6 @@
 [submodule ".localdata"]
 	path = .localdata
-	url = https://github.com/yimjiajun/.dotdata.git
+	url = git@github.com:yimjiajun/.dotdata.git
 	branch = main
 [submodule "neovim"]
 	path = nvim
