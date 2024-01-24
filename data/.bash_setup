@@ -7,6 +7,10 @@ then
 	export DOTFILES="$dotfiles"
 fi
 
+if [[ -f /opt/homebrew/bin/brew ]]; then
+	 eval "$(/opt/homebrew/bin/brew shellenv)"
+fi
+
 if [ -f "$HOME/.cargo/env" ];
 then
 	. "$HOME/.cargo/env"
@@ -62,10 +66,6 @@ fi
 if [[ $(which thefuck) ]];
 then
 	eval "$(thefuck --alias)"
-fi
-
-if [[ -f /opt/homebrew/bin/brew ]]; then
-	 eval "$(/opt/homebrew/bin/brew shellenv)"
 fi
 
 if [[ -f "$HOME/.bash_aliases" && -z $BASH_ALIASES_LOADED ]];
