@@ -85,16 +85,6 @@ function pre_install_build_prerequisites {
 				exit 1
 			}
 	elif [[ $OSTYPE == "darwin"* ]]; then
-		brew tap universal-ctags/universal-ctags || {
-			echo -e "\033[31mError: Install build prerequisites failed!\033[0m" >&2
-			exit 1
-		}
-
-		brew install --head universal-ctags || {
-			echo -e "\033[31mError: Install build prerequisites failed!\033[0m" >&2
-			exit 1
-		}
-
 		$pkg_install_cmd ninja cmake gettext curl || {
 			echo -e "\033[31mError: Install neovim build prerequisites failed!\033[0m" >&2
 			exit 1
