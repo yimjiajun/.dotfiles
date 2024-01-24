@@ -35,7 +35,7 @@ install() {
 		mkdir -p $local_data_path
 	fi
 
-	sudo ln -sfr ${data_path}/config ${local_data_path}/config || {
+	sudo ln -sf ${data_path}/config ${local_data_path}/config || {
 		$common display_error "Configure vdirsyncer failed !"
 		exit 1
 	}
@@ -66,11 +66,6 @@ install() {
 
 	$common display_info "installed" "vdirsyncer and discovered"
 }
-
-if [[ $OSTYPE != linux-gnu* ]]; then
-	$common display_error "This script is only for linux !"
-	exit 1
-fi
 
 if [[ -z "$(which vdirsyncer)" ]] ||\
 	[[ $1 == "install" ]]; then
