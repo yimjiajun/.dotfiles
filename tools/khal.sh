@@ -13,7 +13,7 @@ setup_bash_file="$path/../data/.bash_setup"
 local_bash_file="$HOME/.bash_$USER"
 install_bash_setup="$path/bash.sh install"
 
-sync_interval_min=15
+sync_interval_min=1
 
 add_calendar_notify_in_schedule() {
 	local job="*/$sync_interval_min * * * * (date; echo -e '\n* [Khal Calendar]\n'; $HOME/.config/khal/notify.sh --sync) 1>> /tmp/.crontab.log 2>&1"
