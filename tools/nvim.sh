@@ -770,6 +770,17 @@ function install_linter_cpplint() {
 	}
 }
 
+function install_linter_shellcheck() {
+	if [[ $(command -v shellcheck) ]]; then
+		return 0
+	fi
+
+	$pkg_install_cmd shellcheck || {
+		echo -e "\033[31mError: Install spellcheck linter for bash script failed!\033[0m" >&2
+		return 1
+	}
+}
+
 function install_neovide() {
 	if [[ $(command -v neovide) ]]; then
 		return 0
