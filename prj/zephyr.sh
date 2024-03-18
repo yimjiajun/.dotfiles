@@ -3,6 +3,7 @@
 zephyr_sdk_version="0.16.1"
 path=$(dirname $(readlink -f $0))
 common="$path/../app/common.sh"
+arch="$(uname -m)"
 
 if ! [[ -f $common ]]; then
 	common="echo"
@@ -81,26 +82,26 @@ install() {
 	cd ~
 
 	if ! [[ -d zephyr-sdk-${zephyr_sdk_version} ]]; then
-		if ! [[ -f zephyr-sdk-${zephyr_sdk_version}_linux-x86_64.tar.xz ]]; then
-			echo -e "● Download zephyr-sdk-${zephyr_sdk_version}_linux-x86_64.tar.xz ..."
-			wget --quiet https://github.com/zephyrproject-rtos/sdk-ng/releases/download/v${zephyr_sdk_version}/zephyr-sdk-${zephyr_sdk_version}_linux-x86_64.tar.xz 1>/dev/null || {
-				echo -e "\e[31mError: Failed to download zephyr-sdk-${zephyr_sdk_version}_linux-x86_64.tar.xz\e[0m"
+		if ! [[ -f zephyr-sdk-${zephyr_sdk_version}_linux-${arch}.tar.xz ]]; then
+			echo -e "● Download zephyr-sdk-${zephyr_sdk_version}_linux-${arch}.tar.xz ..."
+			wget --quiet https://github.com/zephyrproject-rtos/sdk-ng/releases/download/v${zephyr_sdk_version}/zephyr-sdk-${zephyr_sdk_version}_linux-${arch}.tar.xz 1>/dev/null || {
+				echo -e "\e[31mError: Failed to download zephyr-sdk-${zephyr_sdk_version}_linux-${arch}.tar.xz\e[0m"
 				exit 1
 			}
 
-			echo -e "● Download zephyr-sdk-${zephyr_sdk_version}_linux-x86_64.tar.xz.sha256sum ..."
+			echo -e "● Download zephyr-sdk-${zephyr_sdk_version}_linux-${arch}.tar.xz.sha256sum ..."
 			wget --quiet -O - https://github.com/zephyrproject-rtos/sdk-ng/releases/download/v${zephyr_sdk_version}/sha256.sum | shasum --check --ignore-missing 1>/dev/null || {
-				echo -e "\e[31mError: Failed to verify zephyr-sdk-${zephyr_sdk_version}_linux-x86_64.tar.xz\e[0m"
+				echo -e "\e[31mError: Failed to verify zephyr-sdk-${zephyr_sdk_version}_linux-${arch}.tar.xz\e[0m"
 				exit 1
 			}
 
-			echo -e "● Extract zephyr-sdk-${zephyr_sdk_version}_linux-x86_64.tar.xz ..."
-			tar xf zephyr-sdk-${zephyr_sdk_version}_linux-x86_64.tar.xz 1>/dev/null || {
-				echo -e "\e[31mError: Failed to extract zephyr-sdk-${zephyr_sdk_version}_linux-x86_64.tar.xz\e[0m"
+			echo -e "● Extract zephyr-sdk-${zephyr_sdk_version}_linux-${arch}.tar.xz ..."
+			tar xf zephyr-sdk-${zephyr_sdk_version}_linux-${arch}.tar.xz 1>/dev/null || {
+				echo -e "\e[31mError: Failed to extract zephyr-sdk-${zephyr_sdk_version}_linux-${arch}.tar.xz\e[0m"
 				exit 1
 			}
 
-			rm zephyr-sdk-${zephyr_sdk_version}_linux-x86_64.tar.xz
+			rm zephyr-sdk-${zephyr_sdk_version}_linux-${arch}.tar.xz
 		fi
 
 		echo -e "● setup zephyr-sdk-${zephyr_sdk_version} ..."
