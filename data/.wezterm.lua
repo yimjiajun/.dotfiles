@@ -23,7 +23,7 @@ local function is_unix()
     return package.config:sub(1, 1) == "/"
 end-- Pull in the wezterm API
 
-config.color_scheme = 'GruvboxDarkHard'
+config.color_scheme = 'Flexoki (Dark)'
 config.font =
   wezterm.font('JetBrains Mono', { weight = 'Regular'})
 
@@ -41,18 +41,18 @@ config.window_background_gradient = {
     '#0d0e0f',
     '#171a1a',
     '#1d2021',
-	'#202020',
-	'#242424',
-	'#282828',
-	'#32302f',
-	'#3c3a39',
+    '#202020',
+    '#242424',
+    '#282828',
+    '#32302f',
+    '#3c3a39',
   },
 
   interpolation = 'Linear',
   blend = 'Rgb',
 }
 
-config.window_background_opacity = 0.9
+config.window_background_opacity = 1
 config.window_background_image = nil
 config.window_background_image_hsb = nil
 if is_windows() then
