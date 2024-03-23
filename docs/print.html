@@ -1,0 +1,2312 @@
+<!DOCTYPE HTML>
+<html lang="en" class="sidebar-visible no-js light">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>dotfiles</title>
+        <meta name="robots" content="noindex" />
+
+
+        <!-- Custom HTML head -->
+        
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff" />
+
+        <link rel="icon" href="favicon.svg">
+        <link rel="shortcut icon" href="favicon.png">
+        <link rel="stylesheet" href="css/variables.css">
+        <link rel="stylesheet" href="css/general.css">
+        <link rel="stylesheet" href="css/chrome.css">
+        <link rel="stylesheet" href="css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="highlight.css">
+        <link rel="stylesheet" href="tomorrow-night.css">
+        <link rel="stylesheet" href="ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+
+    </head>
+    <body>
+    <div id="body-container">
+        <!-- Provide site root to javascript -->
+        <script>
+            var path_to_root = "";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('no-js')
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add('js');
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            var html = document.querySelector('html');
+            var sidebar = null;
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+            }
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item "><a href="Home.html"><strong aria-hidden="true">1.</strong> Introductions</a></li><li class="chapter-item "><a href="SUMMARY.html"><strong aria-hidden="true">2.</strong> Summary</a></li><li class="chapter-item "><a href="bluetooth/bluetooth.html"><strong aria-hidden="true">3.</strong> Bluetooth</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="bluetooth/bluetooth_interactive.html"><strong aria-hidden="true">3.1.</strong> Interactive</a></li><li class="chapter-item "><div><strong aria-hidden="true">3.2.</strong> Controller</div><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="bluetooth/bluetooth_controller_status.html"><strong aria-hidden="true">3.2.1.</strong> Controller status</a></li><li class="chapter-item "><a href="bluetooth/bluetooth_controller_multiple.html"><strong aria-hidden="true">3.2.2.</strong> Controller multiple</a></li><li class="chapter-item "><a href="bluetooth/bluetooth_controller_power_on.html"><strong aria-hidden="true">3.2.3.</strong> Controller power on</a></li><li class="chapter-item "><a href="bluetooth/bluetooth_controller_discoverable.html"><strong aria-hidden="true">3.2.4.</strong> Controller discoverable</a></li><li class="chapter-item "><a href="bluetooth/bluetooth_controller_pairable.html"><strong aria-hidden="true">3.2.5.</strong> Controller pairable</a></li></ol></li><li class="chapter-item "><div><strong aria-hidden="true">3.3.</strong> Device</div><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="bluetooth/bluetooth_device_scan.html"><strong aria-hidden="true">3.3.1.</strong> Device scan</a></li><li class="chapter-item "><a href="bluetooth/bluetooth_device_list.html"><strong aria-hidden="true">3.3.2.</strong> Device list</a></li><li class="chapter-item "><a href="bluetooth/bluetooth_device_pair.html"><strong aria-hidden="true">3.3.3.</strong> Device pair</a></li><li class="chapter-item "><a href="bluetooth/bluetooth_device_connect.html"><strong aria-hidden="true">3.3.4.</strong> Device connect</a></li></ol></li><li class="chapter-item "><div><strong aria-hidden="true">3.4.</strong> Usage</div><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="bluetooth/bluetooth_connect.html"><strong aria-hidden="true">3.4.1.</strong> Connection</a></li></ol></li></ol></li><li class="chapter-item "><a href="cron/cron.html"><strong aria-hidden="true">4.</strong> Cron</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="cron/cron_format.html"><strong aria-hidden="true">4.1.</strong> Format of crontab</a></li><li class="chapter-item "><a href="cron/cron_usage.html"><strong aria-hidden="true">4.2.</strong> Usage</a></li><li class="chapter-item "><a href="cron/cron_list.html"><strong aria-hidden="true">4.3.</strong> List User Scheduled Command</a></li><li class="chapter-item "><a href="cron/cron_delete.html"><strong aria-hidden="true">4.4.</strong> Delete User Scheduled Command</a></li><li class="chapter-item "><a href="cron/cron_files.html"><strong aria-hidden="true">4.5.</strong> File for Each User</a></li><li class="chapter-item "><a href="cron/cron_permission.html"><strong aria-hidden="true">4.6.</strong> Permission of Scheduled Command</a></li></ol></li><li class="chapter-item "><a href="dediprog/dediprog.html"><strong aria-hidden="true">5.</strong> Dediprog</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="dediprog/dediprog_guide.html"><strong aria-hidden="true">5.1.</strong> Linux Guide</a></li></ol></li><li class="chapter-item "><a href="gpg/gpg.html"><strong aria-hidden="true">6.</strong> GPG</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="gpg/gpg_generate_keypair.html"><strong aria-hidden="true">6.1.</strong> Generate Key</a></li><li class="chapter-item "><a href="gpg/gpg_list_keys.html"><strong aria-hidden="true">6.2.</strong> List Key</a></li><li class="chapter-item "><a href="gpg/gpg_export_key.html"><strong aria-hidden="true">6.3.</strong> Export key</a></li><li class="chapter-item "><a href="gpg/gpg_import_key.html"><strong aria-hidden="true">6.4.</strong> Import key</a></li></ol></li><li class="chapter-item "><a href="khal/khal.html"><strong aria-hidden="true">7.</strong> Khal</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="khal/khal_usage.html"><strong aria-hidden="true">7.1.</strong> Usage</a></li><li class="chapter-item "><a href="khal/khal_at.html"><strong aria-hidden="true">7.2.</strong> (atd) Calendar Notification</a></li><li class="chapter-item "><a href="khal/khal_vdirsyncer.html"><strong aria-hidden="true">7.3.</strong> (vdirsyncer) Calendar remote sync</a></li></ol></li><li class="chapter-item "><a href="pass/pass.html"><strong aria-hidden="true">8.</strong> Pass</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="pass/pass_installation.html"><strong aria-hidden="true">8.1.</strong> Installtion</a></li><li class="chapter-item "><a href="pass/pass_create.html"><strong aria-hidden="true">8.2.</strong> Create Password</a></li><li class="chapter-item "><a href="pass/pass_list.html"><strong aria-hidden="true">8.3.</strong> List Password</a></li><li class="chapter-item "><a href="pass/pass_search.html"><strong aria-hidden="true">8.4.</strong> Search Password</a></li><li class="chapter-item "><a href="pass/pass_show.html"><strong aria-hidden="true">8.5.</strong> Show Password</a></li><li class="chapter-item "><a href="pass/pass_change.html"><strong aria-hidden="true">8.6.</strong> Change Password</a></li><li class="chapter-item "><a href="pass/pass_delete.html"><strong aria-hidden="true">8.7.</strong> Delete Password</a></li><li class="chapter-item "><a href="pass/pass_restore.html"><strong aria-hidden="true">8.8.</strong> Restore Password</a></li><li class="chapter-item "><a href="pass/pass_add_info.html"><strong aria-hidden="true">8.9.</strong> Add info in Password</a></li></ol></li><li class="chapter-item "><a href="ssh/ssh.html"><strong aria-hidden="true">9.</strong> SSH</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="ssh/ssh_gen.html"><strong aria-hidden="true">9.1.</strong> Key generator</a></li><li class="chapter-item "><a href="ssh/ssh_disown.html"><strong aria-hidden="true">9.2.</strong> Disown</a></li><li class="chapter-item "><a href="ssh/ssh_nohup.html"><strong aria-hidden="true">9.3.</strong> Nohup</a></li></ol></li><li class="chapter-item "><a href="saleae/saleae.html"><strong aria-hidden="true">10.</strong> Saleae</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="saleae/saleae_note.html"><strong aria-hidden="true">10.1.</strong> Note</a></li></ol></li><li class="chapter-item "><a href="rsync/rsync.html"><strong aria-hidden="true">11.</strong> RSync</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="rsync/rsync_transfer.html"><strong aria-hidden="true">11.1.</strong> Transfer</a></li></ol></li><li class="chapter-item "><div><strong aria-hidden="true">12.</strong> OpenSSL</div><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="openssl/md5.html"><strong aria-hidden="true">12.1.</strong> MD5</a></li></ol></li><li class="chapter-item "><a href="mount/mount.html"><strong aria-hidden="true">13.</strong> Mount</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="mount/mount_usb_format.html"><strong aria-hidden="true">13.1.</strong> USB Format</a></li><li class="chapter-item "><a href="mount/mount_wsl_usb_mass_storage_dev.html"><strong aria-hidden="true">13.2.</strong> WSL - USB Mass Storage Device</a></li><li class="chapter-item "><a href="mount/mount_format_usb_drive.html"><strong aria-hidden="true">13.3.</strong> Format USB drive</a></li><li class="chapter-item "><a href="mount/mount_create_bootable_usb.html"><strong aria-hidden="true">13.4.</strong> Create Bootable USB drive</a></li></ol></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
+        </nav>
+
+        <!-- Track and set sidebar scroll position -->
+        <script>
+            var sidebarScrollbox = document.querySelector('#sidebar .sidebar-scrollbox');
+            sidebarScrollbox.addEventListener('click', function(e) {
+                if (e.target.tagName === 'A') {
+                    sessionStorage.setItem('sidebar-scroll', sidebarScrollbox.scrollTop);
+                }
+            }, { passive: true });
+            var sidebarScrollTop = sessionStorage.getItem('sidebar-scroll');
+            sessionStorage.removeItem('sidebar-scroll');
+            if (sidebarScrollTop) {
+                // preserve sidebar scroll position when navigating via links within sidebar
+                sidebarScrollbox.scrollTop = sidebarScrollTop;
+            } else {
+                // scroll sidebar to current active section when navigating via "next/previous chapter" buttons
+                var activeSection = document.querySelector('#sidebar .active');
+                if (activeSection) {
+                    activeSection.scrollIntoView({ block: 'center' });
+                }
+            }
+        </script>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </button>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">dotfiles</h1>
+
+                    <div class="right-buttons">
+                        <a href="print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <div align="center">
+  <h1 id="dotfiles"><a class="header" href="#dotfiles"> DotFiles </a></h1>
+</div>
+<div align="right">
+  <img src="https://github.com/yimjiajun/.dotfiles/actions/workflows/main.yml/badge.svg" alt="github_workflow_status">
+</div>
+<div align="center">
+  dotfiles are ususually user-specific, a predestined place for them is the $HOME directory
+</div>
+<div align="center">
+  <h2 id="installation"><a class="header" href="#installation"> Installation </a></h2>
+</div>
+<ol>
+<li>
+<p>Clone git repository</p>
+<pre><code> git clone https://github.com/yimjiajun/.dotfiles.git ~/.dotfiles
+</code></pre>
+</li>
+<li>
+<p>Run <code>install.sh</code> to start install <sup class="footnote-reference"><a href="#i1">1</a></sup></p>
+<pre><code> ~/.dotfiles/install.sh
+</code></pre>
+</li>
+</ol>
+<div align="center">
+  <h2 id="application"><a class="header" href="#application"> Application </a></h2>
+</div>
+<blockquote>
+<p>this will installed when called <code>~/.dotfiles/install.sh</code> or <code> ~/.dotfiles/install.sh --app</code>)</p>
+</blockquote>
+<pre><code>$USER
+</code></pre>
+<div class="table-wrapper"><table><thead><tr><th></th><th>Name</th><th>Description</th></tr></thead><tbody>
+<tr><td>1</td><td>Manager</td><td>Invokes installed tools</td></tr>
+<tr><td>2</td><td>System</td><td>Indicates and Control system information</td></tr>
+<tr><td>3</td><td>Network</td><td>Indicates and Control device Network</td></tr>
+<tr><td>4</td><td>Memory</td><td>Indicates device disk usage</td></tr>
+</tbody></table>
+</div><div align="center">
+  <h2 id="tools"><a class="header" href="#tools"> Tools </a></h2>
+</div>
+<div class="table-wrapper"><table><thead><tr><th></th><th>Name</th><th>Description</th></tr></thead><tbody>
+<tr><td>1</td><td><a href="https://github.com/aristocratos/bpytop.git">bpytop</a></td><td>Linux/OSX/FreeBSD resource monitor</td></tr>
+<tr><td>2</td><td><a href="https://github.com/jarun/buku.git">buku</a></td><td>Personal mini-web in text</td></tr>
+<tr><td>3</td><td><a href="https://clangd.llvm.org/installation.html">clangd</a></td><td>clangd understands your C++ code and adds smart features to your editor</td></tr>
+<tr><td>4</td><td><a href="https://en.wikipedia.org/wiki/Cron">cron</a></td><td>command-line utility is a job scheduler on Unix-like operating systems</td></tr>
+<tr><td>5</td><td><a href="https://github.com/universal-ctags/ctags">ctags</a></td><td>generates an index (or tag) file of language objects found in source files for programming languages</td></tr>
+<tr><td>6</td><td><a href="https://curl.se/">curl</a></td><td>command lines or scripts to transfer data</td></tr>
+<tr><td>7</td><td><a href="https://github.com/junegunn/fzf">fzf</a></td><td>A command-line fuzzy finder</td></tr>
+<tr><td>8</td><td><a href="https://git-scm.com/">git</a></td><td>distributed version control system designed to handle everything from small to very large projects with speed and efficiency.</td></tr>
+<tr><td>9</td><td><a href="https://gnupg.org/">gpg</a></td><td>GnuPG allows you to encrypt and sign your data and communications</td></tr>
+<tr><td>10</td><td><a href="https://htop.dev/">htop</a></td><td>cross-platform interactive process viewer</td></tr>
+<tr><td>11</td><td><a href="https://github.com/pimutils/khal">khal</a></td><td>standards based CLI and terminal calendar program, able to synchronize with CalDAV servers through vdirsyncer.</td></tr>
+<tr><td>12</td><td><a href="https://github.com/jesseduffield/lazygit">lazygit</a></td><td>simple terminal UI for git commands</td></tr>
+<tr><td>13</td><td><a href="https://github.com/rust-lang/mdBook">mdbook</a></td><td>Create book from markdown files. Like Gitbook but implemented in Rust</td></tr>
+<tr><td>14</td><td><a href="https://dev.yorhel.nl/ncdu">ncdu</a></td><td>disk usage analyzer with an ncurses interface.</td></tr>
+<tr><td>15</td><td><a href="https://manpages.ubuntu.com/manpages/xenial/man1/notify-send.1.html">notify-send</a></td><td>a program to send desktop notifications</td></tr>
+<tr><td>16</td><td><a href="https://www.passwordstore.org/">pass</a></td><td>each password lives inside of a gpg encrypted file whose filename is the title of the website or resource that requires the password</td></tr>
+<tr><td>17</td><td><a href="https://github.com/npat-efault/picocom">picocom</a></td><td>Minimal dumb-terminal emulation program</td></tr>
+<tr><td>18</td><td><a href="https://github.com/ranger/ranger">ranger</a></td><td>A VIM-inspired filemanager for the console</td></tr>
+<tr><td>19</td><td><a href="https://github.com/BurntSushi/ripgrep">ripgrep</a></td><td>About ripgrep recursively searches directories for a regex pattern while respecting your gitignore</td></tr>
+<tr><td>20</td><td><a href="https://github.com/rust-lang/rust">rust</a></td><td>Empowering everyone to build reliable and efficient software.</td></tr>
+<tr><td>21</td><td><a href="https://en.wikipedia.org/wiki/Secure_Shell">ssh</a></td><td>cryptographic network protocol for operating network services securely over an unsecured network</td></tr>
+<tr><td>22</td><td><a href="https://www.geeksforgeeks.org/tar-command-linux-examples/">tar</a></td><td>create Archive and extract the Archive files.</td></tr>
+<tr><td>23</td><td><a href="https://github.com/tmux/tmux/wiki">tmux</a></td><td>Terminal multiplexer. It lets you switch easily between several programs in one terminal</td></tr>
+<tr><td>24</td><td><a href="https://github.com/dorssel/usbipd-win">usbipd</a></td><td>Windows software for sharing locally connected USB devices to other machines, including Hyper-V guests and WSL 2.</td></tr>
+<tr><td>25</td><td><a href="https://en.wikipedia.org/wiki/Wireless_tools_for_Linux">wireless-tools</a></td><td>Collection of user-space utilities written for Linux kernel-based operating systems to support and facilitate the configuration of device drivers of wireless network interface controllers</td></tr>
+<tr><td>26</td><td><a href="https://packages.debian.org/sid/xdg-utils">xdg-utils</a></td><td>Utilities for integrating applications with the desktop environment, regardless of which desktop environment is used</td></tr>
+</tbody></table>
+</div><div align="center">
+  <h2 id="project"><a class="header" href="#project"> Project </a></h2>
+</div>
+<div class="table-wrapper"><table><thead><tr><th></th><th>Name</th><th>Description</th></tr></thead><tbody>
+<tr><td>1</td><td><a href="https://docs.zephyrproject.org/latest/develop/getting_started/index.html">zephyr</a></td><td>small-footprint kernel designed for use on resource-constrained and embedded systems</td></tr>
+</tbody></table>
+</div><div align="center">
+  <h2 id="neovim"><a class="header" href="#neovim"> NeoVim </a></h2>
+</div>
+<p>Vim is a highly configurable text editor built to make creating and changing any kind of text very efficient. It is included as &quot;vi&quot; with most UNIX systems and with Apple OS X.</p>
+<div align="center">
+  <a href="https://github.com/yimjiajun/neovim">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/4/4f/Neovim-logo.svg" alt="Neovim-logo" width="200">
+  </a>
+</div>
+<div align="center">
+  <h2 id="link"><a class="header" href="#link"> Link </a></h2>
+</div>
+<p><a href="https://yimjiajun.github.io/.dotfiles/">.dotfiles Guide and Introduction</a></p>
+<div class="footnote-definition" id="i1"><sup class="footnote-definition-label">1</sup>
+<p>install specific project. <code>~/.dotfiles/install.sh --tools</code> or <code>~/.dotfiles/install.sh --prj</code>. <code>~/.dotfiles/install.sh --help</code> for more information</p>
+</div>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="dotfiles-1"><a class="header" href="#dotfiles-1">Dotfiles</a></h1>
+<ul>
+<li>
+<p><a href="Home.html">Introductions</a></p>
+</li>
+<li>
+<p><a href="SUMMARY.html">Summary</a></p>
+</li>
+<li>
+<p><a href="bluetooth/bluetooth.html">Bluetooth</a></p>
+<ul>
+<li><a href="bluetooth/bluetooth_interactive.html">Interactive</a></li>
+<li><a href="">Controller</a>
+<ul>
+<li><a href="bluetooth/bluetooth_controller_status.html">Controller status</a></li>
+<li><a href="bluetooth/bluetooth_controller_multiple.html">Controller multiple</a></li>
+<li><a href="bluetooth/bluetooth_controller_power_on.html">Controller power on</a></li>
+<li><a href="bluetooth/bluetooth_controller_discoverable.html">Controller discoverable</a></li>
+<li><a href="bluetooth/bluetooth_controller_pairable.html">Controller pairable</a></li>
+</ul>
+</li>
+<li><a href="">Device</a>
+<ul>
+<li><a href="bluetooth/bluetooth_device_scan.html">Device scan</a></li>
+<li><a href="bluetooth/bluetooth_device_list.html">Device list</a></li>
+<li><a href="bluetooth/bluetooth_device_pair.html">Device pair</a></li>
+<li><a href="bluetooth/bluetooth_device_connect.html">Device connect</a></li>
+</ul>
+</li>
+<li><a href="">Usage</a>
+<ul>
+<li><a href="bluetooth/bluetooth_connect.html">Connection</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="cron/cron.html">Cron</a></p>
+<ul>
+<li><a href="cron/cron_format.html">Format of crontab</a></li>
+<li><a href="cron/cron_usage.html">Usage</a></li>
+<li><a href="cron/cron_list.html">List User Scheduled Command</a></li>
+<li><a href="cron/cron_delete.html">Delete User Scheduled Command</a></li>
+<li><a href="cron/cron_files.html">File for Each User</a></li>
+<li><a href="cron/cron_permission.html">Permission of Scheduled Command</a></li>
+</ul>
+</li>
+<li>
+<p><a href="dediprog/dediprog.html">Dediprog</a></p>
+<ul>
+<li><a href="dediprog/dediprog_guide.html">Linux Guide</a></li>
+</ul>
+</li>
+<li>
+<p><a href="gpg/gpg.html">GPG</a></p>
+<ul>
+<li><a href="gpg/gpg_generate_keypair.html">Generate Key</a></li>
+<li><a href="gpg/gpg_list_keys.html">List Key</a></li>
+<li><a href="gpg/gpg_export_key.html">Export key</a></li>
+<li><a href="gpg/gpg_import_key.html">Import key</a></li>
+</ul>
+</li>
+<li>
+<p><a href="khal/khal.html">Khal</a></p>
+<ul>
+<li><a href="khal/khal_usage.html">Usage</a></li>
+<li><a href="khal/khal_at.html">(atd) Calendar Notification</a></li>
+<li><a href="khal/khal_vdirsyncer.html">(vdirsyncer) Calendar remote sync</a></li>
+</ul>
+</li>
+<li>
+<p><a href="pass/pass.html">Pass</a></p>
+<ul>
+<li><a href="pass/pass_installation.html">Installtion</a></li>
+<li><a href="pass/pass_create.html">Create Password</a></li>
+<li><a href="pass/pass_list.html">List Password</a></li>
+<li><a href="pass/pass_search.html">Search Password</a></li>
+<li><a href="pass/pass_show.html">Show Password</a></li>
+<li><a href="pass/pass_change.html">Change Password</a></li>
+<li><a href="pass/pass_delete.html">Delete Password</a></li>
+<li><a href="pass/pass_restore.html">Restore Password</a></li>
+<li><a href="pass/pass_add_info.html">Add info in Password</a></li>
+</ul>
+</li>
+<li>
+<p><a href="ssh/ssh.html">SSH</a></p>
+<ul>
+<li><a href="ssh/ssh_gen.html">Key generator</a></li>
+<li><a href="ssh/ssh_disown.html">Disown</a></li>
+<li><a href="ssh/ssh_nohup.html">Nohup</a></li>
+</ul>
+</li>
+<li>
+<p><a href="saleae/saleae.html">Saleae</a></p>
+<ul>
+<li><a href="saleae/saleae_note.html">Note</a></li>
+</ul>
+</li>
+<li>
+<p><a href="rsync/rsync.html">RSync</a></p>
+<ul>
+<li><a href="rsync/rsync_transfer.html">Transfer</a></li>
+</ul>
+</li>
+<li>
+<p><a href="">OpenSSL</a></p>
+<ul>
+<li><a href="openssl/md5.html">MD5</a></li>
+</ul>
+</li>
+<li>
+<p><a href="mount/mount.html">Mount</a></p>
+<ul>
+<li><a href="mount/mount_usb_format.html">USB Format</a></li>
+<li><a href="mount/mount_wsl_usb_mass_storage_dev.html">WSL - USB Mass Storage Device</a></li>
+<li><a href="mount/mount_format_usb_drive.html">Format USB drive</a></li>
+<li><a href="mount/mount_create_bootable_usb.html">Create Bootable USB drive</a></li>
+</ul>
+</li>
+</ul>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="bluetooth"><a class="header" href="#bluetooth">Bluetooth</a></h1>
+<p>Connect to a Bluetooth device via the terminal.</p>
+<p>This process involves configuring our Bluetooth controller,
+pairing it to our target device.</p>
+<p>reference: <a href="https://www.baeldung.com/linux/bluetooth-via-terminal">Connect to Bluetooth Device
+via the Terminal</a></p>
+<ul>
+<li><a href="bluetooth/bluetooth_interactive.html">Interactive</a></li>
+<li>Controller
+<ul>
+<li><a href="bluetooth/bluetooth_controller_status.html">Controller status</a></li>
+<li><a href="bluetooth/bluetooth_controller_multiple.html">Controller multiple</a></li>
+<li><a href="bluetooth/bluetooth_controller_power_on.html">Controller power on</a></li>
+<li><a href="bluetooth/bluetooth_controller_discoverable.html">Controller discoverable</a></li>
+<li><a href="bluetooth/bluetooth_controller_pairable.html">Controller pairable</a></li>
+</ul>
+</li>
+<li>Device
+<ul>
+<li><a href="bluetooth/bluetooth_device_scan.html">Device scan</a></li>
+<li><a href="bluetooth/bluetooth_device_list.html">Device list</a></li>
+<li><a href="bluetooth/bluetooth_device_pair.html">Device pair</a></li>
+<li><a href="bluetooth/bluetooth_device_connect.html">Device connect</a></li>
+</ul>
+</li>
+<li>Usage
+<ul>
+<li><a href="bluetooth/bluetooth_connect.html">Connection</a></li>
+</ul>
+</li>
+</ul>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="bluetooth---interactive"><a class="header" href="#bluetooth---interactive">Bluetooth - Interactive</a></h1>
+<p>Interactive Bluetooth control tools</p>
+<pre><code class="language-bash">bluetoothctl
+</code></pre>
+<p>Output response: <em>Interactive shell</em></p>
+<pre><code class="language-plain">Agent registered
+[bluetooth]#
+</code></pre>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="bluetooth---controller-status"><a class="header" href="#bluetooth---controller-status">Bluetooth - Controller Status</a></h1>
+<pre><code class="language-bash">bluetoothctl show
+</code></pre>
+<p>Output response:</p>
+<blockquote>
+<p>Powered: yes</p>
+<p>Pairable: yes</p>
+<p>discoverable: no</p>
+<p>Discovering: no</p>
+</blockquote>
+<pre><code class="language-plain">Controller DC:41:A9:1F:E2:61 (public)
+        Name: R
+        Alias: R
+        Class: 0x006c010c
+        Powered: yes
+        Discoverable: no
+        DiscoverableTimeout: 0x000000b4
+        Pairable: yes
+        UUID: A/V Remote Control        (0000110e-0000-1000-8000-00805f9b34fb)
+        UUID: Handsfree Audio Gateway   (0000111f-0000-1000-8000-00805f9b34fb)
+        UUID: PnP Information           (00001200-0000-1000-8000-00805f9b34fb)
+        UUID: Audio Sink                (0000110b-0000-1000-8000-00805f9b34fb)
+        UUID: Headset                   (00001108-0000-1000-8000-00805f9b34fb)
+        UUID: A/V Remote Control Target (0000110c-0000-1000-8000-00805f9b34fb)
+        UUID: Generic Access Profile    (00001800-0000-1000-8000-00805f9b34fb)
+        UUID: Audio Source              (0000110a-0000-1000-8000-00805f9b34fb)
+        UUID: Generic Attribute Profile (00001801-0000-1000-8000-00805f9b34fb)
+        UUID: Device Information        (0000180a-0000-1000-8000-00805f9b34fb)
+        Modalias: usb:v1D6Bp0246d0540
+        Discovering: no
+        Roles: central
+        Roles: peripheral
+Advertising Features:
+        ActiveInstances: 0x00 (0)
+        SupportedInstances: 0x08 (8)
+        SupportedIncludes: tx-power
+        SupportedIncludes: appearance
+        SupportedIncludes: local-name
+        SupportedSecondaryChannels: 1M
+        SupportedSecondaryChannels: 2M
+        SupportedSecondaryChannels: Coded
+</code></pre>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="bluetooth---multiple-controllers"><a class="header" href="#bluetooth---multiple-controllers">Bluetooth - Multiple Controllers</a></h1>
+<p>When local device / computer supporting multiple Bluetooth controller,
+must ensure we select the correct one before connecting.</p>
+<h2 id="list-of-connected-bluetooth-controllers"><a class="header" href="#list-of-connected-bluetooth-controllers">List of connected Bluetooth controllers</a></h2>
+<p>Reference: <a href="https://www.baeldung.com/linux/bluetooth-via-terminal#2-using-multiple-bluetooth-controllers">Using Multiple Bluetooth Controller</a></p>
+<pre><code class="language-bash">bluetoothctl list
+</code></pre>
+<h2 id="select-a-default-controller"><a class="header" href="#select-a-default-controller">Select a default controller</a></h2>
+<p>Select a Bluetooth controller by <strong>MAC address</strong></p>
+<p>For convenient, using controller name convert to MAC address:</p>
+<pre><code class="language-bash">read &quot;Choose a name of default controller&quot; dev_name
+bluetoothctl select $(bluetoothctl list | grep &quot;$dev_name&quot; | awk '{ print $2 }')
+</code></pre>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="bluetooth---controller-power-on"><a class="header" href="#bluetooth---controller-power-on">Bluetooth - Controller Power On</a></h1>
+<p>Turn on Bluetooth controller,
+when powered is off ( <a href="bluetooth/bluetooth_controller_status.html">Powered: no</a> )</p>
+<pre><code class="language-bash">bluetoothctl power on
+</code></pre>
+<p>Output response: <em>power on</em></p>
+<pre><code class="language-plain">Changing power on succeeded
+</code></pre>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="bluetooth---discoverable-controller"><a class="header" href="#bluetooth---discoverable-controller">Bluetooth - Discoverable Controller</a></h1>
+<p>Start discover by Bluetooth controller,
+when Discoverable is off (<a href="bluetooth/bluetooth_controller_status.html">Discoverable: no</a>)</p>
+<pre><code class="language-bash">bluetoothctl discoverable on
+</code></pre>
+<p>Output response: <em>Discoverable: yes</em></p>
+<pre><code class="language-plain">Changing discoverable on succeeded
+</code></pre>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="bluetooth---pairable-controller"><a class="header" href="#bluetooth---pairable-controller">Bluetooth - Pairable Controller</a></h1>
+<p>Turn on controller to pairs,
+when controller is not pairable ( <a href="bluetooth/bluetooth_controller_status.html">Pairable: no</a> )</p>
+<pre><code class="language-bash">bluetoothctl pairable on
+</code></pre>
+<p>Output response: <em>pairable</em></p>
+<pre><code class="language-plain">Changing pairable on succeeded
+</code></pre>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="bluetooth---scan-devices"><a class="header" href="#bluetooth---scan-devices">Bluetooth - Scan devices</a></h1>
+<ul>
+<li><a href="bluetooth/bluetooth_device_scan.html#enter-discovery-mode">Enter Discovery Mode</a></li>
+<li><a href="bluetooth/bluetooth_device_scan.html#exit-dicovery-mode">Exit Dicovery Mode</a></li>
+</ul>
+<h2 id="enter-discovery-mode"><a class="header" href="#enter-discovery-mode">Enter Discovery Mode</a></h2>
+<p>Start scan discovering Bluetooth device,
+enter <strong>Discovery Mode</strong></p>
+<pre><code class="language-bash">bluetoothctl scan on
+</code></pre>
+<p>Press <kbd> ctrl </kbd> + <kbd> z </kbd> to <em>keep scanning</em> in background,
+when discovered the Bluetooth device</p>
+<blockquote>
+<p>scanning should stop after paired Bluetooth device</p>
+</blockquote>
+<p>Output response: <em>start discovery</em></p>
+<pre><code class="language-plain">Discovery started
+
+[CHG] Device 7A:CE:82:C3:C2:C8 RSSI: -63
+[CHG] Device 39:EF:AD:84:E4:A4 RSSI: -75
+[NEW] Device 10:2B:41:17:19:7D [TV] Samsung TU7000 55 TV
+...
+[NEW] Device F8:4E:17:A7:72:D1 WH-XB910N
+[NEW] Device 45:D3:C5:29:AA:E8 45-D3-C5-29-AA-E8
+...
+</code></pre>
+<h2 id="exit-dicovery-mode"><a class="header" href="#exit-dicovery-mode">Exit Dicovery Mode</a></h2>
+<p>We have keep scanning the Bluetooth device in <a href="bluetooth/bluetooth_device_scan.html#enter-discovery-mode">background</a>
+bring the <code>bluetoothctl scan</code> to <em>foreground</em>
+and stop it to exit <strong>Discovery Mode</strong></p>
+<pre><code class="language-bash">fg
+</code></pre>
+<p>Press <kbd> ctrl </kbd> + <kbd> c </kbd> stop <code>bluetoothctl scan</code>
+to exit <strong>Discovery Mode</strong></p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="bluetooth---lists-scanned--discovered-devices"><a class="header" href="#bluetooth---lists-scanned--discovered-devices">Bluetooth - Lists scanned / discovered devices</a></h1>
+<p>List all been scan / discovered Bluetooth device
+by <a href="bluetooth//doc/bluetooth/bluetooth_device_scan.html">scan</a></p>
+<pre><code class="language-bash">bluetoothctl devices
+</code></pre>
+<p>Output response: <em>available Bluetooth devices</em></p>
+<pre><code class="language-plain">...
+Device 10:2B:41:17:19:7D [TV] Samsung TU7000 55 TV
+...
+
+Device F8:4E:17:A7:72:D1 WH-XB910N
+...
+</code></pre>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="bluetooth---pairs-device"><a class="header" href="#bluetooth---pairs-device">Bluetooth - Pairs device</a></h1>
+<p>Pair a Bluetooth device by <strong>MAC address</strong></p>
+<p>For convenient, using device name convert to MAC address:</p>
+<pre><code class="language-bash">read -p &quot;Enter Bluetooth Device name to pair&quot; dev_name
+bluetoothctl pair  $(bluetoothctl devices | grep &quot;$dev_name&quot; | awk '{ print $2 }')
+</code></pre>
+<p>Example: <code>WH-XB910N</code></p>
+<pre><code class="language-bash">bluetoothctl pair  $(bluetoothctl devices | grep 'WH-XB910N' | awk '{ print $2 }')
+</code></pre>
+<p>Output response: <em>pairing successful</em></p>
+<pre><code class="language-plain">attempting to pair with f8:4e:17:a7:72:d1
+[chg] device f8:4e:17:a7:72:d1 connected: yes
+[chg] device f8:4e:17:a7:72:d1 uuids: 00000000-deca-fade-deca-deafdecacaff
+[chg] device f8:4e:17:a7:72:d1 uuids: 00001108-0000-1000-8000-00805f9b34fb
+[chg] device f8:4e:17:a7:72:d1 uuids: 0000110b-0000-1000-8000-00805f9b34fb
+[chg] device f8:4e:17:a7:72:d1 uuids: 0000110c-0000-1000-8000-00805f9b34fb
+[chg] device f8:4e:17:a7:72:d1 uuids: 0000110e-0000-1000-8000-00805f9b34fb
+[chg] device f8:4e:17:a7:72:d1 uuids: 0000111e-0000-1000-8000-00805f9b34fb
+[chg] device f8:4e:17:a7:72:d1 uuids: 00001200-0000-1000-8000-00805f9b34fb
+[chg] device f8:4e:17:a7:72:d1 uuids: 764cbf0d-bbcb-438f-a8bb-6b92759d6053
+[chg] device f8:4e:17:a7:72:d1 uuids: 81c2e72a-0591-443e-a1ff-05f988593351
+[chg] device f8:4e:17:a7:72:d1 uuids: 8901dfa8-5c7e-4d8f-9f0c-c2b70683f5f0
+[chg] device f8:4e:17:a7:72:d1 uuids: 931c7e8a-540f-4686-b798-e8df0a2ad9f7
+[chg] device f8:4e:17:a7:72:d1 uuids: 956c7b26-d49a-4ba8-b03f-b17d393cb6e2
+[chg] device f8:4e:17:a7:72:d1 uuids: df21fe2c-2515-4fdb-8886-f12c4d67927c
+[chg] device f8:4e:17:a7:72:d1 uuids: f8d1fbe4-7966-4334-8024-ff96c9330e15
+[chg] device f8:4e:17:a7:72:d1 servicesresolved: yes
+[chg] device f8:4e:17:a7:72:d1 paired: yes
+pairing successful
+</code></pre>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="bluetooth---connects-paired-device"><a class="header" href="#bluetooth---connects-paired-device">Bluetooth - Connects Paired Device</a></h1>
+<p>Connects a Bluetooth device by <strong>MAC address</strong></p>
+<p>For convenient, using device name convert to MAC address:</p>
+<pre><code class="language-bash">read -p &quot;Enter Bluetooth Device name to connect&quot; dev_name
+bluetoothctl connect \
+$(bluetoothctl devices | grep &quot;$dev_name&quot; | awk '{ print $2 }')
+</code></pre>
+<p>Example: <code>WH-XB910N</code></p>
+<pre><code class="language-bash">bluetoothctl connect \
+$(bluetoothctl devices | grep 'WH-XB910N' | awk '{ print $2 }')
+</code></pre>
+<p>Output response: <em>Connection successful</em></p>
+<pre><code class="language-plain">Attempting to connect to F8:4E:17:A7:72:D1
+[CHG] Device 4A:1D:1F:45:53:18 ManufacturerData Key: 0x004c
+[CHG] Device 4A:1D:1F:45:53:18 ManufacturerData Value:
+  0f 05 80 35 02 04 9c 10 03 73 0d 18              ...5.....s..
+[NEW] Device 72:FC:FF:53:FA:3F 72-FC-FF-53-FA-3F
+[CHG] Device A8:51:AB:0F:FB:6F RSSI: -65
+[NEW] Device 5A:83:EF:6B:7B:6C 5A-83-EF-6B-7B-6C
+[CHG] Device 10:2B:41:17:19:7D ManufacturerData Key: 0xff19
+[CHG] Device 10:2B:41:17:19:7D ManufacturerData Value:
+  00 75 00 09 01 00 00 00 06 01 00 00 00 00 00 00  .u..............
+  00 00 00 00 00 00 00 00                          ........
+[CHG] Device 10:2B:41:17:19:7D ManufacturerData Key: 0x0075
+[CHG] Device 10:2B:41:17:19:7D ManufacturerData Value:
+  42 04 01 20 67 21 0d 00 02 01 37 01 01 00 01 00  B.. g!....7.....
+  00 00 00 00 00 00 00 0e                          ........
+[CHG] Device 65:2C:86:67:CB:87 RSSI: -78
+[NEW] Device 64:87:14:42:D7:F0 64-87-14-42-D7-F0
+[CHG] Device F8:4E:17:A7:72:D1 Connected: yes
+Connection successful
+</code></pre>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="bluetooth---connection"><a class="header" href="#bluetooth---connection">Bluetooth - Connection</a></h1>
+<ul>
+<li><a href="bluetooth/bluetooth_connect.html#initialization">Initialization</a>
+<ul>
+<li><a href="bluetooth/bluetooth_connect.html#interactive-with-bluetoothd-daemon">Interactive with <strong>bluetoothd</strong> daemon</a></li>
+<li><a href="bluetooth/bluetooth_connect.html#show-available-bluetooth-controllers">Show available Bluetooth controllers</a></li>
+<li><a href="bluetooth/bluetooth_connect.html#power-on-bluetooth-controller">Power on Bluetooth controller</a></li>
+</ul>
+</li>
+<li><a href="bluetooth/bluetooth_connect.html#discover-bluetooth-controller">Discover Bluetooth Controller</a>
+<ul>
+<li><a href="bluetooth/bluetooth_connect.html#enable-controller-to-pairable">Enable controller to pairable</a></li>
+<li><a href="bluetooth/bluetooth_connect.html#discovery-bluetooth-device">Discovery Bluetooth Device</a></li>
+<li><a href="bluetooth/bluetooth_connect.html#scan-discovering-device">Scan discovering device</a></li>
+<li><a href="bluetooth/bluetooth_connect.html#list-all-scanned-bluetooth-devices">List all scanned Bluetooth devices</a></li>
+</ul>
+</li>
+<li><a href="bluetooth/bluetooth_connect.html#connect-to-bluetooth-device">Connect to Bluetooth Device</a>
+<ul>
+<li><a href="bluetooth/bluetooth_connect.html#pairing-bluetooth-device">Pairing Bluetooth device</a></li>
+<li><a href="bluetooth/bluetooth_connect.html#stop-scanning">Stop Scanning</a></li>
+</ul>
+</li>
+<li><a href="bluetooth/bluetooth_connect.html#connect-to-paired-bluetooth-device">Connect to paired Bluetooth device</a></li>
+<li><a href="bluetooth/bluetooth_connect.html#multiple-bluetooth-controller">Multiple Bluetooth Controller</a>
+<ul>
+<li><a href="bluetooth/bluetooth_connect.html#list-of-connected-bluetooth-controllers">List of connected Bluetooth controllers</a></li>
+<li><a href="bluetooth/bluetooth_connect.html#select-a-default-controller">Select a default controller</a></li>
+</ul>
+</li>
+</ul>
+<h2 id="initialization"><a class="header" href="#initialization">Initialization</a></h2>
+<h3 id="interactive-with-bluetoothd-daemon"><a class="header" href="#interactive-with-bluetoothd-daemon">Interactive with <strong>bluetoothd</strong> daemon</a></h3>
+<pre><code class="language-bash">bluetoothctl
+</code></pre>
+<p>Output response: <em>Interactive shell</em></p>
+<pre><code class="language-plain">Agent registered
+[bluetooth]#
+</code></pre>
+<h3 id="show-available-bluetooth-controllers"><a class="header" href="#show-available-bluetooth-controllers">Show available Bluetooth controller(s)</a></h3>
+<pre><code class="language-bash">bluetoothctl show
+</code></pre>
+<p>Output response:</p>
+<blockquote>
+<p>Powered: yes</p>
+<p>Pairable: yes</p>
+<p>discoverable: no</p>
+<p>Discovering: no</p>
+</blockquote>
+<pre><code class="language-plain">Controller DC:41:A9:1F:E2:61 (public)
+        Name: R
+        Alias: R
+        Class: 0x006c010c
+        Powered: yes
+        Discoverable: no
+        DiscoverableTimeout: 0x000000b4
+        Pairable: yes
+        UUID: A/V Remote Control        (0000110e-0000-1000-8000-00805f9b34fb)
+        UUID: Handsfree Audio Gateway   (0000111f-0000-1000-8000-00805f9b34fb)
+        UUID: PnP Information           (00001200-0000-1000-8000-00805f9b34fb)
+        UUID: Audio Sink                (0000110b-0000-1000-8000-00805f9b34fb)
+        UUID: Headset                   (00001108-0000-1000-8000-00805f9b34fb)
+        UUID: A/V Remote Control Target (0000110c-0000-1000-8000-00805f9b34fb)
+        UUID: Generic Access Profile    (00001800-0000-1000-8000-00805f9b34fb)
+        UUID: Audio Source              (0000110a-0000-1000-8000-00805f9b34fb)
+        UUID: Generic Attribute Profile (00001801-0000-1000-8000-00805f9b34fb)
+        UUID: Device Information        (0000180a-0000-1000-8000-00805f9b34fb)
+        Modalias: usb:v1D6Bp0246d0540
+        Discovering: no
+        Roles: central
+        Roles: peripheral
+Advertising Features:
+        ActiveInstances: 0x00 (0)
+        SupportedInstances: 0x08 (8)
+        SupportedIncludes: tx-power
+        SupportedIncludes: appearance
+        SupportedIncludes: local-name
+        SupportedSecondaryChannels: 1M
+        SupportedSecondaryChannels: 2M
+        SupportedSecondaryChannels: Coded
+</code></pre>
+<h3 id="power-on-bluetooth-controller"><a class="header" href="#power-on-bluetooth-controller">Power on Bluetooth controller</a></h3>
+<p>Turn on Bluetooth controller,
+when powered is off ( <a href="bluetooth/bluetooth_connect.html#show-available-bluetooth-device">Powered: no</a> )</p>
+<pre><code class="language-bash">bluetoothctl power on
+</code></pre>
+<p>Output response: <em>power on</em></p>
+<pre><code class="language-plain">Changing power on succeeded
+</code></pre>
+<h3 id="discover-bluetooth-controller"><a class="header" href="#discover-bluetooth-controller">Discover Bluetooth Controller</a></h3>
+<p>Start discover by Bluetooth controller,
+when Discoverable is off ( <a href="bluetooth/bluetooth_connect.html#show-available-bluetooth-device">Discoverable: no</a> )</p>
+<pre><code class="language-bash">bluetoothctl discoverable on
+</code></pre>
+<p>Output response: <em>Discoverable: yes</em></p>
+<pre><code class="language-plain">Changing discoverable on succeeded
+</code></pre>
+<h3 id="enable-controller-to-pairable"><a class="header" href="#enable-controller-to-pairable">Enable controller to pairable</a></h3>
+<p>Turn on controller to pairs, when controller is not pairable ( <a href="bluetooth/bluetooth_connect.html#show-available-bluetooth-device">Pairable: no</a> )</p>
+<pre><code class="language-bash">bluetoothctl pairable on
+</code></pre>
+<p>Output response: <em>pairable</em></p>
+<pre><code class="language-plain">Changing pairable on succeeded
+</code></pre>
+<h2 id="discovery-bluetooth-device"><a class="header" href="#discovery-bluetooth-device">Discovery Bluetooth Device</a></h2>
+<p>Discovery Mode</p>
+<h3 id="scan-discovering-device"><a class="header" href="#scan-discovering-device">Scan discovering device</a></h3>
+<p>Start scan discovering Bluetooth device,
+enter <strong>Discovery Mode</strong></p>
+<pre><code class="language-bash">bluetoothctl scan on
+</code></pre>
+<p>Press <kbd> ctrl </kbd> + <kbd> z </kbd>
+to <em>keep scanning</em> in background (<a href="bluetooth/bluetooth_connect.html#stop-scanning">stop after pair</a>),
+when discovered the Bluetooth device</p>
+<blockquote>
+<p>scanning should stop after paired Bluetooth device</p>
+</blockquote>
+<p>Output response: <em>start discovery</em></p>
+<pre><code class="language-plain">Discovery started
+
+[CHG] Device 7A:CE:82:C3:C2:C8 RSSI: -63
+[CHG] Device 39:EF:AD:84:E4:A4 RSSI: -75
+[NEW] Device 10:2B:41:17:19:7D [TV] Samsung TU7000 55 TV
+...
+[NEW] Device F8:4E:17:A7:72:D1 WH-XB910N
+[NEW] Device 45:D3:C5:29:AA:E8 45-D3-C5-29-AA-E8
+...
+</code></pre>
+<h3 id="list-all-scanned-bluetooth-devices"><a class="header" href="#list-all-scanned-bluetooth-devices">List all scanned Bluetooth devices</a></h3>
+<p>List all been scan / discovered Bluetooth device by <a href="bluetooth/bluetooth_connect.html#scan-discovering-device">scan</a></p>
+<pre><code class="language-bash">bluetoothctl devices
+</code></pre>
+<p>Output response: <em>available Bluetooth devices</em></p>
+<pre><code class="language-plain">...
+Device 10:2B:41:17:19:7D [TV] Samsung TU7000 55 TV
+...
+
+Device F8:4E:17:A7:72:D1 WH-XB910N
+...
+</code></pre>
+<h2 id="connect-to-bluetooth-device"><a class="header" href="#connect-to-bluetooth-device">Connect to Bluetooth Device</a></h2>
+<h3 id="pairing-bluetooth-device"><a class="header" href="#pairing-bluetooth-device">Pairing Bluetooth device</a></h3>
+<p>Pair a Bluetooth device by <strong>MAC address</strong></p>
+<p>For convenient, using device name convert to MAC address:</p>
+<pre><code class="language-bash">read -p &quot;Enter Bluetooth Device name to pair&quot; dev_name
+bluetoothctl pair  $(bluetoothctl devices | grep &quot;$dev_name&quot; | awk '{ print $2 }')
+</code></pre>
+<p>Example: <code>WH-XB910N</code></p>
+<pre><code class="language-bash">bluetoothctl pair  $(bluetoothctl devices | grep 'WH-XB910N' | awk '{ print $2 }')
+</code></pre>
+<p>Output response: <em>pairing successful</em></p>
+<pre><code class="language-plain">attempting to pair with f8:4e:17:a7:72:d1
+[chg] device f8:4e:17:a7:72:d1 connected: yes
+[chg] device f8:4e:17:a7:72:d1 uuids: 00000000-deca-fade-deca-deafdecacaff
+[chg] device f8:4e:17:a7:72:d1 uuids: 00001108-0000-1000-8000-00805f9b34fb
+[chg] device f8:4e:17:a7:72:d1 uuids: 0000110b-0000-1000-8000-00805f9b34fb
+[chg] device f8:4e:17:a7:72:d1 uuids: 0000110c-0000-1000-8000-00805f9b34fb
+[chg] device f8:4e:17:a7:72:d1 uuids: 0000110e-0000-1000-8000-00805f9b34fb
+[chg] device f8:4e:17:a7:72:d1 uuids: 0000111e-0000-1000-8000-00805f9b34fb
+[chg] device f8:4e:17:a7:72:d1 uuids: 00001200-0000-1000-8000-00805f9b34fb
+[chg] device f8:4e:17:a7:72:d1 uuids: 764cbf0d-bbcb-438f-a8bb-6b92759d6053
+[chg] device f8:4e:17:a7:72:d1 uuids: 81c2e72a-0591-443e-a1ff-05f988593351
+[chg] device f8:4e:17:a7:72:d1 uuids: 8901dfa8-5c7e-4d8f-9f0c-c2b70683f5f0
+[chg] device f8:4e:17:a7:72:d1 uuids: 931c7e8a-540f-4686-b798-e8df0a2ad9f7
+[chg] device f8:4e:17:a7:72:d1 uuids: 956c7b26-d49a-4ba8-b03f-b17d393cb6e2
+[chg] device f8:4e:17:a7:72:d1 uuids: df21fe2c-2515-4fdb-8886-f12c4d67927c
+[chg] device f8:4e:17:a7:72:d1 uuids: f8d1fbe4-7966-4334-8024-ff96c9330e15
+[chg] device f8:4e:17:a7:72:d1 servicesresolved: yes
+[chg] device f8:4e:17:a7:72:d1 paired: yes
+pairing successful
+</code></pre>
+<h3 id="stop-scanning"><a class="header" href="#stop-scanning">Stop Scanning</a></h3>
+<p>We have keep scanning the Bluetooth device in <a href="bluetooth/bluetooth_connect.html#scan-discovering-device">background</a>,
+bring the <code>bluetoothctl scan</code> to <em>foreground</em>
+and stop it to exit <strong>Discovery Mode</strong></p>
+<pre><code class="language-bash">fg
+</code></pre>
+<p>Press <kbd> ctrl </kbd> + <kbd> c </kbd> stop <code>bluetoothctl scan</code>
+to exit <strong>Discovery Mode</strong></p>
+<h2 id="connect-to-paired-bluetooth-device"><a class="header" href="#connect-to-paired-bluetooth-device">Connect to paired Bluetooth device</a></h2>
+<p>Connects a Bluetooth device by <strong>MAC address</strong></p>
+<p>For convenient, using device name convert to MAC address:</p>
+<pre><code class="language-bash">read -p &quot;Enter Bluetooth Device name to connect&quot; dev_name
+bluetoothctl connect \
+$(bluetoothctl devices | grep &quot;$dev_name&quot; | awk '{ print $2 }')
+</code></pre>
+<p>Example: <code>WH-XB910N</code></p>
+<pre><code class="language-bash">bluetoothctl connect \
+$(bluetoothctl devices | grep 'WH-XB910N' | awk '{ print $2 }')
+</code></pre>
+<p>Output response: <em>Connection successful</em></p>
+<pre><code class="language-plain">Attempting to connect to F8:4E:17:A7:72:D1
+[CHG] Device 4A:1D:1F:45:53:18 ManufacturerData Key: 0x004c
+[CHG] Device 4A:1D:1F:45:53:18 ManufacturerData Value:
+  0f 05 80 35 02 04 9c 10 03 73 0d 18              ...5.....s..
+[NEW] Device 72:FC:FF:53:FA:3F 72-FC-FF-53-FA-3F
+[CHG] Device A8:51:AB:0F:FB:6F RSSI: -65
+[NEW] Device 5A:83:EF:6B:7B:6C 5A-83-EF-6B-7B-6C
+[CHG] Device 10:2B:41:17:19:7D ManufacturerData Key: 0xff19
+[CHG] Device 10:2B:41:17:19:7D ManufacturerData Value:
+  00 75 00 09 01 00 00 00 06 01 00 00 00 00 00 00  .u..............
+  00 00 00 00 00 00 00 00                          ........
+[CHG] Device 10:2B:41:17:19:7D ManufacturerData Key: 0x0075
+[CHG] Device 10:2B:41:17:19:7D ManufacturerData Value:
+  42 04 01 20 67 21 0d 00 02 01 37 01 01 00 01 00  B.. g!....7.....
+  00 00 00 00 00 00 00 0e                          ........
+[CHG] Device 65:2C:86:67:CB:87 RSSI: -78
+[NEW] Device 64:87:14:42:D7:F0 64-87-14-42-D7-F0
+[CHG] Device F8:4E:17:A7:72:D1 Connected: yes
+Connection successful
+</code></pre>
+<h2 id="multiple-bluetooth-controller"><a class="header" href="#multiple-bluetooth-controller">Multiple Bluetooth Controller</a></h2>
+<p>When local device / computer supporting multiple Bluetooth controller,
+must ensure we select the correct one before connecting.</p>
+<h3 id="list-of-connected-bluetooth-controllers-1"><a class="header" href="#list-of-connected-bluetooth-controllers-1">List of connected Bluetooth controllers</a></h3>
+<p>Reference: <a href="https://www.baeldung.com/linux/bluetooth-via-terminal#2-using-multiple-bluetooth-controllers">Using Multiple Bluetooth Controller</a></p>
+<pre><code class="language-bash">bluetoothctl list
+</code></pre>
+<h3 id="select-a-default-controller-1"><a class="header" href="#select-a-default-controller-1">Select a default controller</a></h3>
+<p>Select a Bluetooth controller by <strong>MAC address</strong></p>
+<p>For convenient, using controller name convert to MAC address:</p>
+<pre><code class="language-bash">read &quot;Choose a name of default controller&quot; dev_name
+bluetoothctl select $(bluetoothctl list | grep &quot;$dev_name&quot; | awk '{ print $2 }')
+</code></pre>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="cron"><a class="header" href="#cron">cron</a></h1>
+<p><strong>Execute scheduled commands</strong></p>
+<p><code>cron</code> is daemon to execute scheduled commands</p>
+<p><code>crontab</code> is maintain <em>crontab</em> files for individual users</p>
+<ul>
+<li>crontab  is the program used to install, deinstall or list the tables used to drive the cron(8) daemon
+in  Vixie  Cron. <br>
+Each  user  can  have  their  own  crontab,  and  though   these   are   files   in
+<em>/var/spool/cron/crontabs</em>, they are not intended to be edited directly.</li>
+</ul>
+<div class="table-wrapper"><table><thead><tr><th></th><th>Sections</th><th>sub-Sections</th></tr></thead><tbody>
+<tr><td>1</td><td><a href="cron/cron_format.html">Format</a></td><td></td></tr>
+<tr><td>2</td><td><a href="cron/cron_usage.html">Usage</a></td><td><a href="cron/cron_usage.html#crontab-x-default-text-editor">editor</a></td></tr>
+<tr><td></td><td></td><td><a href="cron/cron_usage.html#crontab-x-file">file</a></td></tr>
+<tr><td>3</td><td><a href="cron/cron_list.html">Lists</a></td><td></td></tr>
+<tr><td>4</td><td><a href="cron/cron_delete.html">Delete</a></td><td></td></tr>
+<tr><td>5</td><td><a href="cron/cron_files.html">Files</a></td><td></td></tr>
+<tr><td>6</td><td><a href="cron/cron_permission.html">Permission</a></td><td></td></tr>
+</tbody></table>
+</div><div style="break-before: page; page-break-before: always;"></div><h1 id="cron---format"><a class="header" href="#cron---format">cron - Format</a></h1>
+<pre><code>* * * * * &lt;command&gt;
+| | | | |
+| | | | +---- Day of the week (0 - 6) (Sunday to Saturday, 7 is also Sunday on some systems)
+| | | +------ Month (1 - 12)
+| | +-------- Day of the month (1 - 31)
+| +---------- Hour (0 - 23)
++------------ Minute (0 - 59)
+</code></pre>
+<p><strong>1. <code>*</code>: <em>any</em> or <em>every</em> value for specific time field</strong></p>
+<ul>
+<li>example:
+<ul>
+<li><code>0</code> <code>*</code> <code>*</code> <code>*</code> <code>*</code>: every 1 hour (at minute 0)</li>
+</ul>
+</li>
+</ul>
+<p><strong>2. <code>*/&lt;num&gt;</code>: <em>every</em> specific time filed</strong></p>
+<ul>
+<li>example:
+<ul>
+<li><code>*</code> <code>*/2</code> <code>*</code> <code>*</code> <code>*</code> : every 2 hours</li>
+</ul>
+</li>
+</ul>
+<p><strong>3. Schedule command will not source <em>.bashrc</em></strong></p>
+<blockquote>
+<p>ensure not using aliases or function defined in .bashrc</p>
+</blockquote>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="cron---usage"><a class="header" href="#cron---usage">cron - Usage</a></h1>
+<ul>
+<li>
+<p><a href="cron/cron_usage.html#crontab-x-default-text-editor">crontab x editor</a></p>
+</li>
+<li>
+<p><a href="cron/cron_usage.html#crontab-x-file">crontab x file</a></p>
+</li>
+</ul>
+<h2 id="crontab-x-default-text-editor"><a class="header" href="#crontab-x-default-text-editor">crontab x default text editor</a></h2>
+<pre><code class="language-bash">crontab -e
+</code></pre>
+<p>Benefit of using crontab with default editor</p>
+<p><strong>1. Syntax Validation</strong></p>
+<p>Checks the syntax of the crontab entries to ensure they are correctly formatted. This helps prevent mistakes that could lead to unintended consequences or errors.</p>
+<p><strong>2. File Locking</strong></p>
+<p>The crontab command handles file locking to ensure that multiple users cannot simultaneously edit the crontab file, reducing the risk of conflicts.</p>
+<p><strong>3. Reloads the Cron Daemon</strong></p>
+<p>When you update the crontab using the crontab command, it automatically notifies the cron daemon about the changes. This ensures that the new schedule takes effect immediately without needing to restart the cron daemon.</p>
+<p><strong>4. Permissions and Security</strong></p>
+<p>The crontab command performs permission checks to ensure that only authorized users can modify the crontab. This is crucial for system security.</p>
+<p>Directly editing the crontab file manually using a text editor (without using crontab command) is discouraged and can lead to problems, such as syntax errors, file locking issues, or incorrect permissions. If you make mistakes in the crontab file, it could potentially cause cron jobs to fail or not execute as intended.</p>
+<h2 id="crontab-x-file"><a class="header" href="#crontab-x-file">crontab x file</a></h2>
+<p><strong>Schedule command maintain from provided file</strong></p>
+<pre><code class="language-bash">crontab -u $USER &lt;file&gt;
+</code></pre>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="cron---lists-scheduled-command"><a class="header" href="#cron---lists-scheduled-command">cron - Lists scheduled command</a></h1>
+<pre><code class="language-bash">crontab -l
+</code></pre>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="cron---delete"><a class="header" href="#cron---delete">cron - Delete</a></h1>
+<p><strong>Delete user scheduled command</strong></p>
+<pre><code class="language-bash">crontab -r $USER
+</code></pre>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="cron---files"><a class="header" href="#cron---files">cron - Files</a></h1>
+<pre><code>/var/spool/cron/crontabs/
+</code></pre>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="cron---permissions"><a class="header" href="#cron---permissions">cron - Permissions</a></h1>
+<p><strong>Limit the scheduled command to run</strong></p>
+<pre><code>/etc/cron.allow
+/etc/cron.deny
+</code></pre>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="dediprog"><a class="header" href="#dediprog">Dediprog</a></h1>
+<p>Founded in 2005 in Taiwan, <a href="https://www.dediprog.com/category/spi-nor-flash-device-programmer">DediProg</a> has been the leading brand in providing IC programming devices and IC test sockets. They combine the efficiency of programming hardware with infrastructure software from a diversity of industry leaders to deliver a total IC programming solution for customers.</p>
+<p><img src="https://old-www.dediprog.com/upload_file/download/126.png" alt="dediprog_sf600.png" /></p>
+<ul>
+<li><a href="dediprog/dediprog/dediprog_guide.html">Guide</a></li>
+</ul>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="dediprog---linux-guide"><a class="header" href="#dediprog---linux-guide">Dediprog - Linux Guide</a></h1>
+<h2 id="topic"><a class="header" href="#topic">Topic</a></h2>
+<div class="table-wrapper"><table><thead><tr><th>index</th><th>Section</th><th></th></tr></thead><tbody>
+<tr><td>1</td><td><a href="dediprog/dediprog_guide.html#i-general-description">General Description</a></td><td></td></tr>
+<tr><td>2</td><td><a href="dediprog/dediprog_guide.html#ii-root-privileges">Root Privileges</a></td><td></td></tr>
+<tr><td>3</td><td><a href="dediprog/dediprog_guide.html#iii-usb-installation">USB Installation</a></td><td></td></tr>
+<tr><td>4</td><td><a href="dediprog/dediprog_guide.html#iv-source-code-compile">Source Code Compile</a></td><td></td></tr>
+<tr><td>5</td><td><a href="dediprog/dediprog_guide.html#v-introduction">Introduction</a></td><td><a href="dediprog/dediprog_guide.html#41-basic-usages">Basic Usages</a></td></tr>
+<tr><td></td><td></td><td><a href="dediprog/dediprog_guide.html#42-basic-switches">Basic Switches</a></td></tr>
+<tr><td></td><td></td><td><a href="dediprog/dediprog_guide.html#44-miscellaneous-options">Miscellaneous Options</a></td></tr>
+</tbody></table>
+</div>
+<h2 id="i-general-description"><a class="header" href="#i-general-description">I. General Description</a></h2>
+<p>DediProg have developed command line interface (DpCmd) especially for
+Linux operating system, which provide various command for the user's
+programming needs. This allows the user to have more flexibility in
+developing own software to call &quot;DpCmd&quot; thus add convenient IC
+programming.</p>
+<h2 id="ii-root-privileges"><a class="header" href="#ii-root-privileges">II. Root Privileges</a></h2>
+<p>Root rights is required before each execution of &quot;DpCmd&quot;, so DediProg
+has provided a script (<code>setup\_udev.sh</code>) which the user needs to execute
+as Root before executing the &quot;DpCmd&quot; for the first time, then &quot;DpCmd&quot;
+can be executed directly.</p>
+<h2 id="iii-usb-installation"><a class="header" href="#iii-usb-installation">III. USB Installation</a></h2>
+<p>Using Linux command to Installed USB driver.</p>
+<p>Ubuntu: <code>sudo apt-get install libusb-dev</code></p>
+<p>Fedora/Centos: <code>sudo yum install libusb-devel</code></p>
+<h2 id="iv-source-code-compile"><a class="header" href="#iv-source-code-compile">IV. Source Code Compile</a></h2>
+<p>Download SF100Linux source code from
+<strong>https://github.com/DediProgSW/SF100Linux</strong>, and to compile code by
+&quot;make&quot;. DpCmd execution file will be released.</p>
+<h2 id="v-introduction"><a class="header" href="#v-introduction">V. Introduction</a></h2>
+<h3 id="41-basic-usages"><a class="header" href="#41-basic-usages">4.1 Basic Usages</a></h3>
+<p>1. dpcmd --r &quot;f:\file.bin&quot;,</p>
+<blockquote>
+<p>reads the chip and save it into a file &quot;file.bin&quot; in Partition f</p>
+</blockquote>
+<p>2. dpcmd --r STDOUT --a 0x100 -l 0x23,</p>
+<blockquote>
+<p>reads 0x23 bytes starting from 0x100 and display it on the screen</p>
+</blockquote>
+<p>3. dpcmd --u f:\file.bin,</p>
+<blockquote>
+<p>erases and then program file.bin in Partition f into the serial flash</p>
+</blockquote>
+<p>4. dpcmd --p f:\file.bin --a 0x100,</p>
+<blockquote>
+<p>writes file.bin in Partition f into the serial flash starting from
+address 0x100</p>
+</blockquote>
+<p>5. dpcmd --p f:\file.bin --x 0xaa,</p>
+<blockquote>
+<p>programs file.bin in Partition f into the serial flash and fill the rest
+area with 0xaa</p>
+</blockquote>
+<p><strong>Remarks:</strong> -a, -l only works with -p, -r, -s</p>
+<p><strong>Remarks:</strong> -x only works with -p</p>
+<p><strong>Remarks:</strong> space is not needed between the switches parameters. E.g.
+dpcmd --uf:\file.bin</p>
+<h3 id="42-basic-switches"><a class="header" href="#42-basic-switches">4.2 Basic Switches</a></h3>
+<div class="table-wrapper"><table><thead><tr><th>Argument</th><th>Description</th></tr></thead><tbody>
+<tr><td>-? [ --help ]</td><td>show this help message</td></tr>
+<tr><td>--list</td><td>print supported chip list</td></tr>
+<tr><td>-d [ --detect ]</td><td>detect chip</td></tr>
+<tr><td>-b [ --blank ]</td><td>blank check</td></tr>
+<tr><td>-e [ --erase ]</td><td>erase entire chip</td></tr>
+<tr><td>-r [ --read ] arg</td><td>read chip contents and save to a bin/hex/s19 file</td></tr>
+<tr><td>-p [ --prog ] arg</td><td>program chip without erase</td></tr>
+<tr><td>-u [ --auto ] arg</td><td>automatically run the following<br> sequence:</td></tr>
+<tr><td></td><td>- Read the memory content</td></tr>
+<tr><td></td><td>- Compare the memory content</td></tr>
+<tr><td></td><td>- Erase only the sectors with some differences</td></tr>
+<tr><td></td><td>- Program only the erased <br> sectors with file data from address 0</td></tr>
+<tr><td>-z [ --batch ] arg</td><td>automatically run the following <br> sequence:</td></tr>
+<tr><td></td><td>- check if the chip is blank or not;</td></tr>
+<tr><td></td><td>- erase the entire chip(if not blank);</td></tr>
+<tr><td></td><td>- program a whole file starting from address 0</td></tr>
+<tr><td>-s [ --sum ]</td><td>display chip content checksum</td></tr>
+<tr><td>-f [ --fsum ] arg</td><td>display the file checksum</td></tr>
+<tr><td></td><td>- needs to work with a file</td></tr>
+<tr><td>--raw-instruction arg</td><td>issue raw serial flash instructions.</td></tr>
+<tr><td></td><td>- needs to work with a file issue raw serial flash instructions.</td></tr>
+<tr><td></td><td>- use spaces(&quot; &quot;) to delimit bytes.</td></tr>
+<tr><td></td><td>- instructions must be enclosed in double quotation marks(&quot;&quot;)</td></tr>
+<tr><td></td><td>Example:</td></tr>
+<tr><td></td><td>dpcmd --raw-instruction &quot;03 FF 00 12&quot;</td></tr>
+<tr><td>--raw-require-return arg</td><td>decimal bytes of result to return in decimal after issuing raw instructions.</td></tr>
+<tr><td>(=0)</td><td></td></tr>
+<tr><td></td><td>- used along with</td></tr>
+<tr><td></td><td>--raw-instruction only.</td></tr>
+<tr><td></td><td>Example:</td></tr>
+<tr><td></td><td>dpcmd --raw-instruction &quot;03 FF 00 12&quot; --raw-require-return</td></tr>
+</tbody></table>
+</div>
+<h3 id="43-optional-switches-that-add-fine-tune-ability-to-basic-switches"><a class="header" href="#43-optional-switches-that-add-fine-tune-ability-to-basic-switches">4.3 Optional Switches that add fine-tune ability to Basic Switches:</a></h3>
+<div class="table-wrapper"><table><thead><tr><th>Argument</th><th>Description</th></tr></thead><tbody>
+<tr><td>-a [ --addr ] arg</td><td>hexadecimal starting address hexadecimal (e.g. 0x1000),</td></tr>
+<tr><td></td><td>- works with</td></tr>
+<tr><td></td><td>--prog/read/sum/auto only</td></tr>
+<tr><td></td><td>- defaults to 0, if omitted.</td></tr>
+<tr><td>-l [ --length ] arg</td><td>hexadecimal length to read/program in bytes,</td></tr>
+<tr><td></td><td>- works with</td></tr>
+<tr><td></td><td>--prog/read/sum/auto only</td></tr>
+<tr><td></td><td>- defaults to whole file if</td></tr>
+<tr><td></td><td>omitted</td></tr>
+<tr><td>-v [ --verify ]</td><td>verify checksum file and chip</td></tr>
+<tr><td></td><td>- works with --prog/auto only</td></tr>
+<tr><td>-x [ --fill ] arg (=FF)</td><td>fill spare space with an hex value(e.g.FF),</td></tr>
+<tr><td></td><td>- works with --prog, --auto only</td></tr>
+<tr><td>--type arg</td><td>Specify a type to override auto detection</td></tr>
+<tr><td></td><td>- use --list arguement to look up supported type.</td></tr>
+<tr><td>--lock-start arg</td><td>hexadecimal starting address(e.g.0x1000),</td></tr>
+<tr><td></td><td>- works with</td></tr>
+<tr><td></td><td>--prog/read/sum/auto only</td></tr>
+<tr><td></td><td>- defaults to 0, if omitted.</td></tr>
+<tr><td>--lock-length arg</td><td>hexadecimal length of area that will be kept unchanged while updating</td></tr>
+<tr><td></td><td>- used along with --auto only.</td></tr>
+<tr><td>--blink arg</td><td>- 1: Blink the programmer connected to USB1 3 times.</td></tr>
+<tr><td>--list-device-id arg</td><td>- 1: Prompt the device ID of programmer connected to USB1.</td></tr>
+</tbody></table>
+</div>
+<h3 id="44-miscellaneous-options"><a class="header" href="#44-miscellaneous-options">4.4 Miscellaneous options</a></h3>
+<p><strong>Note:</strong></p>
+<ul>
+<li>
+<p>The programming operation always uses the default value for command.<br>
+If users want to use other setting, must add the wanted option to every command.<br>
+-t [ --timeout ] arg (=300)</p>
+<blockquote>
+<p>Timeout value in seconds</p>
+</blockquote>
+</li>
+</ul>
+<div class="table-wrapper"><table><thead><tr><th>Argument</th><th>Description</th></tr></thead><tbody>
+<tr><td>-g [ --target ] arg (=1)</td><td>Target Options</td></tr>
+<tr><td></td><td>Available values:</td></tr>
+<tr><td></td><td>1, Chip 1(Default)</td></tr>
+<tr><td></td><td>2, Chip 2</td></tr>
+<tr><td></td><td>3, Socket</td></tr>
+<tr><td></td><td>0, reference card</td></tr>
+<tr><td>--vcc arg (=0)</td><td>specify vcc</td></tr>
+<tr><td></td><td>0, 3.5V(Default)</td></tr>
+<tr><td></td><td>1, 2.5V</td></tr>
+<tr><td></td><td>2, 1.8V</td></tr>
+<tr><td></td><td>1800 ~ 3800, 1.8 ~ 3.8V minimum step 100mV) (For SF600/SF600<em>Plus</em> only)</td></tr>
+<tr><td>--vpp</td><td>apply vpp when the memory chip supports it</td></tr>
+<tr><td></td><td>- work with --prog and</td></tr>
+<tr><td></td><td>--erase.</td></tr>
+<tr><td>--log arg</td><td>Record the operation result in given/appointed .txt file</td></tr>
+<tr><td></td><td>Example:</td></tr>
+<tr><td></td><td>./dpcmd --log /tmp/log.txt</td></tr>
+<tr><td></td><td></td></tr>
+<tr><td></td><td>Note: If user didn't use this command, the operation result will be recorded in &quot;log.txt&quot;</td></tr>
+<tr><td>-i [ --silent ]</td><td>supress the display of real-time timer counting</td></tr>
+<tr><td></td><td>- used when integrating with 3rd-party tools(e.g. IDE)</td></tr>
+<tr><td>--spi-clk arg (=2)</td><td>specify SPI clock:</td></tr>
+<tr><td></td><td>2, 12 MHz(Default)</td></tr>
+<tr><td></td><td>0, 24 MHz</td></tr>
+<tr><td></td><td>1, 8 MHz</td></tr>
+<tr><td></td><td>3, 3 MHz</td></tr>
+<tr><td></td><td>4, 2.18 MHz</td></tr>
+<tr><td></td><td>5, 1.5 MHz</td></tr>
+<tr><td></td><td>6, 750 KHz</td></tr>
+<tr><td></td><td>7, 375 KHz</td></tr>
+<tr><td>--set-io1 arg (=0)</td><td>specify Level of IO1(SF100) or GPIO1(SF600/SF600Plus):</td></tr>
+<tr><td></td><td>0, Low(Default)</td></tr>
+<tr><td></td><td>1, High</td></tr>
+<tr><td>--set-io4 arg (=1)</td><td>specify Level of IO4(SF100) or GPIO2(SF600/SF600Plus):</td></tr>
+<tr><td></td><td>0, Low</td></tr>
+<tr><td></td><td>1, High(Default)</td></tr>
+</tbody></table>
+</div><div style="break-before: page; page-break-before: always;"></div><h1 id="gpg"><a class="header" href="#gpg">GPG</a></h1>
+<p><a href="https://gnupg.org/index.html">GnuPG</a> is a complete and free implementation of the OpenPGP standard as defined by RFC4880 (also known as PGP).</p>
+<p>GnuPG allows you to encrypt and sign your data and communications;</p>
+<p>It features a versatile key management system, along with access modules for all kinds of public key directories.</p>
+<p>GnuPG, also known as GPG, is a command line tool with features for easy integration with other applications.</p>
+<h2 id="topic-1"><a class="header" href="#topic-1">Topic</a></h2>
+<div class="table-wrapper"><table><thead><tr><th></th><th>Sections</th><th>sub-sections</th></tr></thead><tbody>
+<tr><td>1</td><td><a href="gpg/gpg_generate_keypair.html">Generate Key</a></td><td></td></tr>
+<tr><td>2</td><td><a href="gpg/gpg_list_keys.html">Lists Key</a></td><td></td></tr>
+<tr><td>3</td><td><a href="gpg/gpg_export_key.html">Export Key</a></td><td></td></tr>
+<tr><td>4</td><td><a href="gpg/gpg_import_key.html">Import Key</a></td><td></td></tr>
+</tbody></table>
+</div><div style="break-before: page; page-break-before: always;"></div><h1 id="gpg---generate-keypairs"><a class="header" href="#gpg---generate-keypairs">GPG - Generate Keypairs</a></h1>
+<p><strong>1. generate a gpg key</strong></p>
+<pre><code class="language-bash">gpg --gen-key
+</code></pre>
+<blockquote>
+<p>gpg (GnuPG) 2.2.27; Copyright (C) 2021 Free Software Foundation, Inc. <br>
+This is free software: you are free to change and redistribute it. <br>
+There is NO WARRANTY, to the extent permitted by law. <br></p>
+<p>Note: Use &quot;gpg --full-generate-key&quot; for a full featured key generation dialog.</p>
+<p>GnuPG needs to construct a user ID to identify your key.</p>
+</blockquote>
+<p><strong>2. Enter a real name</strong></p>
+<pre><code>Real name: Richard Yim
+</code></pre>
+<p><strong>3. Enter a email</strong></p>
+<pre><code>Email address: RichardYim@ami.com
+</code></pre>
+<p><strong>4. Confirm information</strong></p>
+<pre><code>You selected this USER-ID:
+    &quot;Richard Yim &lt;RichardYim@ami.com&gt;&quot;
+
+Change (N)ame, (E)mail, or (O)kay/(Q)uit?
+</code></pre>
+<p><strong>5. Enter the passphrase (make sure remembered)</strong></p>
+<blockquote>
+<p>passphrase is better with digit(s) or special-character(s)</p>
+</blockquote>
+<pre><code>┌──────────────────────────────────────────────────────┐
+│ Please enter the passphrase to                       │
+│ protect your new key                                 │
+│                                                      │
+│ Passphrase: ________________________________________ │
+│                                                      │
+│       &lt;OK&gt;                              &lt;Cancel&gt;     │
+└──────────────────────────────────────────────────────┘
+</code></pre>
+<blockquote>
+<p>We need to generate a lot of random bytes. It is a good idea to perform <br>
+some other action (type on the keyboard, move the mouse, utilize the <br>
+disks) during the prime generation; this gives the random number <br>
+... <br>
+gpg: /home/jun/.gnupg/trustdb.gpg: trustdb created <br>
+... <br>
+public and secret key created and signed. <br></p>
+<p>pub   rsa3072 2023-07-22 [SC] [expires: 2025-07-21] <br>
+(...pub key id here...) <br>
+uid                      Richard Yim <a href="mailto:gpg/richardyim@ami.com">richardyim@ami.com</a> <br>
+sub   rsa3072 2023-07-22 [E] [expires: 2025-07-21] <br></p>
+</blockquote>
+<ul>
+<li><a href="gpg/gpg_generate_keypair.html#list-keys">id</a> of key: <code>pub</code></li>
+<li><a href="gpg/gpg_generate_keypair.html#modify-expires-date">expires date</a> of key: <code>sub</code> ... [expires: 2025-07-21]</li>
+</ul>
+<h2 id="modify-expires-date"><a class="header" href="#modify-expires-date">Modify expires date</a></h2>
+<p><strong>1. Edit with public key ID</strong></p>
+<pre><code class="language-bash">gpg --edit-key &lt;id of pub key&gt;
+</code></pre>
+<p><strong>2. Insert <strong>expires</strong> in STDIN</strong></p>
+<pre><code>gpg&gt; expires
+</code></pre>
+<p><strong>3. Select <strong>expires</strong> date</strong></p>
+<blockquote>
+<p>Changing expiration time for the primary key. <br>
+Please specify how long the key should be valid. <br>
+0 = key does not expire <br>
+<n>  = key expires in n days <br>
+<n>w = key expires in n weeks <br>
+<n>m = key expires in n months <br>
+<n>y = key expires in n years <br>
+Key is valid for? (0)  <br></p>
+</blockquote>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="gpg---lists-keypairs"><a class="header" href="#gpg---lists-keypairs">GPG - Lists keypairs</a></h1>
+<p>Lists public keys</p>
+<pre><code class="language-bash">gpg -k
+</code></pre>
+<p>Lists secret keys (private key)</p>
+<pre><code class="language-bash">gpg -K
+</code></pre>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="gpg---export-key"><a class="header" href="#gpg---export-key">GPG - Export Key</a></h1>
+<p><strong>1. Create a new folder for export key</strong></p>
+<pre><code class="language-bash">cd $(mktemp -d)
+</code></pre>
+<p><strong>2. Export public key with id (email)</strong></p>
+<pre><code class="language-bash">gpg --output public.pgp --armor --export richardyim@ami.com
+</code></pre>
+<p><strong>3. Export private key with id (email)</strong></p>
+<pre><code class="language-bash">gpg --output private.pgp --armor --export-secret-key richardyim@ami.com
+</code></pre>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="gpg---import-key"><a class="header" href="#gpg---import-key">GPG - Import Key</a></h1>
+<p><strong>1. Import private key</strong></p>
+<pre><code class="language-bash">gpg --import private.pgp
+</code></pre>
+<p><strong>2. Import public key</strong></p>
+<pre><code class="language-bash">gpg --import public.pgp
+</code></pre>
+<p><strong>3. Trust the key with id (email)</strong></p>
+<pre><code class="language-bash">gpg --edit-key &lt;id&gt;
+</code></pre>
+<p><kbd> trust </kbd> and Press <kbd> Enter </kbd></p>
+<pre><code>gpg&gt; trust
+</code></pre>
+<blockquote>
+<p>1 = I don't know or won't say <br>
+2 = I do NOT trust <br>
+3 = I trust marginally <br>
+4 = I trust fully <br>
+5 = I trust ultimately <br>
+m = back to the main menu <br></p>
+</blockquote>
+<p><kbd> 5 </kbd> to trust the key ultimately</p>
+<pre><code>Your dicision? 5
+</code></pre>
+<p><kbd> y </kbd> to confirm trust the key</p>
+<pre><code>Do you really want to set this key to ultimate trust? (y/N) y
+</code></pre>
+<p><kbd> save </kbd> save the setting</p>
+<pre><code>gpg&gt; save
+
+</code></pre>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="khal"><a class="header" href="#khal">Khal</a></h1>
+<h2 id="introduction"><a class="header" href="#introduction">Introduction</a></h2>
+<p><a href="https://github.com/pimutils/khal">Khal</a> is a standards based CLI and terminal calendar program, able to synchronize with <a href="https://en.wikipedia.org/wiki/CalDAV">CalDAV</a> servers through <a href="https://github.com/pimutils/vdirsyncer">vdirsyncer</a>.</p>
+<ul>
+<li><a href="khal/khal/khal_usage.html">Usage</a></li>
+<li><a href="khal/khal/khal_at.html">Calendar notification</a></li>
+<li><a href="khal/khal/khal_vdirsyncer.html">Calendar remote synchronize</a></li>
+</ul>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="khal---usage"><a class="header" href="#khal---usage">Khal - Usage</a></h1>
+<h2 id="topic-2"><a class="header" href="#topic-2">Topic</a></h2>
+<div class="table-wrapper"><table><thead><tr><th></th><th>sections</th><th>sub-sections</th></tr></thead><tbody>
+<tr><td>1</td><td><a href="khal/khal_usage.html#agenda">Agenda</a></td><td></td></tr>
+<tr><td>2</td><td><a href="khal/khal_usage.html#event-today">Event Today</a></td><td></td></tr>
+<tr><td>3</td><td><a href="khal/khal_usage.html#new-event">New Event</a></td><td><a href="khal/khal_usage.html#single-cli">single cli</a></td></tr>
+<tr><td></td><td></td><td><a href="khal/khal_usage.html#interactive-cli">interactive cli</a></td></tr>
+<tr><td>4</td><td><a href="khal/khal_usage.html#interactive">Interactive</a></td><td></td></tr>
+</tbody></table>
+</div>
+<h2 id="agenda"><a class="header" href="#agenda">Agenda</a></h2>
+<pre><code class="language-bash">khal calendar
+</code></pre>
+<h2 id="event-today"><a class="header" href="#event-today">Event Today</a></h2>
+<pre><code class="language-bash">khal list today
+</code></pre>
+<blockquote>
+<p>will indicate with tomorrow event if events available</p>
+</blockquote>
+<h2 id="new-event"><a class="header" href="#new-event">New event</a></h2>
+<h3 id="single-cli"><a class="header" href="#single-cli">Single CLI</a></h3>
+<pre><code class="language-bash">khal new
+</code></pre>
+<h3 id="interactive-cli"><a class="header" href="#interactive-cli">Interactive CLI</a></h3>
+<pre><code class="language-bash">khal new -i
+</code></pre>
+<h2 id="interactive"><a class="header" href="#interactive">Interactive</a></h2>
+<pre><code class="language-bash">khal interactive
+</code></pre>
+<p>or</p>
+<pre><code class="language-bash">ikhal
+</code></pre>
+<ol>
+<li>
+<p>move to specific date and press <kbd> Enter </kbd></p>
+</li>
+<li>
+<p>press <kbd> n </kbd> to create new event</p>
+</li>
+<li>
+<p>edit with normal keyboard without vi-mode</p>
+</li>
+</ol>
+<p>create/modify event keys (no vi-mode):</p>
+<p>| keys                                  | description                    |
+| :-:                                   | :-:                            |
+| <kbd> Tab </kbd>                      | swap to next                   |
+| <kbd> Shift </kbd> + <kbd> Tab </kbd> | swap to previous               |
+| <kbd> Esc </kbd> + <kbd> Esc </kbd>   | to quit                        |
+| <kbd> Tab </kbd> (s)                  | swap to <code>&gt; Save</code> to save event |</p>
+<div class="footnote-definition" id="1"><sup class="footnote-definition-label">1</sup>
+<p><code>khal new --help</code>: review more informations for new event.</p>
+</div>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="khal---at"><a class="header" href="#khal---at">Khal - at</a></h1>
+<p><strong>Calendar Notification</strong></p>
+<p><code>at</code> and <code>batch</code> read commands from standard input or a specified file which are to be executed at a later time, using <code>/bin/sh</code></p>
+<h2 id="topic-3"><a class="header" href="#topic-3">Topic</a></h2>
+<div class="table-wrapper"><table><thead><tr><th></th><th>sections</th><th>sub-sections</th></tr></thead><tbody>
+<tr><td>1</td><td><a href="khal/khal_at.html#usage">Usage</a></td><td><a href="khal/khal_at.html#queue">Queue</a></td></tr>
+<tr><td>2</td><td><a href="khal/khal_at.html#command">Command</a></td><td>at</td></tr>
+<tr><td></td><td></td><td>atrm</td></tr>
+<tr><td>3</td><td><a href="khal/khal_at.html#troubleshoot">troubleshoot</a></td><td></td></tr>
+</tbody></table>
+</div>
+<h2 id="usage"><a class="header" href="#usage">Usage</a></h2>
+<p><strong>1. interactive provide instruction</strong></p>
+<pre><code class="language-bash">at now + 1 hour
+&gt; here is interactive
+&gt; &lt;Ctrl-D&gt; to save and exit
+</code></pre>
+<p><strong>2. direct provide instruction</strong></p>
+<pre><code class="language-bash">at now + 1 hour &lt;&lt;&lt; &quot;notify-send 'hello-notification'&quot;
+</code></pre>
+<h3 id="queue"><a class="header" href="#queue">Queue</a></h3>
+<pre><code class="language-bash">at -q 'c' &lt;&lt;&lt; echo &quot;queue with single character only&quot;
+</code></pre>
+<p><strong>queue (-q)</strong></p>
+<ul>
+<li><strong>a</strong>: default for <code>at</code></li>
+<li><strong>b</strong>: batch.</li>
+<li><em>UPPER case</em>:  submitted to batch at the time of the job.
+<blockquote>
+<p>batch processing rules with respect to load average apply</p>
+</blockquote>
+</li>
+</ul>
+<h2 id="command"><a class="header" href="#command">Command</a></h2>
+<p><strong>1. execute command at a later time</strong></p>
+<pre><code class="language-bash">at &lt;time&gt;
+</code></pre>
+<p><strong>2. execute command at a later time from <strong>now</strong></strong></p>
+<ul>
+<li><code>count</code>: <em>number</em></li>
+<li><code>time-unit</code>: minutes, hours, days, or weeks</li>
+</ul>
+<pre><code class="language-bash">at now + &lt;count&gt; &lt;time-unit&gt;
+</code></pre>
+<ul>
+<li>example:</li>
+</ul>
+<p><strong>1. run script from /bin/sh after 1 minute</strong></p>
+<pre><code class="language-bash">at now + 1minute &lt;&lt;&lt; &quot;echo \&quot;run after a minute\&quot; &gt; /tmp/at_test.txt&quot;
+</code></pre>
+<p><strong>2. check pending job list</strong></p>
+<pre><code class="language-bash">at -l
+</code></pre>
+<ul>
+<li>or</li>
+</ul>
+<pre><code class="language-bash">atq
+</code></pre>
+<p><strong>3. remove pending job list</strong></p>
+<pre><code class="language-bash">at -r &lt;job_number&gt;
+</code></pre>
+<ul>
+<li>or</li>
+</ul>
+<pre><code class="language-bash">atrm &lt;job_number&gt;
+</code></pre>
+<h2 id="troubleshoot"><a class="header" href="#troubleshoot">troubleshoot</a></h2>
+<p><strong>1. <code>Can't open /var/run/atd.pid to signal atd. No atd running?</code></strong></p>
+<pre><code class="language-bash">sudo service atd start
+</code></pre>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="khal---vdirsyncer"><a class="header" href="#khal---vdirsyncer">Khal - vdirsyncer</a></h1>
+<p><strong>Sync remote calendar</strong></p>
+<p><a href="https://vdirsyncer.pimutils.org/en/stable">Vdirsyncer</a> is a command-line tool for synchronizing calendars and addressbooks between a variety of servers and the local filesystem.</p>
+<h2 id="topic-4"><a class="header" href="#topic-4">Topic</a></h2>
+<div class="table-wrapper"><table><thead><tr><th></th><th>sections</th><th>sub-sections</th></tr></thead><tbody>
+<tr><td>1</td><td><a href="khal/khal_vdirsyncer.html#installation">Installation</a></td><td></td></tr>
+<tr><td>2</td><td><a href="khal/khal_vdirsyncer.html#google-calendar">Google Calendar</a></td><td><a href="khal/khal_vdirsyncer.html#google-api-manger">APIs manager</a></td></tr>
+<tr><td></td><td></td><td><a href="khal/khal_vdirsyncer.html#configuration">Configuration</a></td></tr>
+</tbody></table>
+</div>
+<h2 id="installation-1"><a class="header" href="#installation-1">Installation</a></h2>
+<p><strong>1. Install synchronize with Remote/Cloud calendar</strong></p>
+<pre><code class="language-bash">pip3 install --upgrade-strategy eager vdirsyncer
+</code></pre>
+<h2 id="google-calendar"><a class="header" href="#google-calendar">Google Calendar</a></h2>
+<h3 id="google-api-manger"><a class="header" href="#google-api-manger">Google API Manger</a></h3>
+<p><strong>1. Create new project in Google API Manager</strong></p>
+<ol>
+<li>
+<p><a href="https://console.developers.google.com/">Google Api Manager</a></p>
+<ul>
+<li>Project Name: {NAME}-{NUMBER}</li>
+<li>Location: <em>Optional</em></li>
+<li>Click <kbd> Create </kbd></li>
+</ul>
+<p><img src="khal/../img/google_api_manager_new_project.jpg" alt="new project in google api manager" /></p>
+</li>
+<li>
+<p>API and Service Home Page</p>
+<p><img src="khal/../img/google_api_manager_home_page.jpg" alt="api and service homepage" /></p>
+</li>
+<li>
+<p>Click <kbd> + ENABLE APIS AND SERVICE </kbd></p>
+<p><img src="khal/../img/google_api_manager_enable_service.jpg" alt="enable apis and service" /></p>
+</li>
+</ol>
+<p><strong>2. Enable <em>CalDav API</em> for google calendar API access</strong></p>
+<ol>
+<li>
+<p>API Library homepage</p>
+<p><img src="khal/../img/google_api_manager_api_library.jpg" alt="API library homepage" /></p>
+</li>
+<li>
+<p>Search <strong>CalDav API</strong></p>
+<p><img src="khal/../img/api_libray_search_caldav_api.jpg" alt="search caldav api" /></p>
+</li>
+<li>
+<p>Click to enable <strong>CalDav API</strong></p>
+<p><img src="khal/../img/api_library_caldav_api_click_enable.jpg" alt="click to enable" /></p>
+</li>
+<li>
+<p>Success enable <strong>CalDav API</strong></p>
+<p><img src="khal/../img/caldav_api_success_enabled.jpg" alt="enabled CalDav API" /></p>
+</li>
+</ol>
+<p><strong>3. Enable Authorize Credentials</strong></p>
+<ol>
+<li>
+<p>Click left side-bar <strong>Credentials</strong></p>
+<p><img src="khal/../img/click_credentials.jpg" alt="click credentials" /></p>
+</li>
+<li>
+<p>Click <kbd> + CREATE CREDENTIALS </kbd> and <kbd> + OAuth client ID </kbd></p>
+<p><img src="khal/../img/create_credentials.jpg" alt="create oauth client id" /></p>
+</li>
+<li>
+<p>Click <kbd> CONFIGURE CONSENT SCREEN </kbd></p>
+<p><img src="khal/../img/oauth_client_conf_consent_screen.jpg" alt="configure consent screen" /></p>
+</li>
+<li>
+<p>Create OAuth consent screen with <strong>External</strong> and click <kbd> CREATE </kbd></p>
+<p><img src="khal/../img/oauth_consent_screen_create.jpg" alt="create oauth consent screen" /></p>
+<ol>
+<li>Edit app registration
+<ul>
+<li>App Name: <em>required</em></li>
+<li>User Email: <em>required</em></li>
+<li>Develops Email: <em>required</em></li>
+</ul>
+</li>
+</ol>
+<p><img src="khal/../img/oauth_consent_screen_edit_app_registration.jpg" alt="edit app registration" /></p>
+<ol start="2">
+<li>Scopes
+<ul>
+<li>click <kbd> Save and Confirm </kbd></li>
+</ul>
+</li>
+</ol>
+<p><img src="khal/../img/edit_app_reg_scopes.jpg" alt="edit app scopes" /></p>
+<ol start="3">
+<li>Test Users
+<ul>
+<li>click <kbd> Save and Confirm </kbd></li>
+</ul>
+</li>
+</ol>
+<p><img src="khal/../img/edit_app_reg_test_user.jpg" alt="edit app testusers" /></p>
+<ol start="4">
+<li>Summary</li>
+</ol>
+<p><img src="khal/../img/edit_app_reg_summary.jpg" alt="edit app summary" /></p>
+</li>
+</ol>
+<p><strong>4. Enable Web Application</strong></p>
+<ol>
+<li>
+<p>Click left side-bar <strong>Credentials</strong></p>
+<p><img src="khal/../img/click_credentials.jpg" alt="click credentials" /></p>
+</li>
+<li>
+<p>Click <kbd> + CREATE CREDENTIALS </kbd> and <kbd>  OAuth client ID </kbd> then select <strong>Web Application</strong></p>
+<p><img src="khal/../img/oauth_client_id_app_type_web_app.jpg" alt="select oauth client id web application" /></p>
+</li>
+<li>
+<p>Create <strong>Web Application</strong></p>
+<blockquote>
+<p><strong>redirect URLs</strong>: <code>http://127.0.0.1</code> <sup class="footnote-reference"><a href="#u1">1</a></sup></p>
+</blockquote>
+<p><img src="khal/../img/oauth_client_id_app_type_web_app_create.jpg" alt="create web application" /></p>
+</li>
+<li>
+<p>Created OAuth Client for <strong>Web application</strong></p>
+<blockquote>
+<p><code>Client ID</code> + <code>Client secret</code></p>
+</blockquote>
+<p><img src="khal/../img/oauth_client_created.jpg" alt="created oauth client for web application" /></p>
+</li>
+</ol>
+<h3 id="configuration"><a class="header" href="#configuration">Configuration</a></h3>
+<p><strong>1. Create vdirsyncer configuration file</strong></p>
+<pre><code class="language-bash">mkdir -p ~/.config/vdirsyncer
+touch ~/.config/vdirsyncer/config
+</code></pre>
+<p><strong>2. Copy the contents below into configuration file</strong></p>
+<ul>
+<li><code>client_id</code> and <code>client_secret</code> is created from <em>OAuth Client for Web Application</em></li>
+</ul>
+<p><img src="khal/../img/oauth_client_created.jpg" alt="created oauth client for web application" /></p>
+<pre><code class="language-bash">cat &lt;&lt;-EOF &gt; ~/.config/vdirsyncer/config
+[general]
+status_path = &quot;~/.calendars/status&quot;
+
+[pair personal_sync]
+a = &quot;personal&quot;
+b = &quot;personallocal&quot;
+collections = [&quot;from a&quot;, &quot;from b&quot;]
+metadata = [&quot;color&quot;]
+
+[storage personal]
+type = &quot;google_calendar&quot;
+token_file = &quot;~/.vdirsyncer/google_calendar_token&quot;
+client_id = &quot;241086233307-rdb38l3lfa7bjlfetgsg0lg2bp47hgmc.apps.googleusercontent.com&quot;
+client_secret = &quot;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&quot;
+
+[storage personallocal]
+type = &quot;filesystem&quot;
+path = &quot;~/.calendars/&quot;
+fileext = &quot;.ics&quot;
+EOF
+</code></pre>
+<p><a href="https://github.com/yimjiajun/.dotdata/blob/main/vdirsyncer/config">vdirsyncer/config</a></p>
+<p><strong>3. Discover google calendar via CalDav APIs</strong></p>
+<ul>
+<li><code>personal_sync</code> is discover pair, please refer in configuration file above.</li>
+</ul>
+<pre><code class="language-bash">vdirsyncer discover personal_sync
+</code></pre>
+<p><strong>4. Select google account</strong></p>
+<p><img src="khal/../img/discover_account.jpg" alt="select google account" /></p>
+<ul>
+<li>
+<p>click <em>Advanced</em> and click <kbd> Go to &lt;api name&gt; (unsafe) </kbd></p>
+<p><img src="khal/../img/google_hasnt_verified_this_app.jpg" alt="continue with unsafe" /></p>
+</li>
+<li>
+<p>Continue access calendar with APIs</p>
+<p><img src="khal/../img/api_access.jpg" alt="continue access with api" /></p>
+</li>
+<li>
+<p>Success obtained token</p>
+<p><img src="khal/../img/success_obtain_token.jpg" alt="success obtained token" /></p>
+</li>
+</ul>
+<p><strong>5. Sync Google Calendar</strong></p>
+<pre><code class="language-bash">vdirsyncer sync
+</code></pre>
+<p><strong>6. add category for each imported contents</strong></p>
+<ul>
+<li>append into <code>~/.config/khal/config</code> depending on contents of <code>~/.calendars/</code></li>
+</ul>
+<pre><code class="language-bash">[[ ${NAME} ]]
+path = &quot;~/.calendars/${content_file}&quot;
+color = blue
+</code></pre>
+<div class="footnote-definition" id="u1"><sup class="footnote-definition-label">1</sup>
+<p>http://127.0.0.1: redirect url will discover by <strong>vdirsyncer</strong> with random port number</p>
+</div>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="pass"><a class="header" href="#pass">pass</a></h1>
+<p><a href="https://www.passwordstore.org/">the standard unix password manager</a></p>
+<p>Password management should be simple and follow Unix philosophy. With pass, each password lives inside of a gpg encrypted file whose filename is the title of the website or resource that requires the password. These encrypted files may be organized into meaningful folder hierarchies, copied from computer to computer, and, in general, manipulated using standard command line file management utilities.</p>
+<h2 id="topic-5"><a class="header" href="#topic-5">Topic</a></h2>
+<div class="table-wrapper"><table><thead><tr><th></th><th>Sections</th><th>sub-sections</th></tr></thead><tbody>
+<tr><td>1</td><td><a href="pass/pass_installation.html">Installation</a></td><td><a href="pass/pass_installation.html#initialize-with-key">Initialize with gpg key</a></td></tr>
+<tr><td>3</td><td><a href="pass/pass_create.html">Create password</a></td><td><a href="pass/pass_create.html#manual">Manual</a></td></tr>
+<tr><td></td><td></td><td><a href="pass/pass_create.html#generate">Generate</a></td></tr>
+<tr><td>4</td><td><a href="pass/pass_list.html">List password</a></td><td></td></tr>
+<tr><td>5</td><td><a href="pass/pass_search.html">Search contents</a></td><td></td></tr>
+<tr><td>6</td><td><a href="pass/pass_show.html">Show password</a></td><td></td></tr>
+<tr><td>7</td><td><a href="pass/pass_change.html">Change password</a></td><td></td></tr>
+<tr><td>8</td><td><a href="pass/pass_delete.html">Delete password</a></td><td></td></tr>
+<tr><td>9</td><td><a href="pass/pass_restore.html">Restore password</a></td><td></td></tr>
+<tr><td>10</td><td><a href="pass/pass_add_info.html">Add additional information</a></td><td></td></tr>
+</tbody></table>
+</div><div style="break-before: page; page-break-before: always;"></div><h1 id="pass---installation"><a class="header" href="#pass---installation">pass - Installation</a></h1>
+<pre><code class="language-bash">sudo apt-get install pass
+</code></pre>
+<h2 id="initialize-with-key"><a class="header" href="#initialize-with-key">Initialize with key</a></h2>
+<p><strong>1. Initialize pass tool with <a href="pass/gpg.html">gpg</a> <a href="pass/pass_list.html">key id</a></strong></p>
+<pre><code class="language-bash">pass init &lt;id of gpg-key&gt;
+</code></pre>
+<blockquote>
+<p>mkdir: created directory '$HOME/.password-store/' <br>
+Password store initialized for &lt;gpg-key id/pub key id&gt; <br></p>
+</blockquote>
+<p><strong>2. Use git repository to records pass change/modify status</strong></p>
+<pre><code class="language-bash">pass git init
+</code></pre>
+<blockquote>
+<p>Initialized empty Git repository in $HOME/.password-store/.git/</p>
+</blockquote>
+<p><strong>3. Setup remote git repository to backup password</strong></p>
+<pre><code class="language-bash">pass git remote add origin &lt;remote-rep-url&gt;
+</code></pre>
+<p><strong>4. Upload to remote git repository</strong></p>
+<pre><code class="language-bash">pass git push -u origin main:HEAD
+</code></pre>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="pass---create-a-new-password"><a class="header" href="#pass---create-a-new-password">pass - Create a new password</a></h1>
+<ul>
+<li>
+<p><a href="pass/pass_create.html#manual">Manual</a></p>
+</li>
+<li>
+<p><a href="pass/pass_create.html#generate">Generate</a></p>
+</li>
+</ul>
+<h2 id="manual"><a class="header" href="#manual">Manual</a></h2>
+<p><strong>1. Create new password for <em>pass-name</em><sup class="footnote-reference"><a href="#p1">1</a></sup></strong></p>
+<pre><code class="language-bash">pass insert &lt;pass-name&gt;
+</code></pre>
+<h2 id="generate"><a class="header" href="#generate">Generate</a></h2>
+<p><strong>1. Assign a generated password from pass for <em>pass-name</em><sup class="footnote-reference"><a href="#p1">1</a></sup></strong></p>
+<pre><code class="language-bash">pass generate &lt;pass-name&gt;
+</code></pre>
+<hr />
+<div class="footnote-definition" id="p1"><sup class="footnote-definition-label">1</sup>
+<p><strong>DO NOT</strong> setup with username, this will displayed as file name. ex. <code>nvim</code>, <code>chatpgt/nvim</code></p>
+</div>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="pass---list-password"><a class="header" href="#pass---list-password">pass - List password</a></h1>
+<p><strong>1. Lists all <em>pass-name</em></strong></p>
+<pre><code class="language-bash">pass
+</code></pre>
+<p><strong>2. Lists corresponding <em>pass-name</em></strong></p>
+<pre><code class="language-bash">pass find &lt;pass-name&gt;
+</code></pre>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="pass---search-contents"><a class="header" href="#pass---search-contents">pass - Search contents</a></h1>
+<p><strong>1. Search <em>pass-name</em> contents, except secrete password</strong></p>
+<pre><code class="language-bash">pass grep &lt;contents&gt;
+</code></pre>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="pass---show-password"><a class="header" href="#pass---show-password">pass - Show password</a></h1>
+<p><strong>Show secrete/password from <em>pass-name</em><sup class="footnote-reference"><a href="#p1">1</a></sup> <sup class="footnote-reference"><a href="#p2">2</a></sup></strong></p>
+<pre><code class="language-bash">pass show &lt;pass-name&gt;
+</code></pre>
+<h2 id="copy-to-clipboard"><a class="header" href="#copy-to-clipboard">Copy to clipboard</a></h2>
+<p><strong>Copy secrete/password to clipboard without display</strong></p>
+<pre><code class="language-bash">pass show -c &lt;pass-name&gt;
+</code></pre>
+<hr />
+<div class="footnote-definition" id="p1"><sup class="footnote-definition-label">1</sup>
+<p><strong>DO NOT</strong> setup with username, this will displayed as file name. ex. <code>nvim</code>, <code>chatpgt/nvim</code>
+<sup class="footnote-reference"><a href="#p2">2</a></sup>: <em>pass-name</em> can being research by <kbd> Tab </kbd></p>
+</div>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="pass---change-password"><a class="header" href="#pass---change-password">pass - Change password</a></h1>
+<p><strong>Change secrete/password from <em>pass-name</em><sup class="footnote-reference"><a href="#p1">1</a></sup> <sup class="footnote-reference"><a href="#p2">2</a></sup></strong></p>
+<pre><code class="language-bash">pass edit &lt;pass-name&gt;
+</code></pre>
+<hr />
+<div class="footnote-definition" id="p1"><sup class="footnote-definition-label">1</sup>
+<p><strong>DO NOT</strong> setup with username, this will displayed as file name. ex. <code>nvim</code>, <code>chatpgt/nvim</code>
+<sup class="footnote-reference"><a href="#p2">2</a></sup>: <em>pass-name</em> can being research by <kbd> Tab </kbd></p>
+</div>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="pass---delete-password"><a class="header" href="#pass---delete-password">pass - Delete password</a></h1>
+<p><strong>Delete <em>pass-name</em></strong></p>
+<pre><code class="language-bash">pass rm &lt;pass-name&gt;
+</code></pre>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="pass---restore-password"><a class="header" href="#pass---restore-password">pass - Restore password</a></h1>
+<p><strong>Restore deleted password by git</strong></p>
+<pre><code class="language-bash">pass git revert HEAD
+</code></pre>
+<blockquote>
+<p>Other git command is allowable to using in restore</p>
+</blockquote>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="pass---add-additional-information"><a class="header" href="#pass---add-additional-information">pass - Add additional information</a></h1>
+<p><strong>Appending a additional secrete information in <em>pass-name</em></strong></p>
+<pre><code class="language-bash">pass edit &lt;pass-name&gt;
+</code></pre>
+<blockquote>
+<p>First Line of file is secrete password</p>
+<blockquote>
+<p>Include email in this example</p>
+</blockquote>
+</blockquote>
+<pre><code>... (screate password)
+email: RichardYim@ami.com
+</code></pre>
+<div style="break-before: page; page-break-before: always;"></div><div align='center'>
+<h1 id="ssh"><a class="header" href="#ssh">SSH</a></h1>
+</div>
+<p><a href="https://www.openssh.com/">OpenSSH</a> is the premier connectivity tool for remote login with the SSH protocol. It encrypts all traffic to eliminate eavesdropping, connection hijacking, and other attacks. In addition, OpenSSH provides a large suite of secure tunneling capabilities, several authentication methods, and sophisticated configuration options.</p>
+<ul>
+<li><a href="ssh/ssh_gen.html">Key Generator</a></li>
+<li><a href="ssh/ssh_disown.html">Disown</a></li>
+<li><a href="ssh/ssh_nohup.html">Nohup</a></li>
+</ul>
+<div style="break-before: page; page-break-before: always;"></div><div align='center'>
+<h1 id="ssh---key-generator"><a class="header" href="#ssh---key-generator">SSH - Key Generator</a></h1>
+</div>
+<h2 id="topic-6"><a class="header" href="#topic-6">Topic</a></h2>
+<div class="table-wrapper"><table><thead><tr><th></th><th>sections</th><th>sub-sections</th><th>items</th></tr></thead><tbody>
+<tr><td>1</td><td><a href="ssh/ssh_gen.html#algorithm">Algorithm</a></td><td></td><td></td></tr>
+<tr><td>2</td><td><a href="ssh/ssh_gen.html#command">Command</a></td><td><a href="ssh/ssh_gen.html#generate-keys">Generate Key</a></td><td><a href="ssh/ssh_gen.html#example">Example</a></td></tr>
+<tr><td></td><td></td><td><a href="ssh/ssh_gen.html#copy-public-key">Copy Public Key</a></td><td></td></tr>
+</tbody></table>
+</div>
+<h2 id="algorithm"><a class="header" href="#algorithm">Algorithm</a></h2>
+<div class="table-wrapper"><table><thead><tr><th><code>-t</code></th><th><strong>rsa</strong></th><th><strong>ed25519</strong></th><th><strong>ecdsa</strong></th><th><strong>dsa</strong></th></tr></thead><tbody>
+<tr><td><code>-b</code></td><td>2048/4096/8192</td><td>-</td><td>-</td><td>-</td></tr>
+</tbody></table>
+</div>
+<h2 id="command-1"><a class="header" href="#command-1">Command</a></h2>
+<h3 id="generate-keys"><a class="header" href="#generate-keys">Generate Keys</a></h3>
+<pre><code class="language-bash">ssh-keygen -t $algo -b $byte -C $comment -f $HOME/.ssh/$algo
+</code></pre>
+<ul>
+<li>
+<p><code>-t</code>/<code>$algo</code> : <strong>rsa</strong> / <strong>ed25519</strong> / <strong>ecdsa</strong> / <strong>dsa</strong></p>
+</li>
+<li>
+<p><code>-b</code>/<code>$byte</code> : <strong>rsa</strong> (2048/4096/8192)</p>
+</li>
+<li>
+<p><code>-C</code>/<code>$comment</code> : <em>optional</em></p>
+<ul>
+<li><a href="https://www.github.com/yimjiajun">github</a>: email</li>
+</ul>
+</li>
+<li>
+<p><code>-f</code> : key generated path</p>
+</li>
+</ul>
+<h4 id="example"><a class="header" href="#example">example</a></h4>
+<p><strong>1. rsa</strong></p>
+<pre><code class="language-bash">ssh-keygen -t rsa -b 2048 -C usrname@email.com -f $HOME/.ssh/.id_rsa
+</code></pre>
+<p><strong>2. ed25519</strong></p>
+<pre><code class="language-bash">ssh-keygen -t ed25519 -C usrname@email.com
+</code></pre>
+<h3 id="copy-public-key"><a class="header" href="#copy-public-key">Copy Public Key</a></h3>
+<ul>
+<li>
+<p>check available public key</p>
+<pre><code class="language-bash">ls $HOME/.ssh/*.pub
+</code></pre>
+</li>
+<li>
+<p>copy one of public key to clipboard</p>
+<pre><code class="language-bash">xclip -sel clip &lt; $algo.pub
+</code></pre>
+</li>
+<li>
+<p>paste the public key to server: <kbd> ctrl </kbd> + <kbd> v </kbd></p>
+</li>
+</ul>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="ssh---disown"><a class="header" href="#ssh---disown">SSH - disown</a></h1>
+<p><a href="ssh/ssh_disown.html#introduction">Introduction</a></p>
+<p><a href="ssh/ssh_disown.html#usage">Usage</a></p>
+<hr />
+<h2 id="introduction-1"><a class="header" href="#introduction-1">Introduction</a></h2>
+<p><code>disown</code>, removes the job from the process job list of the system,
+so the process is shielded from being killed during session disconnection as
+it won’t receive <code>SIGHUP</code> by the shell when you logout.</p>
+<p><strong>Disadvantage:</strong></p>
+<p>Used only for the jobs that do not need any input from the <strong>stdin</strong> and neither 
+need to write to <strong>stdout</strong></p>
+<blockquote>
+<p>try to interact with <strong>stdin</strong> or <strong>stdout</strong>, it will halt</p>
+</blockquote>
+<hr />
+<h2 id="usage-1"><a class="header" href="#usage-1">Usage</a></h2>
+<p><strong>1. run a program to background</strong></p>
+<pre><code class="language-bash">ping www.ami.com -4 1&gt;/dev/null 2&gt;&amp;1 &amp;
+</code></pre>
+<p>Response <em>PID</em>:</p>
+<pre><code class="language-bash">[1] 48069
+</code></pre>
+<p><strong>2. list running jobs:</strong></p>
+<pre><code class="language-bash">jobs -l
+[1]+ 48069 Running                 ping www.ami.com -4 &gt; /dev/null 2&gt;&amp;1 &amp;
+</code></pre>
+<p><strong>3. removes the job from the process job list of the system:</strong>
+<em>pass disown signal to job</em></p>
+<pre><code class="language-bash">disown -h %1
+</code></pre>
+<p><strong>4. exit ssh and re-login remote server</strong></p>
+<pre><code class="language-bash">exit
+# reconnect
+ssh name@hostname
+</code></pre>
+<p><strong>5. check the jobs list, the previous job is still running:</strong></p>
+<pre><code class="language-bash">ps -ef | grep ping
+jun        48069    8998  0 21:11 pts/6    00:00:00 ping www.ami.com -4
+jun        48071    8998  0 21:11 pts/6    00:00:00 grep --color=auto ping
+</code></pre>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="ssh---nohup"><a class="header" href="#ssh---nohup">SSH - nohup</a></h1>
+<p><a href="ssh/ssh_nohup.html#introduction">Introduction</a></p>
+<p><a href="ssh/ssh_nohup.html#usage">Usage</a></p>
+<hr />
+<h2 id="introduction-2"><a class="header" href="#introduction-2">Introduction</a></h2>
+<p><code>nohup</code> tell the process to ignore the <strong>SIGHUP</strong> signal
+which is sent by ssh session on termination, thus making the command persist
+even after session logout. On session logout the command is detched from
+controlling terminal and keeps on running in background as daemon process.</p>
+<hr />
+<h2 id="usage-2"><a class="header" href="#usage-2">Usage</a></h2>
+<p><code>nohup</code> with running task at background was sent to background with prompt
+returning immediately giving <strong>PID</strong> and <strong>job ID</strong> of the process ([JOBID] PID).</p>
+<p><strong>1. run a program to background with <code>nohup</code>:</strong></p>
+<pre><code class="language-bash">nohup ping www.ami.com 1&gt;/dev/null 2&gt;&amp;1 &amp;
+</code></pre>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="saleae"><a class="header" href="#saleae">SALEAE</a></h1>
+<p>Effortlessly decode protocols like SPI, I2C, Serial, and many more.
+Leverage community created analyzers or build your own low-level or high-level protocol analyzer.</p>
+<p>software download: <a href="https://www.saleae.com/downloads">Logic</a></p>
+<ul>
+<li><a href="saleae/saleae_note.html">Note</a></li>
+</ul>
+<h2 id="introduction-3"><a class="header" href="#introduction-3">Introduction</a></h2>
+<h3 id="execute-program"><a class="header" href="#execute-program">Execute Program</a></h3>
+<p>Executable program for saleae software in window:</p>
+<p><img src="saleae/../img/saleae/logic_exe.jpg" alt="logic_exe" /></p>
+<h3 id="home-page"><a class="header" href="#home-page">Home page</a></h3>
+<p>Home page without connecting saleae device</p>
+<p><img src="saleae/../img/saleae/homepage.jpg" alt="home_page" /></p>
+<h3 id="device-settings"><a class="header" href="#device-settings">Device Settings</a></h3>
+<p>Connector settings to enable / disable displays connector and measurement frequency.</p>
+<p><img src="saleae/../img/saleae/device_settings.jpg" alt="device_settings" /></p>
+<h3 id="analyzers"><a class="header" href="#analyzers">Analyzers</a></h3>
+<p>This sections is customize or selection on connecting interface. Which is able to analyze connecting interface as data.</p>
+<ol>
+<li>
+<p>The first icon on right side-bar</p>
+<p><img src="saleae/../img/saleae/analyzers.jpg" alt="analyzers" /></p>
+</li>
+<li>
+<p>Add Filter: select connecting interface</p>
+<p><img src="saleae/../img/saleae/analyzers_add_filter.jpg" alt="analyzers_add_filter" /></p>
+</li>
+<li>
+<p>Data Table: displays analyzed data datails (ex. i2c)</p>
+<p><img src="saleae/../img/saleae/analyzers_data_table.jpg" alt="analayzers_data_table" /></p>
+</li>
+<li>
+<p>Terminal: displays analuzd data / ascii / etc. on display as terminal (ex. serial)</p>
+<p><img src="saleae/../img/saleae/analyzers_terminal.jpg" alt="analyzers_terminal" /></p>
+</li>
+</ol>
+<h3 id="measurements"><a class="header" href="#measurements">Measurements</a></h3>
+<p>Measurement specfic range of signal details</p>
+<p><img src="saleae/../img/saleae/measurement.jpg" alt="measurements" /></p>
+<h3 id="extensions"><a class="header" href="#extensions">Extensions</a></h3>
+<p>Extra setup from other users. which able to implements on own project to improve measurement.</p>
+<p><img src="saleae/../img/saleae/extensions.jpg" alt="extensions" /></p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="saleae---note"><a class="header" href="#saleae---note">SALEAE - NOTE</a></h1>
+<p>How-to-Note on Saleae program</p>
+<h2 id="topic-7"><a class="header" href="#topic-7">TOPIC:</a></h2>
+<ol>
+<li><a href="saleae/saleae_note.html#timing-markers-and-measurement-notes">Timing Markers and Measurement and Notes</a>
+<ol>
+<li><a href="saleae/saleae_note.html#timing-markers">Timing Markers</a>
+<ul>
+<li><a href="saleae/saleae_note.html#add-single-marker">Add Single Markers</a></li>
+<li><a href="saleae/saleae_note.html#add-marker-pair">Add Markers Pairs</a></li>
+<li><a href="saleae/saleae_note.html#timing-markers-note">Note</a></li>
+</ul>
+</li>
+<li><a href="saleae/saleae_note.html#measurement">Measurement</a></li>
+<li><a href="saleae/saleae_note.html#notes">Notes</a></li>
+</ol>
+</li>
+</ol>
+<h2 id="timing-markers-and-measurement-notes"><a class="header" href="#timing-markers-and-measurement-notes">Timing Markers and Measurement, Notes</a></h2>
+<p>Specific range of signal to measurement</p>
+<p><img src="saleae/../img/saleae/timing_markers_measure_notes.jpg" alt="timing_markers_measurement_notes" /></p>
+<h3 id="timing-markers"><a class="header" href="#timing-markers">Timing Markers</a></h3>
+<p>Specific timing on measurement</p>
+<p><img src="saleae/../img/saleae/measurement_timing_markers.jpg" alt="Timing Markers" /></p>
+<h4 id="add-single-marker"><a class="header" href="#add-single-marker">Add Single Marker</a></h4>
+<p><img src="saleae/../img/saleae/measurement_timing_markers_add_single_marker.jpg" alt="add_single_marker" /></p>
+<ol>
+<li>
+<p>Move to specific timing of signal to measurement</p>
+<p><img src="saleae/../img/saleae/measurement_timing_markers_add_single_marker_select.jpg" alt="add_single_marker_select" /></p>
+</li>
+<li>
+<p>Click the primary button of mouse to select measurement timing</p>
+<p><img src="saleae/../img/saleae/measurement_timing_markers_add_single_marker_select_0.jpg" alt="add_single_marker_selected" /></p>
+</li>
+</ol>
+<h5 id="add-marker-pair"><a class="header" href="#add-marker-pair">Add marker pair</a></h5>
+<p><img src="saleae/../img/saleae/measurement_timing_markers_add_marker_pair.jpg" alt="add_marker_pair" /></p>
+<ol>
+<li>
+<p>Move to begin on specific timing of signal to measurement</p>
+<p><img src="saleae/../img/saleae/measurement_timing_markers_add_marker_pair_select_1_begin.jpg" alt="add_marker_pair_begin" /></p>
+</li>
+<li>
+<p>Move to end on specific timing of signal to measurement</p>
+<p><img src="saleae/../img/saleae/measurement_timing_markers_add_marker_pair_select_1_end.jpg" alt="add_marker_pair_end" /></p>
+</li>
+<li>
+<p>After selected a pair of specific timing</p>
+<p><img src="saleae/../img/saleae/measurement_timing_markers_add_marker_pair_select_1_done.jpg" alt="add_marker_pair_done" /></p>
+</li>
+</ol>
+<h4 id="timing-markers-note"><a class="header" href="#timing-markers-note">timing markers note</a></h4>
+<p>Add some details or bookmarks on specific timing</p>
+<ol>
+<li>
+<p>Click the <em>3 dots</em></p>
+<p><img src="saleae/../img/saleae/measurement_timing_markers_edit.jpg" alt="timing_markers_note" /></p>
+</li>
+<li>
+<p>Add comment/details of signal</p>
+<p><img src="saleae/../img/saleae/measurement_timing_markers_edit_comment.jpg" alt="timing_markers_comments" /></p>
+</li>
+</ol>
+<h3 id="measurement"><a class="header" href="#measurement">Measurement</a></h3>
+<p><img src="saleae/../img/saleae/measurement.jpg" alt="measurement" /></p>
+<ol>
+<li>
+<p>Select begin of signal to measurement</p>
+<p><img src="saleae/../img/saleae/measurement_add_select_1_begin.jpg" alt="measurement_begin" /></p>
+</li>
+<li>
+<p>Select end of signal to measurement</p>
+<p><img src="saleae/../img/saleae/measurement_add_select_1_end.jpg" alt="measurement_end" /></p>
+</li>
+<li>
+<p>After selected of signal to measurement</p>
+<p><img src="saleae/../img/saleae/measurement_add_select_1_done.jpg" alt="measurement_done" /></p>
+</li>
+</ol>
+<h3 id="notes"><a class="header" href="#notes">Notes</a></h3>
+<p>Sharing details of signal information</p>
+<p><img src="saleae/../img/saleae/measurement_notes.jpg" alt="note" /></p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="rsync"><a class="header" href="#rsync">RSYNC</a></h1>
+<p><code>rsync</code> is a file transfer program capable of efficient remote update
+via a fast differencing algorithm.</p>
+<p>Sync new updated/modified sources on target device,
+which minimum  the transfer size of data to target device and more fastest.</p>
+<ol>
+<li><a href="rsync/rsync_transfer.html">Transfer</a></li>
+</ol>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="rsync---transfer"><a class="header" href="#rsync---transfer">RSYNC - Transfer</a></h1>
+<p>Topic:</p>
+<ol>
+<li><a href="rsync/rsync_transfer.html#parameter">Parameters</a></li>
+<li><a href="rsync/rsync_transfer.html#to-remote-device">To Remote Device</a></li>
+<li><a href="rsync/rsync_transfer.html#to-local-device">To Local Device</a></li>
+<li><a href="rsync/rsync_transfer.html#delete-source-device-non-exists-directory-on-target-device">Delete non-exists directory</a></li>
+<li><a href="rsync/rsync_transfer.html#delete-source-device-non-exists-sources-on-target-device">Delete non-exists sources</a></li>
+</ol>
+<hr />
+<h2 id="parameter"><a class="header" href="#parameter">Parameter</a></h2>
+<ul>
+<li><code>-r</code>: recursive sync</li>
+<li><code>-a</code>: <code>-r</code> recursive sync with permission, date, user, group and etc.</li>
+</ul>
+<p>Options:</p>
+<ul>
+<li><code>P</code>: overview transfer progress and transferring partial</li>
+<li><code>v</code>: verbose</li>
+<li><code>--force</code>: force deletion of dirs even if not empty</li>
+<li><code>--delete</code>: delete extraneous files from destination dirs</li>
+<li><code>--exclude=</code>: exclude files to sync</li>
+</ul>
+<hr />
+<h2 id="to-remote-device"><a class="header" href="#to-remote-device">to Remote device</a></h2>
+<ol>
+<li>
+<p>sync entire directory to remote device</p>
+<pre><code class="language-bash">rsync -a &lt;directory&gt; &lt;username&gt;@&lt;hostname&gt;:&lt;remote_path&gt;
+</code></pre>
+</li>
+<li>
+<p>sync files in directory to remote device (with backslash <code>/</code>)</p>
+<pre><code class="language-bash">rsync -a &lt;directory&gt;/ &lt;username&gt;@&lt;hostname&gt;:&lt;remote_path&gt;
+</code></pre>
+</li>
+</ol>
+<hr />
+<h2 id="to-local-device"><a class="header" href="#to-local-device">to Local device</a></h2>
+<p>Similar as <a href="rsync/rsync_transfer.html#to-remote-device">to Remote device</a>,
+swap the position of path between local and remote directory.</p>
+<ol>
+<li>
+<p>sync entire directory to local device</p>
+<pre><code class="language-bash">rsync -a &lt;username&gt;@&lt;hostname&gt;:&lt;remote_path&gt; &lt;directory&gt;
+</code></pre>
+</li>
+<li>
+<p>sync files in directory to local device (with backslash <code>/</code>)</p>
+<pre><code class="language-bash">rsync -a  &lt;username&gt;@&lt;hostname&gt;:&lt;remote_path&gt;/ &lt;directory&gt;
+</code></pre>
+</li>
+</ol>
+<hr />
+<h2 id="overview-transfer-information"><a class="header" href="#overview-transfer-information">Overview transfer information</a></h2>
+<ol>
+<li>
+<p>Overview transferring partial and progress from local to remote device</p>
+<pre><code class="language-bash">rsync -avP &lt;directory&gt;/ &lt;username&gt;@&lt;hostname&gt;:&lt;remote_path&gt;
+</code></pre>
+</li>
+</ol>
+<hr />
+<h2 id="delete-source-device-non-exists-directory-on-target-device"><a class="header" href="#delete-source-device-non-exists-directory-on-target-device">Delete source device non-exists directory on target device</a></h2>
+<ol>
+<li>
+<p>Sync non-exists directory from <em>local</em> on <em>remote</em> device</p>
+<pre><code class="language-bash">rsync -a --force &lt;directory&gt;/ &lt;username&gt;@&lt;hostname&gt;:&lt;remote_path&gt;
+</code></pre>
+</li>
+</ol>
+<hr />
+<h2 id="delete-source-device-non-exists-sources-on-target-device"><a class="header" href="#delete-source-device-non-exists-sources-on-target-device">Delete source device non-exists sources on target device</a></h2>
+<ol>
+<li>
+<p>Sync all the sources from source (ex. Local) device to target (ex. Remote) device</p>
+<pre><code class="language-bash">rsync -a --delete &lt;directory&gt;/ &lt;username&gt;@&lt;hostname&gt;:&lt;remote_path&gt;
+</code></pre>
+</li>
+</ol>
+<hr />
+<div style="break-before: page; page-break-before: always;"></div><h1 id="md5"><a class="header" href="#md5">MD5</a></h1>
+<pre><code class="language-bash">md5 &lt;file&gt;
+</code></pre>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="mount"><a class="header" href="#mount">Mount</a></h1>
+<p>Mount a filesystem</p>
+<p><a href="mount/mount_usb_format.html">USB format</a></p>
+<p><a href="mount/mount_wsl_usb_mass_storage_dev.html">WSL - USB Mass Storage Device</a></p>
+<p><a href="mount/mount_format_usb_drive.html">Format USB Driver</a></p>
+<p><a href="mount/mount_create_bootable_usb.html">Create Bootable USB drive</a></p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="mount---usb-format"><a class="header" href="#mount---usb-format">Mount - USB format</a></h1>
+<h2 id="exfat"><a class="header" href="#exfat">exFAT</a></h2>
+<blockquote>
+<p>expand version of FAT32</p>
+</blockquote>
+<p><strong>Compatible (w/r):</strong> Macs</p>
+<p><strong>Benefit:</strong> utilize every last bit of available capacity
+rather than having it constrained by system partitions.</p>
+<p>Best filesystem for transferring files between Window and Linux:</p>
+<ul>
+<li>USB flash device</li>
+<li>SD device</li>
+<li>embedded device</li>
+</ul>
+<h2 id="fat32"><a class="header" href="#fat32">FAT32</a></h2>
+<p><strong>Create:</strong> <em>1977</em> (oldest)</p>
+<p><strong>Compatible (w/r):</strong> DOS, Window (up to 8), Max OS X and
+many UNIX-drived operting system (Linux and FreeBSD)</p>
+<h2 id="ntfs"><a class="header" href="#ntfs">NTFS</a></h2>
+<p><strong>Create:</strong> <em>1993</em></p>
+<p><strong>Support:</strong> Windows NT3.1 and XP to 8, wholly Windows</p>
+<p><strong>Compatible (r):</strong> Mac OS X 10.3 and latest versions<sup class="footnote-reference"><a href="#c1">1</a></sup></p>
+<p>Heavy data overhead</p>
+<h2 id="ext"><a class="header" href="#ext">EXT</a></h2>
+<p><strong>Create:</strong> <em>2008</em></p>
+<p><strong>Support:</strong> Linux</p>
+<p><strong>Compatible (native<sup class="footnote-reference"><a href="#c2">2</a></sup>):</strong> Window * Macs</p>
+<p>Ext4 changes crucial filesystem data structures,
+including those that store file data.</p>
+<div class="footnote-definition" id="c1"><sup class="footnote-definition-label">1</sup>
+<p>require third-party application: <em>Paragon NTFS</em>
+<sup class="footnote-reference"><a href="#c2">2</a></sup>: making a tiny FAT32 partition, copying or installing a program like Ext2Fsd, and formatting the remaining space as ext4.</p>
+</div>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="mount---usb-mass-storage-device"><a class="header" href="#mount---usb-mass-storage-device">Mount - USB Mass Storage Device</a></h1>
+<h2 id="window-subsystem-with-linux-wsl"><a class="header" href="#window-subsystem-with-linux-wsl">Window Subsystem with Linux (WSL)</a></h2>
+<h3 id="1-plug-in-usb-mass-storage-device--flash"><a class="header" href="#1-plug-in-usb-mass-storage-device--flash">1. Plug in USB Mass Storage Device / Flash</a></h3>
+<p><img src="https://th.bing.com/th/id/OIP.FVHxRpkkjhOGyC9-z8XEtAAAAA?pid=ImgDet&amp;rs=1" alt="usb_drive_plug_in.jpg" /></p>
+<h3 id="2-check-all-storage-volume-information"><a class="header" href="#2-check-all-storage-volume-information">2. Check all storage volume information</a></h3>
+<pre><code class="language-powershell">Get-Volume
+</code></pre>
+<p><em>Output Message</em></p>
+<pre><code class="language-plain">DriveLetter FriendlyName FileSystemType DriveType HealthStatus OperationalStatus  SizeRemaining      Size
+----------- ------------ -------------- --------- ------------ -----------------  -------------      ----
+C           OS           NTFS           Fixed     Healthy      OK                     ### 285.25 GB 476.27 GB
+            EFI          FAT### 32          Removable Healthy      OK                     196.91 MB 196.91 MB
+F           R_FLASH      FAT### 32          Removable Warning      Full Repair Needed       7.29 GB   7.29 GB
+                         FAT### 32          Fixed     Healthy      OK                      65.36 MB     96 MB
+                         NTFS           Fixed     Healthy      OK                      ### 84.47 MB    566 MB
+</code></pre>
+<p>The Usb Mass Storage Device locate on <em>F</em></p>
+<h3 id="3-mount-drive-into-wsl"><a class="header" href="#3-mount-drive-into-wsl">3. Mount Drive into WSL</a></h3>
+<p><code>&lt;usb_drive_letter&gt;</code>: <em>F</em></p>
+<p>create a mount directory for drive:</p>
+<pre><code class="language-bash">sudo mkdir /mnt/&lt;usb_drive_letter&gt;
+</code></pre>
+<p>Mount drive into WSL</p>
+<pre><code class="language-bash">sudo mount -t drvfs &lt;usb_drive_letter&gt;: /mnt/&lt;usb_drive_Letter&gt; -o uid=$(id -u $USER),gid=$(id -g $USER),metadata
+</code></pre>
+<ul>
+<li>
+<p>Example: <em>F</em> drive</p>
+<pre><code class="language-bash">sudo mkdir /mnt/f
+sudo mount -t drvfs f: /mnt/f -o uid=$(id -u $USER),gid=$(id -g $USER),metadata
+</code></pre>
+</li>
+</ul>
+<h3 id="4-check-disk-information-mass-storage-device-will-mounted-as-filesystem"><a class="header" href="#4-check-disk-information-mass-storage-device-will-mounted-as-filesystem">4. Check disk information, mass storage device will mounted as filesystem</a></h3>
+<pre><code class="language-bash">df
+</code></pre>
+<p><em>Output message:</em></p>
+<pre><code class="language-plain">Filesystem      ### 1K-blocks      Used Available Use% Mounted on
+none              ### 2007008         4   2007004   1% /mnt/wsl
+...
+drvfsa            ### 7643536        64   7643472   1% /mnt/f
+</code></pre>
+<h3 id="5-access-mass-storage-device"><a class="header" href="#5-access-mass-storage-device">5. Access mass storage device</a></h3>
+<pre><code class="language-bash">cd /mnt/&lt;drive_of_letter&gt;
+</code></pre>
+<h3 id="6-umount-mass-storage-device-when-not-in-use"><a class="header" href="#6-umount-mass-storage-device-when-not-in-use">6. Umount mass storage device, when not in use</a></h3>
+<pre><code class="language-bash">sudo umount /mnt/&lt;drive_of_letter&gt;
+sudo rm -rf /mnt/&lt;drive_of_letter&gt;
+</code></pre>
+<h3 id="7-check-disk-filesystem-the-umount-device-is-removed"><a class="header" href="#7-check-disk-filesystem-the-umount-device-is-removed">7. Check disk filesystem, the umount device is removed</a></h3>
+<pre><code class="language-bash">df
+</code></pre>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="mount---format-usb-drive"><a class="header" href="#mount---format-usb-drive">Mount - Format USB Drive</a></h1>
+<p>Able make live Linux installation mediums with them.
+Because dedicated flash drives are plug-and-play</p>
+<p><img src="https://tecadmin.net/wp-content/uploads/2015/04/format-usb-in-linux.jpg" alt="format_usb_drive.jpg" /></p>
+<p><strong><a href="mount/mount_format_usb_drive.html#terminal">Terminal</a></strong></p>
+<ul>
+<li><a href="mount/mount_format_usb_drive.html#1-locate-the-usb-drivel1">Locate USB drive</a></li>
+<li><a href="mount/mount_format_usb_drive.html#2-unmount-the-usb">Unmount USB drive</a></li>
+<li><a href="mount/mount_format_usb_drive.html#3-format-the-usb-drive">Format USB drive</a></li>
+<li><a href="mount/mount_format_usb_drive.html#4-mount-the-usb-drive">Mount USB drive</a></li>
+</ul>
+<h2 id="terminal"><a class="header" href="#terminal">Terminal</a></h2>
+<h3 id="1-locate-the-usb-drive1"><a class="header" href="#1-locate-the-usb-drive1">1. Locate the USB Drive<sup class="footnote-reference"><a href="#l1">1</a></sup></a></h3>
+<p>List disk block:</p>
+<pre><code class="language-bash">lsblk
+</code></pre>
+<p>Output response in <em>raspberry pi 4B</em>:</p>
+<pre><code class="language-plain">NAME        MAJ:MIN RM  SIZE RO TYPE MOUNTPOINT
+sda           8:0    1  7.5G  0 disk
+├─sda1        8:1    1  200M  0 part
+└─sda2        8:2    1  7.3G  0 part /media/jun/R_FLASH
+mmcblk0     179:0    0 28.9G  0 disk
+├─mmcblk0p1 179:1    0  256M  0 part /boot
+└─mmcblk0p2 179:2    0 28.6G  0 part /
+</code></pre>
+<p>The USB drive mount on <em>sda/sda2</em></p>
+<div class="table-wrapper"><table><thead><tr><th>Name</th><th>Description</th></tr></thead><tbody>
+<tr><td>/dev/sda</td><td>device name</td></tr>
+<tr><td>/dev/sda2</td><td>disk partition</td></tr>
+<tr><td>/media/jun/R_FLASH</td><td>path of device mounted</td></tr>
+</tbody></table>
+</div>
+<h3 id="2-unmount-the-usb"><a class="header" href="#2-unmount-the-usb">2. Unmount the USB</a></h3>
+<p>Unmount device to format the USB
+(currently locate at paration <em>sda2</em>):</p>
+<pre><code class="language-bash">sudo umount /dev/sda2
+</code></pre>
+<p>Check the list of block device:</p>
+<pre><code class="language-bash">lsblk
+</code></pre>
+<p>Output response:</p>
+<pre><code class="language-plain">NAME        MAJ:MIN RM  SIZE RO TYPE MOUNTPOINT
+sda           8:0    1  7.5G  0 disk
+├─sda1        8:1    1  200M  0 part
+└─sda2        8:2    1  7.3G  0 part
+mmcblk0     179:0    0 28.9G  0 disk
+├─mmcblk0p1 179:1    0  256M  0 part /boot
+└─mmcblk0p2 179:2    0 28.6G  0 part /
+</code></pre>
+<p>Check the list of usb device:</p>
+<pre><code class="language-bash">lsusb
+</code></pre>
+<p>Output response:</p>
+<p>usb drive still avaialble on list</p>
+<pre><code class="language-plain">...
+Bus 001 Device 003: ID 090c:1000 Silicon Motion, Inc. - Taiwan (formerly Feiya Technology Corp.) Flash Drive
+...
+</code></pre>
+<h3 id="3-format-the-usb-drive"><a class="header" href="#3-format-the-usb-drive">3. Format the USB drive</a></h3>
+<p>Format USB drive with specific format:</p>
+<blockquote>
+<p>format as FAT32 file system</p>
+</blockquote>
+<pre><code class="language-bash">sudo mkfs.vfat -F 32 -n 'name' /dev/sda2
+</code></pre>
+<div class="table-wrapper"><table><thead><tr><th>Name</th><th>Value</th></tr></thead><tbody>
+<tr><td><code>mkfs.vfat</code><sup class="footnote-reference"><a href="#f1">2</a></sup></td><td>( <strong>mkfs</strong> . <em>format</em>)</td></tr>
+<tr><td><code>-n</code></td><td>label name<sup class="footnote-reference"><a href="#f2">3</a></sup></td></tr>
+</tbody></table>
+</div>
+<h3 id="4-mount-the-usb-drive"><a class="header" href="#4-mount-the-usb-drive">4. Mount the USB drive</a></h3>
+<p>As drive has been unmount before format,
+re-mount usb drive to access it.</p>
+<p>Create a new directory for mounting the usb drive:</p>
+<pre><code class="language-bash">mkdir /media/jun/'name'
+</code></pre>
+<p>Mount with permission access by specific <em>user</em> and <em>group</em>:</p>
+<pre><code class="language-bash">sudo mount /dev/sdb2 /media/jun/'name' -o uid=$(id -u $USER),gid=$(id -g $USER)
+</code></pre>
+<h2 id="powershell"><a class="header" href="#powershell">Powershell</a></h2>
+<h3 id="1-check-flash-drive-location"><a class="header" href="#1-check-flash-drive-location">1. Check Flash Drive location</a></h3>
+<pre><code class="language-powershell">Get-Volume
+</code></pre>
+<p>Output response:
+<em>Flash drive mount on DriveLetter F</em></p>
+<pre><code class="language-plain">DriveLetter FriendlyName FileSystemType DriveType HealthStatus OperationalStatus SizeRemaining      Size
+----------- ------------ -------------- --------- ------------ ----------------- -------------      ----
+C           OS           NTFS           Fixed     Healthy      OK                    297.23 GB 476.27 GB
+            EFI          FAT32          Removable Healthy      OK                    196.91 MB 196.91 MB
+F                        NTFS           Removable Healthy      OK                      7.28 GB    7.3 GB
+                         FAT32          Fixed     Healthy      OK                     65.36 MB     96 MB
+                         NTFS           Fixed     Healthy      OK                     84.47 MB    566 MB
+</code></pre>
+<h3 id="2-format-usb-drive"><a class="header" href="#2-format-usb-drive">2. Format USB drive</a></h3>
+<pre><code class="language-powershell">Format-Volume -DriveLetter &lt;drive_letter&gt; -FileSystem NTFS -Confirm:$false
+</code></pre>
+<p>Example:
+<em>format USB drive on DriveLetter f</em></p>
+<p>Format USB drive locate on F:</p>
+<pre><code class="language-powershell">Format-Volume -DriveLetter F -FileSystem NTFS -Confirm:$false
+</code></pre>
+<p>Output response:
+<em>USB drive format to NTFS filesystem</em></p>
+<pre><code class="language-plain">DriveLetter FriendlyName FileSystemType DriveType HealthStatus OperationalStatus SizeRemaining   Size
+----------- ------------ -------------- --------- ------------ ----------------- -------------   ----
+F                        NTFS           Removable Healthy      OK                      7.28 GB 7.3 GB
+</code></pre>
+<hr />
+<div class="footnote-definition" id="l1"><sup class="footnote-definition-label">1</sup>
+<p>for WSL: should <a href="mount/mount_wsl_usb_mass_storage_dev.html">mount the usb drive</a> from window</p>
+</div>
+<div class="footnote-definition" id="f1"><sup class="footnote-definition-label">2</sup>
+<p>corresponing command:
+fs(5), badblocks(8), fsck(8), mkdosfs(8), mke2fs(8), mkfs.bfs(8), mkfs.ext2(8), mkfs.ext3(8), mkfs.ext4(8), mkfs.minix(8), mkfs.msdos(8), mkfs.vfat(8),
+mkfs.xfs(8)</p>
+</div>
+<div class="footnote-definition" id="f2"><sup class="footnote-definition-label">3</sup>
+<p>mkfs.vfat: Label can be no longer than 11 characters</p>
+</div>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="mount---create-bootable-usb-drive"><a class="header" href="#mount---create-bootable-usb-drive">Mount - Create Bootable USB drive</a></h1>
+<p>Create a Bootable USB drive by .iso file</p>
+<h2 id="1-download-a-distribution-image"><a class="header" href="#1-download-a-distribution-image">1. Download a distribution image</a></h2>
+<p><a href="https://releases.ubuntu.com/">Ubuntu release image</a></p>
+<ul>
+<li><a href="https://releases.ubuntu.com/jammy/ubuntu-22.04.2-desktop-amd64.iso">ubuntu-22.04.2-desktop-amd64.iso</a></li>
+</ul>
+<pre><code class="language-bash">curl -Lo /tmp/ubuntu.iso https://releases.ubuntu.com/jammy/ubuntu-22.04.2-desktop-amd64.iso
+</code></pre>
+<h2 id="2-check-usb-flash-location"><a class="header" href="#2-check-usb-flash-location">2. Check USB flash location</a></h2>
+<pre><code class="language-bash">lsblk
+</code></pre>
+<h2 id="3-umount-usb-flash-device"><a class="header" href="#3-umount-usb-flash-device">3. Umount USB flash Device</a></h2>
+<pre><code class="language-bash">sudo umount /dev/sdxX
+</code></pre>
+<h2 id="4-convert-and-copy-iso-file-to-usb-drive"><a class="header" href="#4-convert-and-copy-iso-file-to-usb-drive">4. Convert and copy iso file to USB drive</a></h2>
+<pre><code class="language-bash">dd if=/tmp/ubuntu.iso of=/dev/sdaxX bs=4M conv=fdatasync  status=progress
+</code></pre>
+<h2 id="5-mount-should-be-be-denied"><a class="header" href="#5-mount-should-be-be-denied">5. Mount should be be denied</a></h2>
+<pre><code class="language-bash">sudo mount /dev/sdxX Rflash/
+</code></pre>
+<p>Output response:
+<em>sourcve is read-only</em></p>
+<pre><code class="language-plain">mount: /media/jun/Rflash: WARNING: source write-protected, mounted read-only.
+</code></pre>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+
+            </nav>
+
+        </div>
+
+        <!-- Livereload script (if served using the cli tool) -->
+        <script>
+            const wsProtocol = location.protocol === 'https:' ? 'wss:' : 'ws:';
+            const wsAddress = wsProtocol + "//" + location.host + "/" + "__livereload";
+            const socket = new WebSocket(wsAddress);
+            socket.onmessage = function (event) {
+                if (event.data === "reload") {
+                    socket.close();
+                    location.reload();
+                }
+            };
+
+            window.onbeforeunload = function() {
+                socket.close();
+            }
+        </script>
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="elasticlunr.min.js"></script>
+        <script src="mark.min.js"></script>
+        <script src="searcher.js"></script>
+
+        <script src="clipboard.min.js"></script>
+        <script src="highlight.js"></script>
+        <script src="book.js"></script>
+
+        <!-- Custom JS scripts -->
+
+        <script>
+        window.addEventListener('load', function() {
+            window.setTimeout(window.print, 100);
+        });
+        </script>
+
+    </div>
+    </body>
+</html>
