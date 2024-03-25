@@ -34,6 +34,14 @@ install() {
 			exit 1
 		fi
 	fi
+
+	if [[ -z $(which mdbook-toc) ]]; then
+		$install mdbook-toc
+		if [[ $? -ne 0 ]]; then
+			echo -e "\033[31mError: install mdbook toc failed ! \033[0m" >&2
+			exit 1
+		fi
+	fi
 }
 
 if [[ -z "$(which $tool)" ]] ||\
