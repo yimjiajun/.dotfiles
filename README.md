@@ -95,6 +95,6 @@ Vim is a highly configurable text editor built to make creating and changing any
   <h2> Link </h2>
 </div>
 
-[.dotfiles Guide and Introduction](https://yimjiajun.github.io/.dotfiles/)
+[.dotfiles Guide and Introduction](https://yimjiajun.gitlab.io/dotfiles_doc/)
 
 [^i1]: install specific project. `~/.dotfiles/install.sh --tools` or `~/.dotfiles/install.sh --prj`. `~/.dotfiles/install.sh --help` for more information
