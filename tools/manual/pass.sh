@@ -11,7 +11,7 @@ for tool in "${tools[@]}"; do
     fi
 done
 
-selects=('exit' 'Generate' 'Import' 'Export' 'List' 'Show' 'Search' 'Download' 'Update' 'Upload')
+selects=('exit' 'Generate' 'Import' 'Export' 'List' 'Show' 'Search' 'Download' 'Update' 'Upload' 'Edit' 'New')
 $common display_title "Password Manager"
 select s in "${selects[@]}"; do
     case $s in
@@ -122,9 +122,9 @@ select s in "${selects[@]}"; do
             [ -z $name ] && echo "Password alias name is required" && continue
 
             if [[ $show =~ ^[Yy]$ ]]; then
-                show='-c'
-            else
                 show=
+            else
+                show='-c'
             fi
 
             if ! pass show $show $name; then
@@ -178,21 +178,11 @@ select s in "${selects[@]}"; do
             ;;
 
         "Upload")
-            file_status=$(pass git status --porcelain)
+            commit_changed=$(pass git rev-list --count HEAD...origin/main)
             [ $? -ne 0 ] && echo "Failed to check password-store status" && continue
 
-            if [ -z "$file_status" ]; then
+            if [ $commit_changed -eq 0 ]; then
                 echo "No changes to upload"
-                continue
-            fi
-
-            if ! pass git add .; then
-                echo "Failed to upload password-store"
-                continue
-            fi
-
-            if ! pass git commit -m "Update password-store"; then
-                echo "Failed to upload password-store"
                 continue
             fi
 
@@ -202,6 +192,42 @@ select s in "${selects[@]}"; do
             fi
             ;;
 
+        "Edit")
+            if ! pass list; then
+                echo "Failed to list password"
+                continue
+            fi
+
+            read -p "Please provide password alias name to edit: " name
+            [ -z $name ] && echo "Password alias name is required" && continue
+
+            if ! pass edit $name; then
+                echo "Failed to edit password"
+                continue
+            fi
+            ;;
+        "New")
+            if ! pass list; then
+                echo "Password alias name already exist"
+                continue
+            fi
+
+            read -p "Auto generate password [Y|n]: " auto
+            read -p "Please provide password alias name to create: " name
+            [ -z $name ] && echo "Password alias name is required" && continue
+
+            if [[ $auto =~ ^[Yy]$ ]]; then
+                if ! pass generate; then
+                    echo "Failed to create password"
+                    continue
+                fi
+            else
+                if ! pass insert $name; then
+                    echo "Failed to create password"
+                    continue
+                fi
+            fi
+            ;;
         *)
             ;;
         esac
