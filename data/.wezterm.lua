@@ -52,6 +52,7 @@ config.window_background_gradient = {
   blend = 'Rgb',
 }
 
+config.window_background_gradient = nil
 config.window_background_opacity = 1
 config.window_background_image = nil
 config.window_background_image_hsb = nil
