@@ -696,7 +696,9 @@ function install_linter_python() {
 	if [[ $(command -v pydocstyle) \
 		&& $(command -v pycodestyle) \
 		&& $(command -v flake8) \
-		&& $(command -v pylint) ]];
+		&& $(command -v pylint) \
+        && $(command -v ruff)
+        ]];
 	then
 		return 0
 	fi
@@ -710,6 +712,13 @@ function install_linter_python() {
 			return 1
 		}
 	fi
+
+    if [ -z "$(command -v ruff)" ]; then
+        pip install ruff || {
+            echo -e "\033[31mError: Install ruff failed!\033[0m" >&2
+            return 1
+        }
+    fi
 
 	if [[ $(command -v pylint) ]]; then
 		return 0
