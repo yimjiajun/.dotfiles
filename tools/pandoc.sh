@@ -6,30 +6,30 @@ common="$path/../app/common.sh"
 install="$path/manual/install_pkg_cmd.sh"
 
 function install_packages() {
-	packages=('texlive-latex-base' 'texlive-latex-extra' 'texlive-xetex')
+  packages=('texlive-latex-base' 'texlive-latex-extra' 'texlive-xetex')
 
-	for package in ${packages[@]}; do
-		$common display_info "packages" "install $package"
-		$install $package || {
-			$common display_error "install $package failed !"
-			exit 1
-		}
-	done
+  for package in ${packages[@]}; do
+    $common display_info "packages" "install $package"
+    $install $package || {
+      $common display_error "install $package failed !"
+      exit 1
+    }
+  done
 }
 
 install() {
-	$common display_title "Install $tool"
-	$install $tool || {
-		$common display_error "install $tool failed !"
-		exit 1
-	}
+  $common display_title "Install $tool"
+  $install $tool || {
+    $common display_error "install $tool failed !"
+    exit 1
+  }
 
-	install_packages
+  install_packages
 }
 
-if [[ -z "$(which $tool)" ]] ||\
-	[[ $1 == "install" ]]; then
-	install
+if [[ -z "$(which $tool)" ]] \
+  || [[ $1 == "install" ]]; then
+  install
 fi
 
 exit 0
