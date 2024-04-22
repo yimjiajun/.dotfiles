@@ -28,7 +28,7 @@ install() {
     fi
 
     $common display_info "link" "$data_file"
-    ln -sf "$data_file" "$dest_file" || {
+    ln -sfr "$data_file" "$dest_file" || {
       $common display_error "Link $data_file to $dest_file failed"
       exit 1
     }
