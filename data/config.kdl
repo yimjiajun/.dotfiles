@@ -4,7 +4,7 @@ keybinds {
         // uncomment this and adjust key if using copy_on_select=false
         // bind "Alt c" { Copy; }
         unbind "Ctrl g" // default Locked
-        bind "Ctrl Space" { SwitchToMode "Locked"; }
+        bind "Space" { SwitchToMode "Locked"; }
     }
     locked clear-default=true {
         unbind "Ctrl g"
@@ -188,8 +188,15 @@ keybinds {
     }
     shared {
         bind "Alt 1" { Run "git" "status"; }
-        bind "Alt 2" { Run "git" "diff"; }
-        bind "Alt 3" { Run "git" "diff --staged"; }
+        bind "Alt 2" { Run "git" "log" "--oneline" "--graph" "--all"; }
+        bind "Alt 3" { Run "git" "diff"; }
+        bind "Alt 4" { Run "git" "diff" arg="--staged"; }
+        bind "Alt 5" { Run "git" "log" arg="--patch"; }
+        bind "Alt a" { Run "git" "commit" arg="--amend"; }
+        bind "Alt c" { Run "git" "commit" arg="--signoff"; }
+        bind "Alt +" { Run "git" "add" arg="--patch"; }
+        bind "Alt -" { Run "git" "restore" "-S" "--patch"; }
+        bind "Alt _" { Run "git" "restore" "-W" "--patch"; }
     }
 }
 
