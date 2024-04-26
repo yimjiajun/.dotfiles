@@ -1,25 +1,25 @@
 #!/bin/bash
 
 tool='htop'
-path=$(dirname $(readlink -f $0))
-common="$path/../app/common.sh"
-install="$path/manual/install_pkg_cmd.sh"
+path="$(dirname $(readlink -f $0))"
+working_path="$(dirname "$path")"
+source "$working_path/app/common.sh"
 
-install() {
-  $common display_title "Install $tool"
-  $install $tool || {
-    $common display_error "install $tool failed !"
+function install {
+  display_title "Install $tool"
+
+  if ! install_package $tool; then
+    display_error "install $tool failed !"
     exit 1
-  }
+  fi
 }
 
 if [[ $OSTYPE != linux-gnu* ]]; then
-  $common display_error "not support $tool on $OSTYPE !"
+  display_error "not support $tool on $OSTYPE !"
   exit 1
 fi
 
-if [[ -z "$(which $tool)" ]] \
-  || [[ $1 == "install" ]]; then
+if [ -z "$(which $tool)" ] || [[ $1 =~ $common_force_install_param ]]; then
   install
 fi
 

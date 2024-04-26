@@ -4,10 +4,11 @@ tput clear
 func=('change_ratio' 'raplace_org_img')
 func=($(printf '%s\n' "${func[@]}" | sort))
 
-common="$(dirname "$(readlink -f "$0")")/common.sh"
-path="$(dirname "$(readlink -f "$0")")"
-name="$(basename "$0" | sed 's/\.sh$//')"
-$common display_title "${name^^}"
+path="$(dirname $(readlink -f ${BASH_SOURCE[0]}))"
+working_path="$(dirname "$path")"
+source "$working_path/app/common.sh"
+name="$(basename "${BASH_SOURCE[0]}" | sed 's/\.sh$//')"
+display_title "${name^^}"
 
 current_path_image() {
   local imgs=($(find . -maxdepth 1 -type f \
@@ -38,29 +39,29 @@ change_ratio() {
   local ratio="${width}x${height}"
 
   if [[ -z $(command -v convert) ]]; then
-    $common display_error "not found convert image tool!"
+    display_error "not found convert image tool!"
     return 1
   fi
 
   if [[ -z $img ]]; then
-    $common display_error "image is empty !"
+    display_error "image is empty !"
     return 1
   fi
 
   if [[ -z $height ]] || [[ -z $width ]]; then
-    $common display_error "height or width is empty !"
+    display_error "height or width is empty !"
     return 1
   fi
 
   convert "$img" -resize "$ratio" "$img_new" || {
-    $common display_error "convert $img failed !"
+    display_error "convert $img failed !"
     return 1
   }
 
   local img_size="$(du -h "$img" | awk '{print $1}')"
   local img_new_size="$(du -h "$img_new" | awk '{print $1}')"
 
-  $common display_info "img" "$img_new ($ratio) ($img_size -> $img_new_size)"
+  display_info "img" "$img_new ($ratio) ($img_size -> $img_new_size)"
 }
 
 raplace_org_img() {
@@ -68,21 +69,21 @@ raplace_org_img() {
   local img_new="${img%.*}_NEW.${img##*.}"
 
   mv "$img_new" "$img" || {
-    $common display_error "($img_new) new image from original image ($img) not found!"
+    display_error "($img_new) new image from original image ($img) not found!"
     return 1
   }
 
-  $common display_info "update" "$img_new -> $img"
+  display_info "update" "$img_new -> $img"
   return 0
 }
 
 select option in 'quit' "${func[@]}"; do
   tput clear
-  $common display_title "${name^^}"
+  display_title "${name^^}"
   sel_img="$(current_path_image)"
 
   [[ -z $sel_img ]] && {
-    $common display_error "not found image !"
+    display_error "not found image !"
     exit 1
   }
 
@@ -92,7 +93,7 @@ select option in 'quit' "${func[@]}"; do
       ;;
     *)
       $option "$sel_img" || {
-        $common display_error "($option) failed !"
+        display_error "($option) failed !"
       }
       ;;
   esac

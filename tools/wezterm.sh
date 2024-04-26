@@ -1,42 +1,42 @@
 #!/bin/bash
 
 tool="wezterm"
-path=$(dirname $(readlink -f $0))
-data_path="$path/../data"
+path="$(dirname $(readlink -f $0))"
+working_path="$(dirname "$path")"
+source "$working_path/app/common.sh"
+data_path="$common_data_path"
 data_file=".wezterm.lua"
-common="$path/../app/common.sh"
-install="$path/manual/install_pkg_cmd.sh"
 
 install() {
-  $common display_title "Install $tool"
+  display_title "Install $tool"
 
-  if [[ -d /run/WSL ]]; then
-    $common display_info "download" "wezterm.exe"
+  if [ -d /run/WSL ]; then
+    display_info "download" "wezterm.exe"
     powershell.exe curl -v -o '~\Downloads\wezterm.exe https://github.com/wez/wezterm/releases/download/20230712-072601-f4abf8fd/WezTerm-20230712-072601-f4abf8fd-setup.exe' || {
-      $common display_error "download wezterm.exe failed"
+      display_error "download wezterm.exe failed"
       exit 1
     }
 
-    $common display_info "install" "WezTerm Installtion will pop up on the screen"
-    powershell.exe -C start '~\Downloads\wezterm.exe' || {
-      $common display_error "install wezterm.exe failed"
+    display_info "install" "WezTerm Installtion will pop up on the screen"
+    if ! powershell.exe -C start '~\Downloads\wezterm.exe'; then
+      display_error "install wezterm.exe failed"
       powershell.exe -C start 'rm ~\Downloads\wezterm.exe'
       exit 1
-    }
+    fi
 
     local usr_path=$(find /mnt/c/Users -maxdepth 1 -type d -not \( \
       -name 'Default' -o -name 'Public' \
       -o -name 'Administrator' -o -name 'User' \) \
       -not -path /mnt/c/Users)
 
-    $common display_info "copy" "conifguration file to \e[1m$usr_path/$data_file\e[0m"
-    dd if=$data_path/$data_file of=$usr_path/$data_file || {
-      $common display_error "copy $tool configuration $data_path/$data_file to $usr_path/$data_file failed"
+    display_info "copy" "conifguration file to \e[1m$usr_path/$data_file\e[0m"
+    if ! dd if=$data_path/$data_file of=$usr_path/$data_file; then
+      display_error "copy $tool configuration $data_path/$data_file to $usr_path/$data_file failed"
       exit 1
-    }
+    fi
 
-    $common display_info "manual" "WezTerm Installtion will pop up on the screen, please follow the instructions to complete the installation"
-    $common display_info "installed" "$tool"
+    display_info "manual" "WezTerm Installtion will pop up on the screen, please follow the instructions to complete the installation"
+    display_info "installed" "$tool"
 
     exit 0
   elif [[ $OSTYPE == linux-gnu* ]]; then
@@ -44,43 +44,42 @@ install() {
 
     . /etc/os-release
 
-    [[ $ID != 'ubuntu' ]] && {
-      $common display_error "$ID not support"
+    if [[ $ID != 'ubuntu' ]]; then
+      display_error "$ID not support"
       exit 3
-    }
+    fi
 
-    $common display_info "download" "wezterm.deb"
-    curl -Lo $tmp_dir/wezterm.deb "https://github.com/wez/wezterm/releases/download/20230712-072601-f4abf8fd/wezterm-20230712-072601-f4abf8fd.${ID}${VERSION_ID}.deb" || {
-      $common display_error "download wezterm.deb failed"
+    display_info "download" "wezterm.deb"
+    if curl -Lo $tmp_dir/wezterm.deb "https://github.com/wez/wezterm/releases/download/20230712-072601-f4abf8fd/wezterm-20230712-072601-f4abf8fd.${ID}${VERSION_ID}.deb"; then
+      display_error "download wezterm.deb failed"
       exit 1
-    }
+    fi
 
-    $common display_info "install" "wezterm.deb"
-    sudo apt-get install -y $tmp_dir/wezterm.deb || {
-      $common display_error "chmod wezterm.deb failed"
+    display_info "install" "wezterm.deb"
+    if ! sudo apt-get install -y $tmp_dir/wezterm.deb; then
+      display_error "chmod wezterm.deb failed"
       exit 1
-    }
+    fi
   elif [[ $OSTYPE == darwin* ]]; then
-    brew install --cask wezterm || {
-      $common display_error "install wezterm failed"
+    if ! brew install --cask wezterm; then
+      display_error "install wezterm failed"
       exit 1
-    }
+    fi
   else
-    $common display_error "OS not support"
+    display_error "OS not support"
     exit 3
   fi
 
-  $common display_info "link" "$data_path/$data_file to $HOME/.wezterm.lua"
-  ln -sf $data_path/$data_file $HOME/.wezterm.lua || {
-    $common display_error "link $data_path/$data_file to $HOME/.wezterm.lua failed"
+  display_info "link" "$data_path/$data_file to $HOME/.wezterm.lua"
+  if ! ln -sf $data_path/$data_file $HOME/.wezterm.lua; then
+    display_error "link $data_path/$data_file to $HOME/.wezterm.lua failed"
     exit 1
-  }
-
-  $common display_info "install" "success"
+  fi
 }
 
-if [[ $# -ne 0 ]] && [[ $1 == "install" ]]; then
+if [ $# -ne 0 ] && [[ $1 =~ $common_force_install_param ]]; then
   install
+  display_info "install" "success"
 fi
 
 exit 0

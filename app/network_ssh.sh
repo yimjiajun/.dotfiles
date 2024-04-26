@@ -3,9 +3,10 @@
 func=('key_gen' 'get_pub_key' 'ssh_file_transfer_protocol')
 func=($(printf '%s\n' "${func[@]}" | sort))
 
-common="$(dirname $(readlink -f "$0"))/common.sh"
-path="$(dirname $(readlink -f "$0"))"
-name="$(basename $0 | sed 's/\.sh$//')"
+path="$(dirname $(readlink -f ${BASH_SOURCE[0]}))"
+working_path="$(dirname "$path")"
+source "$working_path/app/common.sh"
+name="$(basename ${BASH_SOURCE[0]} | sed 's/\.sh$//')"
 
 key_gen() {
   local key_algo=('rsa' 'ed25519' 'ecdsa' 'dsa')
@@ -13,7 +14,7 @@ key_gen() {
   local args=''
   local comment=''
 
-  $common display_subtitle "Generate ssh key"
+  display_subtitle "Generate ssh key"
 
   select algo in ${key_algo[@]}; do
     if [[ $algo == 'rsa' ]]; then
@@ -23,9 +24,9 @@ key_gen() {
       done
     fi
 
-    $common display_info "github" "enter email for this key"
-    $common display_info "gitlab" "any comment for this key"
-    $common display_info "input" "Enter comment for this key:"
+    display_info "github" "enter email for this key"
+    display_info "gitlab" "any comment for this key"
+    display_info "input" "Enter comment for this key:"
     read -p '> ' comment
 
     if [[ ! -z $comment ]]; then
@@ -33,7 +34,7 @@ key_gen() {
     fi
 
     ssh-keygen -t $algo $args $comment -f ~/.ssh/id_$algo || {
-      $common display_error "generate ssh key failed !"
+      display_error "generate ssh key failed !"
       exit 1
     }
 
@@ -44,36 +45,36 @@ key_gen() {
 get_pub_key() {
   local pub_keys=($(ls ~/.ssh/*.pub))
 
-  $common display_subtitle "Get public key"
+  display_subtitle "Get public key"
 
   if [[ ${#pub_keys[@]} -eq 0 ]]; then
-    $common display_error "no public key found !"
+    display_error "no public key found !"
     exit 1
   fi
 
   select key in ${pub_keys[@]}; do
-    $common display_info "copy" "public key to clipboard"
+    display_info "copy" "public key to clipboard"
 
     if [[ $OSTYPE == 'darwin'* ]]; then
       if [[ -z "$(which pbcopy)" ]]; then
-        $common display_error "pbcopy not found ! ... skip copy to clipboard"
+        display_error "pbcopy not found ! ... skip copy to clipboard"
       fi
 
       pbcopy <$key
     else
       if [[ -z "$(which xclip)" ]]; then
-        $common display_error "xclip not found ! ... skip copy to clipboard"
+        display_error "xclip not found ! ... skip copy to clipboard"
       fi
 
       xclip -sel clip <$key || {
-        $common display_error "copy to clipboard failed !"
+        display_error "copy to clipboard failed !"
       }
     fi
 
-    $common display_info "pub key"
+    display_info "pub key"
 
     cat $key || {
-      $common display_error "cat public key failed !"
+      display_error "cat public key failed !"
       exit 1
     }
 
@@ -90,13 +91,13 @@ ssh_file_transfer_protocol() {
   local pass=''
   local selection=('user' 'host' 'port' 'path' 'pass' 'lists')
 
-  $common display_subtitle "ssh connection"
+  display_subtitle "ssh connection"
 
-  $common display_info "input" "Enter username:"
+  display_info "input" "Enter username:"
   read -p '> ' user
-  $common display_info "input" "Enter hostname/ip:"
+  display_info "input" "Enter hostname/ip:"
   read -p '> ' host
-  $common display_info "input" "Enter port:"
+  display_info "input" "Enter port:"
   read -p '> ' port
 
   if [[ -z $port ]]; then
@@ -104,15 +105,15 @@ ssh_file_transfer_protocol() {
   fi
 
   if [[ $(command -v sshpass) ]]; then
-    $common display_info "input" "(optional) Enter password:"
+    display_info "input" "(optional) Enter password:"
     read -p '> ' pass
   fi
 
-  $common display_subtitle "sftp connection options"
+  display_subtitle "sftp connection options"
 
   select opt in ${selection[@]} 'done'; do
     tput clear
-    $common display_subtitle "sftp connection options"
+    display_subtitle "sftp connection options"
 
     if [[ -z $opt ]]; then
       continue
@@ -120,12 +121,12 @@ ssh_file_transfer_protocol() {
 
     if [[ $opt == 'done' ]]; then
       [[ -z $host ]] && {
-        $common display_error "host is empty !"
+        display_error "host is empty !"
         continue
       }
 
       [[ -z $user ]] && {
-        $common display_error "user is empty !"
+        display_error "user is empty !"
         continue
       }
 
@@ -137,11 +138,11 @@ ssh_file_transfer_protocol() {
     if [[ $opt != 'lists' ]]; then
       if [[ $opt == 'pass' ]] && [[ -z $pass ]] \
         || [[ -z $(command -v sshpass) ]]; then
-        $common display_info "skip" "x password"
+        display_info "skip" "x password"
         continue
       fi
 
-      $common display_info "$opt" "$value"
+      display_info "$opt" "$value"
       read -p '> ' value
 
       if [[ ! -z $value ]]; then
@@ -149,17 +150,17 @@ ssh_file_transfer_protocol() {
       fi
     fi
 
-    $common display_info "host" "$host"
-    $common display_info "user" "$user"
-    $common display_info "port" "$port"
-    $common display_info "path" "$path"
+    display_info "host" "$host"
+    display_info "user" "$user"
+    display_info "port" "$port"
+    display_info "path" "$path"
     if [[ $(command -v sshpass) ]] && [[ -n $pass ]]; then
-      $common display_info "pass" "$pass"
+      display_info "pass" "$pass"
     fi
   done
 
   if [[ -d /run/WSL ]]; then
-    $common display_info "wsl" "wsl detected !"
+    display_info "wsl" "wsl detected !"
     read -p "use powershell ? [y/n] " -r
     if [[ $REPLY =~ ^[Yy]$ ]]; then
       sftp="powershell.exe -C sftp"
@@ -175,13 +176,13 @@ ssh_file_transfer_protocol() {
     path=":$path"
   fi
 
-  $common display_subtitle "sftp commands"
-  $common display_info "put" "upload file"
-  $common display_info "get" "download file"
-  $common display_info "ls" "list directory"
+  display_subtitle "sftp commands"
+  display_info "put" "upload file"
+  display_info "get" "download file"
+  display_info "ls" "list directory"
 
   $sftp -P $port $user@$host$path || {
-    $common display_error "ssh connection failed !"
+    display_error "ssh connection failed !"
     exit 1
   }
 }
@@ -196,13 +197,13 @@ ssh_connect() {
   local pass=''
   local selection=('user' 'host' 'port' 'cmd' 'pass' 'lists')
 
-  $common display_subtitle "ssh connection"
+  display_subtitle "ssh connection"
 
-  $common display_info "input" "Enter username:"
+  display_info "input" "Enter username:"
   read -p '> ' user
-  $common display_info "input" "Enter hostname/ip:"
+  display_info "input" "Enter hostname/ip:"
   read -p '> ' host
-  $common display_info "input" "Enter port:"
+  display_info "input" "Enter port:"
   read -p '> ' port
 
   if [[ -z $port ]]; then
@@ -210,15 +211,15 @@ ssh_connect() {
   fi
 
   if [[ $(command -v sshpass) ]]; then
-    $common display_info "input" "(optional) Enter password:"
+    display_info "input" "(optional) Enter password:"
     read -p '> ' pass
   fi
 
-  $common display_subtitle "ssh connection options"
+  display_subtitle "ssh connection options"
 
   select opt in ${selection[@]} 'done'; do
     tput clear
-    $common display_subtitle "ssh connection options"
+    display_subtitle "ssh connection options"
 
     if [[ -z $opt ]]; then
       continue
@@ -226,12 +227,12 @@ ssh_connect() {
 
     if [[ $opt == 'done' ]]; then
       [[ -z $host ]] && {
-        $common display_error "host is empty !"
+        display_error "host is empty !"
         continue
       }
 
       [[ -z $user ]] && {
-        $common display_error "user is empty !"
+        display_error "user is empty !"
         continue
       }
 
@@ -243,11 +244,11 @@ ssh_connect() {
     if [[ $opt != 'lists' ]]; then
       if [[ $opt == 'pass' ]] && [[ -z $pass ]] \
         || [[ -z $(command -v sshpass) ]]; then
-        $common display_info "skip" "x password"
+        display_info "skip" "x password"
         continue
       fi
 
-      $common display_info "$opt" "$value"
+      display_info "$opt" "$value"
       read -p '> ' value
 
       if [[ ! -z $value ]]; then
@@ -255,17 +256,17 @@ ssh_connect() {
       fi
     fi
 
-    $common display_info "host" "$host"
-    $common display_info "user" "$user"
-    $common display_info "port" "$port"
-    $common display_info "cmd" "$cmd"
+    display_info "host" "$host"
+    display_info "user" "$user"
+    display_info "port" "$port"
+    display_info "cmd" "$cmd"
     if [[ $(command -v sshpass) ]] && [[ -n $pass ]]; then
-      $common display_info "pass" "$pass"
+      display_info "pass" "$pass"
     fi
   done
 
   if [[ -d /run/WSL ]]; then
-    $common display_info "wsl" "wsl detected !"
+    display_info "wsl" "wsl detected !"
     read -p "use powershell ? [y/n] " -r
     if [[ $REPLY =~ ^[Yy]$ ]]; then
       ssh="powershell.exe -C ssh"
@@ -282,14 +283,14 @@ ssh_connect() {
   fi
 
   $ssh -p $port $user@$host $cmd || {
-    $common display_error "ssh connection failed !"
+    display_error "ssh connection failed !"
     exit 1
   }
 }
 
 select opt in ${func[@]} 'exit'; do
   tput clear
-  $common display_title "ssh tools"
+  display_title "ssh tools"
 
   if [[ -z $opt ]]; then
     continue
@@ -300,7 +301,7 @@ select opt in ${func[@]} 'exit'; do
   fi
 
   $opt || {
-    $common display_error "error !"
+    display_error "error !"
     exit 1
   }
 done

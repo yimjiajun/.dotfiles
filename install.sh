@@ -1,29 +1,28 @@
 #!/bin/bash
 
-path=$(dirname $(readlink -f $0))
-common="$path/app/common.sh"
+path="$(dirname $(readlink -f ${BASH_SOURCE[0]}))"
+working_path="$path"
+source "$working_path/app/common.sh"
 
-if [[ $(grep -c 'export PATH=~/.local/bin:$PATH' ~/.bashrc) -eq 0 ]]; then
+if [ $(grep -c 'export PATH=~/.local/bin:$PATH' ~/.bashrc) -eq 0 ]; then
   echo 'export PATH=~/.local/bin:$PATH' >>~/.bashrc
   export PATH="$HOME/.local/bin:$PATH"
 fi
 
-if [[ $# -eq 0 ]]; then
+if [ $# -eq 0 ]; then
   install_dir=("$(find . -maxdepth 1 -type d -not -name "scripts" | sed 's/\.\///g' | sed 's/\..*//g')")
 
   for dir in ${install_dir[@]}; do
-    if [[ -f $path/$dir/install.sh ]]; then
-      $path/$dir/install.sh || {
-        $common display_error "Install $dir failed."
-        exit 1
-      }
+    if [ -f ${path}/${dir}/install.sh ] && ! ${working_path}/${dir}/install.sh; then
+      display_error "Install $dir failed."
+      exit 1
     fi
   done
 
   exit 0
 fi
 
-while [[ $# -ne 0 ]]; do
+while [ $# -ne 0 ]; do
   case $1 in
     --help | -h)
       echo "Usage: $0 [options]"
@@ -35,28 +34,22 @@ while [[ $# -ne 0 ]]; do
       exit 0
       ;;
     --tools | -t)
-      $path/tools/install.sh
-
-      if [[ $? -ne 0 ]]; then
-        $common display_error "Install tools failed."
+      if ! $working_path/tools/install.sh; then
+        display_error "Install tools failed."
         exit 1
       fi
       shift
       ;;
     --prj | -p)
-      $path/prj/install.sh
-
-      if [[ $? -ne 0 ]]; then
-        $common display_error "Install project failed."
+      if ! $working_path/prj/install.sh; then
+        display_error "Install project failed."
         exit 1
       fi
       shift
       ;;
     --app | -a)
-      $path/app/install.sh
-
-      if [[ $? -ne 0 ]]; then
-        $common display_error "Install app failed."
+      if ! $working_path/app/install.sh; then
+        display_error "Install app failed."
         exit 1
       fi
       shift

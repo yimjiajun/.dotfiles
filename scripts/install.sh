@@ -1,8 +1,9 @@
 #!/bin/bash
 
-path=$(dirname $(readlink -f $0))
-common="$path/../app/common.sh"
-ignore_install_tools=("$(basename $0)" 'other' 'manual')
+path="$(dirname $(readlink -f ${BASH_SOURCE[0]}))"
+working_path="$(dirname "$path")"
+source "$working_path/app/common.sh"
+ignore_install_tools=("$(basename ${BASH_SOURCE[0]})" 'other' 'manual')
 
 for prefix in ${ignore_install_tools[@]}; do
   ignore_install_tool_str=$ignore_install_tool_str" -I "$prefix
@@ -39,16 +40,16 @@ for tool in ${install_tools[@]}; do
 
   if [[ $install_status[$cnt] == 'failed' ]]; then
     echo -e -n "\033[31m"
-    $common display_status "${install_status[$cnt]^^}"
+    display_status "${install_status[$cnt]^^}"
     echo -e -n "\033[0m"
   else
-    $common display_status "${install_status[$cnt]^^}"
+    display_status "${install_status[$cnt]^^}"
   fi
 
   cnt=$cnt+1
 done
 
-$common display_title 'Installation Status'
+display_title 'Installation Status'
 
 for cnt in ${!install_status[@]}; do
 

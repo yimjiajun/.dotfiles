@@ -1,24 +1,21 @@
 #!/bin/bash
 
 tool='zellij'
-path=$(dirname $(readlink -f $0))
-common="$path/../app/common.sh"
-data_path="$path/../data"
+path="$(dirname $(readlink -f $0))"
+working_path="$(dirname "$path")"
+source "$working_path/app/common.sh"
+data_path="$common_data_path"
 data_file="${data_path}/config.kdl"
 dest_file="$HOME/.config/zellij/config.kdl"
 
-install() {
-  if [[ -z $(which cargo) ]]; then
-    $path/../rust.sh 'install'
+function install {
+  if [ -z "$(command -v cargo)" ]; then
+    "$working_path"/rust.sh '--force'
   fi
 
-  local install='cargo install --force'
-
-  $common display_title "Install $tool"
-  $install $tool
-
-  if [ $? -ne 0 ]; then
-    $common display_error "Install $tool failed !"
+  display_title "Install $tool"
+  if ! cargo install --force $tool; then
+    display_error "Install $tool failed !"
     exit 1
   fi
 
@@ -27,15 +24,15 @@ install() {
       mkdir -p "$(dirname $dest_file)"
     fi
 
-    $common display_info "link" "$data_file"
-    ln -sfr "$data_file" "$dest_file" || {
-      $common display_error "Link $data_file to $dest_file failed"
+    display_info "link" "$data_file"
+    if ! ln -sfr "$data_file" "$dest_file"; then
+      display_error "Link $data_file to $dest_file failed"
       exit 1
-    }
+    fi
   fi
 }
 
-if [ -z "$(which $tool)" ] || [[ $1 == "install" ]]; then
+if [ -z "$(which $tool)" ] || [[ $1 =~ $common_force_install_param ]]; then
   install
 fi
 

@@ -7,13 +7,14 @@ func=('file_manager' 'git_manager' 'calendar_manager'
   'image_manager')
 
 func=($(printf '%s\n' "${func[@]}" | sed 's/_manager//g' | sort))
-common="$(dirname $(readlink -f "$0"))/common.sh"
-path="$(dirname $(readlink -f "$0"))"
-name="$(basename $0 | sed 's/\.sh$//')"
-$common display_title "${name^^}"
+path="$(dirname $(readlink -f ${BASH_SOURCE[0]}))"
+working_path="$(dirname "$path")"
+source "$working_path/app/common.sh"
+name="$(basename ${BASH_SOURCE[0]} | sed 's/\.sh$//')"
+display_title "${name^^}"
 
 vim_manager() {
-  $common display_subtitle "VIM MANAGER"
+  display_subtitle "VIM MANAGER"
 
   if [[ $(command -v nvim) ]]; then
     nvim
@@ -30,22 +31,22 @@ vim_manager() {
     return
   fi
 
-  $common display_error "not supporting vim manager"
+  display_error "not supporting vim manager"
 }
 
 file_manager() {
-  $common display_subtitle "FILE MANAGER"
+  display_subtitle "FILE MANAGER"
 
   if [[ $(command -v ranger) ]]; then
     ranger
     return
   fi
 
-  $common display_error "not supporting file manager"
+  display_error "not supporting file manager"
 }
 
 disk_manager() {
-  $common display_subtitle "DISK MANAGER"
+  display_subtitle "DISK MANAGER"
 
   local disk_tool=(
     $(which ncdu)
@@ -68,7 +69,7 @@ disk_manager() {
 
   select tool in 'quit' "${disk_tool[@]}"; do
     tput clear
-    $common display_subtitle "${name^^}"
+    display_subtitle "${name^^}"
 
     if [[ $tool == 'quit' ]]; then
       return 0
@@ -87,10 +88,10 @@ disk_manager() {
 }
 
 git_manager() {
-  $common display_subtitle "GIT MANAGER"
+  display_subtitle "GIT MANAGER"
 
   if ! [[ $(command -v git) ]]; then
-    $common display_error "not supporting git"
+    display_error "not supporting git"
     return
   fi
 
@@ -111,7 +112,7 @@ git_manager() {
 
   select tool in 'quit' "${git_tool[@]}"; do
     tput clear
-    $common display_subtitle "${name^^}"
+    display_subtitle "${name^^}"
 
     case $tool in
       'quit')
@@ -119,18 +120,18 @@ git_manager() {
         ;;
       *)
         $tool || {
-          $common display_error "invalid option"
+          display_error "invalid option"
           exit 1
         }
         ;;
     esac
   done
 
-  $common display_error "not supporting git manager"
+  display_error "not supporting git manager"
 }
 
 calendar_manager() {
-  $common display_subtitle "CALENDAR MANAGER"
+  display_subtitle "CALENDAR MANAGER"
 
   if [[ $(command -v khal) ]]; then
     khal interactive
@@ -142,11 +143,11 @@ calendar_manager() {
     return
   fi
 
-  $common display_error "not supporting calendar manager"
+  display_error "not supporting calendar manager"
 }
 
 task_manager() {
-  $common display_subtitle "TASK MANAGER"
+  display_subtitle "TASK MANAGER"
 
   if [[ $(command -v bpytop) ]]; then
     bpytop
@@ -163,30 +164,30 @@ task_manager() {
     return
   fi
 
-  $common display_error "not supporting task manager"
+  display_error "not supporting task manager"
 }
 
 browser_bookmarks_manager() {
-  $common display_subtitle "BROWSER BOOKMARKS MANAGER"
+  display_subtitle "BROWSER BOOKMARKS MANAGER"
 
   if [[ $(command -v buku) ]]; then
-    $common display_info "Bookmarks serach"
+    display_info "Bookmarks serach"
     read serach
     buku -S $serach
     return
   fi
 
-  $common display_error "not supporting browser bookmarks manager"
+  display_error "not supporting browser bookmarks manager"
 }
 
 fun_manager() {
-  $common display_subtitle "FUN MANAGER"
+  display_subtitle "FUN MANAGER"
   pkgs=('cmatrix' 'neofetch' 'bastet' 'ninvaders' 'hollywood')
 
   select pkg in 'quit' "${pkgs[@]}"; do
     tput clear
-    $common display_title "${name^^}"
-    $common display_subtitle "FUN MANAGER"
+    display_title "${name^^}"
+    display_subtitle "FUN MANAGER"
 
     case $pkg in
       'quit')
@@ -194,7 +195,7 @@ fun_manager() {
         ;;
       *)
         $pkg || {
-          $common display_error "invalid option"
+          display_error "invalid option"
           exit 1
         }
         ;;
@@ -206,15 +207,15 @@ fun_manager() {
 image_manager() {
   local image_manager="$(dirname $(readlink -f "$0"))/manager_convert.sh"
 
-  $common display_subtitle "IMAGE MANAGER"
+  display_subtitle "IMAGE MANAGER"
 
   ! [[ -f $image_manager ]] && {
-    $common display_error "not supported image manager"
+    display_error "not supported image manager"
     return 1
   }
 
   $image_manager || {
-    $common display_error "image operating failed"
+    display_error "image operating failed"
     return 1
   }
 
@@ -223,7 +224,7 @@ image_manager() {
 
 select option in 'quit' "${func[@]}"; do
   tput clear
-  $common display_title "${name^^}"
+  display_title "${name^^}"
 
   case $option in
     'quit')
@@ -231,15 +232,15 @@ select option in 'quit' "${func[@]}"; do
       ;;
     *)
       "${option}"_manager || {
-        $common display_error "invalid option"
+        display_error "invalid option"
         exit 1
       }
       ;;
   esac
-  $common display_status "press any key to continue"
+  display_status "press any key to continue"
   read
   tput clear
-  $common display_title "${name^^}"
+  display_title "${name^^}"
 done
 
 exit 0

@@ -2,23 +2,29 @@
 
 tool='bat'
 path=$(dirname $(readlink -f $0))
-common="$path/../app/common.sh"
-install="$path/manual/install_pkg_cmd.sh"
+working_path="$(dirname $path)"
+source "$working_path/app/common.sh"
 
 install() {
-  $common display_title "Install $tool"
-  $install $tool || {
-    $common display_error "install $tool failed !"
+  display_title "Install $tool"
+
+  if ! install_package $tool; then
+    display_error "install $tool failed !"
     exit 1
-  }
+  fi
 
-  [[ ! -d $HOME/.local/bin ]] && mkdir -p $HOME/.local/bin
+  if ! [ -d "$HOME/.local/bin" ] && ! mkdir -p "$HOME/.local/bin"; then
+    display_error "create $HOME/.local/bin failed !"
+    exit 1
+  fi
 
-  ln -sf /usr/bin/batcat $HOME/.local/bin/bat
+  if ! ln -sf '/usr/bin/batcat' "$HOME/.local/bin/bat"; then
+    display_error "link bat failed !"
+    exit 1
+  fi
 }
 
-if [[ -z "$(which $tool)" ]] \
-  || [[ $1 == "install" ]]; then
+if [ -z "$(which $tool)" ] || [[ $1 =~ $common_force_install_param ]]; then
   install
 fi
 

@@ -1,36 +1,39 @@
 #!/bin/bash
 
 tool='bpytop'
-path=$(dirname $(readlink -f $0))
-common="$path/../app/common.sh"
+path="$(dirname $(readlink -f $0))"
+working_path="$(dirname "$path")"
+source "$working_path/app/common.sh"
 
 install() {
-  local install='pip3 install --upgrade-strategy eager'
-
-  $common display_title "Install $tool"
-
-  $install $tool || {
-    $common display_error "Install $tool failed !"
-    exit 1
+  install_package() {
+    pip3 install --upgrade-strategy eager "${@}"
+    return "$?"
   }
 
-  if [[ $(grep -c 'export PATH=~/.local/bin:$PATH' ~/.bashrc) -eq 0 ]]; then
-    $common display_info "$(basename $SHELL)" 'export PATH=~/.local/bin:$PATH to ~/.bashrc'
+  display_title "Install $tool"
+
+  if ! install_package $tool; then
+    display_error "Install $tool failed !"
+    exit 1
+  fi
+
+  if [ $(grep -c 'export PATH=~/.local/bin:$PATH' ~/.bashrc) -eq 0 ]; then
+    display_info "$(basename $SHELL)" 'export PATH=~/.local/bin:$PATH to ~/.bashrc'
     echo 'export PATH=~/.local/bin:$PATH' >>~/.bashrc
     export PATH="$HOME/.local/bin:$PATH"
   fi
 
-  $common display_info "installed" "$tool"
 }
 
 if [[ $OSTYPE != linux-gnu* ]]; then
-  $common display_error "Only support Linux !"
+  display_error "Only support Linux !"
   exit 3
 fi
 
-if [[ -z "$(which $tool)" ]] \
-  || [[ $1 == "install" ]]; then
+if [ -z "$(which $tool)" ] || [[ $1 =~ $common_force_install_param ]]; then
   install
+  display_info "installed" "$tool"
 fi
 
 exit 0

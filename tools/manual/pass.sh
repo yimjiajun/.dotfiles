@@ -1,18 +1,19 @@
 #!/bin/bash
 
-path=$(dirname $(readlink -f $0))
-common="$path/../../app/common.sh"
+path="$(dirname $(readlink -f $0))"
+working_path="$(dirname "$(dirname $path)")"
+source "$working_path/app/common.sh"
 tools=('gpg' 'pass')
 
 for tool in "${tools[@]}"; do
   if [ -z "$(command -v $tool)" ]; then
-    $common display_error "$tool is required to run this script"
+    display_error "$tool is required to run this script"
     exit 1
   fi
 done
 
 selects=('exit' 'Generate' 'Import' 'Export' 'List' 'Show' 'Search' 'Download' 'Update' 'Upload' 'Edit' 'New')
-$common display_title "Password Manager"
+display_title "Password Manager"
 select s in "${selects[@]}"; do
   case $s in
     'exit')

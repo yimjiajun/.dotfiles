@@ -1,60 +1,59 @@
 #!/bin/bash
 
 tool='ctags'
-path=$(dirname $(readlink -f $0))
-common="$path/../app/common.sh"
+path="$(dirname $(readlink -f $0))"
+working_path="$(dirname "$path")"
+source "$working_path/app/common.sh"
 
-install() {
+function install {
   local download_path=$(mktemp -d)
   local install_path=/usr/local
 
-  $common display_title "Install $tool"
+  display_title "Install $tool"
 
-  git clone https://github.com/universal-ctags/ctags.git \
-    $download_path 1>/dev/null \
-    || {
-      $common display_error "git clone $tool failed !"
-      exit 1
-    }
+  if ! git clone https://github.com/universal-ctags/ctags.git \
+    $download_path 1>/dev/null; then
+    display_error "git clone $tool failed !"
+    exit 1
+  fi
 
   cd $download_path
 
-  $common display_info "upadate" "auto generate $tool..."
+  display_info "upadate" "auto generate $tool..."
 
-  ./autogen.sh 1>/dev/null 2>&1 || {
-    $common display_error "auto generate $tool failed !"
+  if ! ./autogen.sh 1>/dev/null 2>&1; then
+    display_error "auto generate $tool failed !"
     exit 1
-  }
+  fi
 
-  $common display_info "config" "$tool..."
+  display_info "config" "$tool..."
 
-  ./configure --prefix="$install_path" 1>/dev/null 2>&1 || {
-    $common display_error "configure $tool failed !"
+  if ! ./configure --prefix="$install_path" 1>/dev/null 2>&1; then
+    display_error "configure $tool failed !"
     exit 1
-  }
+  fi
 
-  $common display_info "build" "$tool..."
-  $common display_message "It may take a long time, please wait..."
+  display_info "build" "$tool..."
+  display_message "It may take a long time, please wait..."
 
-  make 1>/dev/null 2>&1 || {
-    $common display_error "build $tool failed !"
+  if ! make 1>/dev/null 2>&1; then
+    display_error "build $tool failed !"
     exit 1
-  }
+  fi
 
-  $common display_info "install" "$tool..."
-  $common display_message "It may take a long time, please wait..."
+  display_info "install" "$tool..."
+  display_message "It may take a long time, please wait..."
 
-  sudo make install 1>/dev/null || {
-    $common display_error "install $tool failed !"
+  if ! sudo make install 1>/dev/null; then
+    display_error "install $tool failed !"
     exit 1
-  }
+  fi
 
-  $common display_info "installed" "$tool"
 }
 
-if [[ -z "$(which $tool)" ]] \
-  || [[ $1 == "install" ]]; then
+if [ -z "$(which $tool)" ] || [[ $1 =~ $common_force_install_param ]]; then
   install
+  display_info "installed" "$tool"
 fi
 
 exit 0

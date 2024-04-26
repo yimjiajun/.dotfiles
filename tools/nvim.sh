@@ -1,8 +1,14 @@
 #!/bin/bash
 
 neovim_config_git_link='https://github.com/yimjiajun/neovim.git'
+install_cmd=''
 
-display_center() {
+function install_package {
+  $install_cmd "$@"
+  return "$?"
+}
+
+function display_center {
   local text="$1"
   local text_width=${#text}
   local screen_width="$(tput cols)"
@@ -11,7 +17,7 @@ display_center() {
   printf "%s\n" "$text"
 }
 
-display_title() {
+function display_title {
   local text="$1"
   local screen_width="$(tput cols)"
 
@@ -40,14 +46,14 @@ function pre_install_build_prerequisites {
   fi
 
   if [[ $OSTYPE =~ linux-gnu* ]]; then
-    $pkg_install_cmd \
+    install_package \
       ninja-build gettext libtool libtool-bin autoconf automake cmake g++ pkg-config unzip curl doxygen \
       || {
         echo -e "\033[31mError: Install build prerequisites failed!\033[0m" >&2
         exit 1
       }
 
-    $pkg_install_cmd \
+    install_package \
       gcc make pkg-config autoconf automake python3-docutils \
       libseccomp-dev libjansson-dev libyaml-dev libxml2-dev \
       || {
@@ -55,7 +61,7 @@ function pre_install_build_prerequisites {
         exit 1
       }
 
-    $pkg_install_cmd --no-install-recommends \
+    install_package --no-install-recommends \
       git cmake ninja-build gperf \
       ccache dfu-util device-tree-compiler wget \
       python3-dev python3-pip python3-setuptools python3-tk python3-wheel xz-utils file \
@@ -72,12 +78,12 @@ function pre_install_build_prerequisites {
       local gcc_multilib="gcc-multilib g++-multilib"
     fi
 
-    $pkg_install_cmd $gcc_multilib || {
+    install_package $gcc_multilib || {
       echo -e "\033[31mError: Install gcc multilib failed!\033[0m" >&2
       exit 1
     }
 
-    $pkg_install_cmd \
+    install_package \
       build-essential libncurses-dev libjansson-dev \
       libreadline-dev \
       || {
@@ -85,7 +91,7 @@ function pre_install_build_prerequisites {
         exit 1
       }
   elif [[ $OSTYPE == "darwin"* ]]; then
-    $pkg_install_cmd ninja cmake gettext curl || {
+    install_package ninja cmake gettext curl || {
       echo -e "\033[31mError: Install neovim build prerequisites failed!\033[0m" >&2
       exit 1
     }
@@ -151,7 +157,7 @@ function pre_install_node {
   }
 
   echo -e "● Install npm ... NeoVim LSP" >&1
-  $pkg_install_cmd npm || {
+  install_package npm || {
     echo -e "\033[31mError: Install npm failed!\033[0m" >&2
     echo -e"\033[31m● sudo apt-get remove --purge npm\033[0m" >&1
     return 1
@@ -170,12 +176,12 @@ function pre_install_node {
 }
 
 function pre_install_python {
-  $pkg_install_cmd python3 || {
+  install_package python3 || {
     echo -e "\033[31mError: Install python3 failed!\033[0m" >&2
     return 1
   }
 
-  $pkg_install_cmd python3-pip || {
+  install_package python3-pip || {
     echo -e "\033[31mError: Install python3-pip failed!\033[0m" >&2
     return 1
   }
@@ -184,7 +190,7 @@ function pre_install_python {
 
   if awk 'BEGIN { exit !('"$version"' >= 22.04) }'; then
     echo -e "Install python env for cmake and py lsp ..." >&1
-    $pkg_install_cmd python3.10-venv || {
+    install_package python3.10-venv || {
       echo -e "\033[31mError: Install python3.10-venv failed!\033[0m" >&2
       return 1
     }
@@ -199,66 +205,65 @@ function install_ctags {
   path="$(mktemp -d)"
   install_path="/usr/local"
 
-  if [[ "$(command -v ctags)" ]]; then
+  if [ -n "$(command -v ctags)" ]; then
     return 0
   fi
 
   echo -e "● Install ctags ..." >&1
 
-  git clone https://github.com/universal-ctags/ctags.git "$path" || {
+  if ! git clone https://github.com/universal-ctags/ctags.git "$path"; then
     echo -e "\033[31mError: git clone ctags failed!\033[0m" >&2
     return 1
-  }
+  fi
 
   cd "$path" || exit
 
   echo -e "● ctags auto generation ..." >&1
-  ./autogen.sh || {
+  if ! ./autogen.sh; then
     echo -e "\033[31mError: autogen ctags failed!\033[0m" >&2
     return 1
-  }
+  fi
 
   echo -e "● ctags configure ..." >&1
-  ./configure --prefix="$install_path" || {
+  if ! ./configure --prefix="$install_path"; then
     echo -e "\033[31mError: configure ctags failed!\033[0m" >&2
     return 1
-  }
+  fi
 
   echo -e "● ctags make ..." >&1
-  make 2>&1 || {
+  if ! make 2>&1; then
     echo -e "\033[31mError: make ctags failed!\033[0m" >&2
-    return 1
-  }
-
+  fi
   echo -e "● ctags make install ..." >&1
-  sudo make install || {
+
+  if ! sudo make install; then
     echo -e "\033[31mError: make install ctags failed!\033[0m" >&2
     return 1
-  }
+  fi
 }
 
 function install_ripgrep {
-  if [[ "$(command -v rg)" ]]; then
+  if [ -n "$(command -v rg)" ]; then
     return 0
   fi
 
   echo -e "● Install ripgrep ..." >&1
-  $pkg_install_cmd ripgrep || {
+  if ! install_package ripgrep; then
     echo -e "\033[31mError: Install ripgrep failed!\033[0m" >&2
     return 1
-  }
+  fi
 }
 
 function install_ranger {
-  if [[ $(command -v ranger) ]]; then
+  if [ -n "$(command -v ranger)" ]; then
     return 0
   fi
 
   echo -e "● Install ranger ..." >&1
-  $pkg_install_cmd ranger || {
+  if ! install_package ranger; then
     echo -e "\033[31mError: Install ranger failed!\033[0m" >&2
     return 1
-  }
+  fi
 }
 
 function install_htop {
@@ -266,27 +271,28 @@ function install_htop {
     return 0
   fi
 
-  if [[ "$(command -v htop)" ]]; then
+  if [ -n "$(command -v htop)" ]; then
     return 0
   fi
 
   echo -e "● Install htop ..." >&1
-  $pkg_install_cmd htop || {
+  if ! install_package htop; then
     echo -e "\033[31mError: Install htop failed!\033[0m" >&2
     return 1
-  }
+  fi
 }
 
 function install_fzf {
-  if [[ "$(command -v fzf)" ]]; then
+  if [ -n "$(command -v fzf)" ]; then
     return 0
   fi
 
   echo -e "● Install fzf ..." >&1
-  $pkg_install_cmd fzf || {
+
+  if ! install_package fzf; then
     echo -e "\033[31mError: Install fzf failed!\033[0m" >&2
     return 1
-  }
+  fi
 }
 
 function install_ncdu {
@@ -294,21 +300,22 @@ function install_ncdu {
     return 0
   fi
 
-  if [[ "$(command -v ncdu)" ]]; then
+  if [ -n "$(command -v ncdu)" ]; then
     return 0
   fi
 
   echo -e "● Install ncdu ..." >&1
-  $pkg_install_cmd ncdu || {
+
+  if ! install_package ncdu; then
     echo -e "\033[31mError: Install ncdu failed!\033[0m" >&2
     return 1
-  }
+  fi
 }
 
 function install_lazygit {
   local tmp_path="$(mktemp -d)"
 
-  if [[ $(command -v lazygit) ]]; then
+  if [ -n "$(command -v lazygit)" ]; then
     return 0
   fi
 
@@ -318,29 +325,30 @@ function install_lazygit {
     cd "$tmp_path" || exit
     echo -e "● Download lazygit ..." >&1
     LAZYGIT_VERSION=$(curl -s "https://api.github.com/repos/jesseduffield/lazygit/releases/latest" | grep -Po '"tag_name": "v\K[^"]*')
-    curl -Lo "$tmp_path"/lazygit.tar.gz "https://github.com/jesseduffield/lazygit/releases/latest/download/lazygit_${LAZYGIT_VERSION}_Linux_x86_64.tar.gz" || {
+    if ! curl -Lo "$tmp_path"/lazygit.tar.gz \
+      "https://github.com/jesseduffield/lazygit/releases/latest/download/lazygit_${LAZYGIT_VERSION}_Linux_x86_64.tar.gz"; then
       echo -e "\033[31mError: Download lazygit failed!\033[0m" >&2
       return 1
-    }
+    fi
 
     echo -e "● Extract lazygit ..." >&1
 
-    tar xf "$tmp_path"/lazygit.tar.gz -C "$tmp_path" || {
+    if ! tar xf "$tmp_path"/lazygit.tar.gz -C "$tmp_path"; then
       echo -e "\033[31mError: Extract lazygit failed!\033[0m" >&2
       return 1
-    }
+    fi
 
     echo -e "● Install lazygit ..." >&1
 
-    sudo install "$tmp_path"/lazygit /usr/local/bin || {
+    if ! sudo install "$tmp_path"/lazygit /usr/local/bin; then
       echo -e "\033[31mError: Install lazygit failed!\033[0m" >&2
       return 1
-    }
+    fi
   else
-    $pkg_install_cmd lazygit || {
+    if ! install_package lazygit; then
       echo -e "\033[31mError: Install lazygit failed!\033[0m" >&2
       return 1
-    }
+    fi
   fi
 }
 
@@ -349,15 +357,16 @@ function install_khal {
     return 0
   fi
 
-  if [[ "$(command -v khal)" ]]; then
+  if [ -n "$(command -v khal)" ]; then
     return 0
   fi
 
   echo -e "● Install khal ..." >&1
-  $pkg_install_cmd khal || {
+
+  if ! install_package khal; then
     echo -e "\033[31mError: Install khal failed!\033[0m" >&2
     return 1
-  }
+  fi
 }
 
 function install_bpytop {
@@ -365,27 +374,28 @@ function install_bpytop {
     return 0
   fi
 
-  if [[ "$(command -v bpytop)" ]]; then
+  if [ -n "$(command -v bpytop)" ]; then
     return 0
   fi
 
   echo -e "● Install bpytop ..." >&1
-  pip3 install --upgrade-strategy eager bpytop || {
+
+  if ! pip3 install --upgrade-strategy eager bpytop; then
     echo -e "\033[31mError: Install bpytop failed!\033[0m" >&2
     return 1
-  }
+  fi
 }
 
 function pre_install_cargo {
-  if [[ $(command -v rustup) ]]; then
+  if [ -n "$(command -v rustup)" ]; then
     return 0
   fi
 
   if [[ $(uname -m) == 'aarch64' ]]; then
-    $pkg_install_cmd cargo || {
+    if ! install_package cargo; then
       echo -e "\033[31mError: Install cargo failed!\033[0m" >&2
       return 1
-    }
+    fi
 
     return 0
   else
@@ -396,9 +406,8 @@ function pre_install_cargo {
     }
   fi
 
-  if [[ -f "$HOME/.cargo/env" ]]; then
-    if [[ -f "$HOME/.$(basename "$SHELL")rc" ]] \
-      && [[ $(grep -c "source $HOME/.cargo/env" "$HOME/.$(basename "$SHELL")rc") -eq 0 ]]; then
+  if [ -f "$HOME/.cargo/env" ]; then
+    if [ -f "$HOME/.$(basename "$SHELL")rc" ] && [ $(grep -c "source $HOME/.cargo/env" "$HOME/.$(basename "$SHELL")rc") -eq 0 ]; then
       echo "source $HOME/.cargo/env" >>"$HOME"/".$(basename "$SHELL")rc"
     fi
 
@@ -407,10 +416,10 @@ function pre_install_cargo {
       return 1
     }
 
-    rustup default stable || {
+    if ! rustup default stable; then
       echo -e "\033[31mError: rustup default stable failed!\033[0m" >&2
       return 1
-    }
+    fi
   else
     echo -e "\033[31mError: $HOME/.cargo/env not found!\033[0m" >&2
     return 1
@@ -419,26 +428,26 @@ function pre_install_cargo {
 
 function install_dutree {
 
-  if [[ $(command -v dutree) ]]; then
+  if [ -n "$(command -v dutree)" ]; then
     return 0
   fi
 
-  if [[ -z $(command -v cargo) ]]; then
+  if [ -z "$(command -v cargo)" ]; then
     echo -e "\e[33mWarning: skip to install dutree ... cargo nout found\e[0m" >&2
     return 0
   fi
 
-  cargo install dutree || {
+  if ! cargo install dutree; then
     echo -e "\033[31mError: Install dutree failed!\033[0m" >&2
     return 1
-  }
+  fi
 
   return 0
 }
 
 function install_gitui {
 
-  if [[ $(command -v gitui) ]]; then
+  if [ -n "$(command -v gitui)" ]; then
     return 0
   fi
 
@@ -464,119 +473,120 @@ function install_gitui {
 
   local tmp_path=$(mktemp -d)
 
-  curl -Lo "$tmp_path"/"$pkg" "https://github.com/extrawurst/gitui/releases/download/${ver}/${pkg}" || {
+  if ! curl -Lo "$tmp_path"/"$pkg" "https://github.com/extrawurst/gitui/releases/download/${ver}/${pkg}"; then
     echo -e "\033[31mError: download gitui failed!\033[0m" >&2
     return 1
-  }
+  fi
 
-  tar -zxf "$tmp_path"/"$pkg" -C "$HOME"/.local/bin/ || {
+  if ! tar -zxf "$tmp_path"/"$pkg" -C "$HOME"/.local/bin/; then
     echo -e "\033[31mError: Extract gitui failed!\033[0m" >&2
     return 1
-  }
+  fi
 
   return 0
 }
 
 function pre_install_luarocks() {
-  if [[ $(command -v luarocks) ]]; then
+  if [ -n "$(command -v luarocks)" ]; then
     return 0
   fi
 
   if [[ "$OSTYPE" == "darwin"* ]]; then
-    brew install luarocks || {
+    if ! brew install luarocks; then
       return 1
-    }
+    fi
   elif [[ "$OSTYPE" == "linux-gnu"* ]]; then
     if [[ "$(uname -m)" == 'aarch64' ]]; then
-      $pkg_install_cmd luarocks lua5.3 || {
+      if ! install_package luarocks lua5.3; then
         echo -e "\033[31mError: Install lua5.3 failed!\033[0m" >&2
         return 1
-      }
+      fi
     else
       local lua_version='5.3.5'
       local luarocks_version='3.9.2'
       local temp_path=$(mktemp -d)
       local version="$lua_version"
 
-      curl -Lo $temp_path/lua-${version}.tar.gz \
-        http://www.lua.org/ftp/lua-${version}.tar.gz || {
+      if ! curl -Lo "${temp_path}/lua-${version}.tar.gz" \
+        http://www.lua.org/ftp/lua-${version}.tar.gz; then
+
         echo -e "\033[31mError: Download luarocks failed!\033[0m" >&2
         return 1
-      }
+      fi
 
-      cd $temp_path || {
+      if ! cd $temp_path; then
         echo -e "\033[31mError: cd $temp_path failed!\033[0m" >&2
         return 1
-      }
+      fi
 
-      tar -zxf lua-${version}.tar.gz || {
+      if ! tar -zxf lua-${version}.tar.gz; then
         echo -e "\033[31mError: Extract luarocks failed!\033[0m" >&2
         return 1
-      }
+      fi
 
-      cd lua-${version} || {
+      if ! cd "lua-${version}"; then
         echo -e "\033[31mError: cd luarocks-${version} failed!\033[0m" >&2
         return 1
-      }
+      fi
 
-      make linux test || {
+      if ! make linux test; then
         echo -e "\033[31mError: configure luarocks failed!\033[0m" >&2
         return 1
-      }
+      fi
 
-      sudo make install || {
+      if ! sudo make install; then
         echo -e "\033[31mError: make luarocks failed!\033[0m" >&2
         return 1
-      }
+      fi
 
       version="$luarocks_version"
 
-      curl -Lo $temp_path/luarocks-${version}.tar.gz \
-        https://luarocks.org/releases/luarocks-${version}.tar.gz || {
+      if ! curl -Lo "${temp_path}/luarocks-${version}.tar.gz" \
+        https://luarocks.org/releases/luarocks-${version}.tar.gz; then
         echo -e "\033[31mError: Download luarocks failed!\033[0m" >&2
         return 1
-      }
+      fi
 
-      cd $temp_path || {
+      if ! cd "$temp_path"; then
         echo -e "\033[31mError: cd $temp_path failed!\033[0m" >&2
         return 1
-      }
+      fi
 
-      tar zxpf luarocks-${version}.tar.gz || {
+      if ! tar zxpf luarocks-${version}.tar.gz; then
         echo -e "\033[31mError: Extract luarocks failed!\033[0m" >&2
         return 1
-      }
+      fi
 
-      cd luarocks-${version} || {
+      if ! cd luarocks-${version}; then
         echo -e "\033[31mError: cd luarocks-${version} failed!\033[0m" >&2
         return 1
-      }
+      fi
 
-      ./configure || {
+      if ! ./configure; then
         echo -e "\033[31mError: configure luarocks failed!\033[0m" >&2
         return 1
-      }
+      fi
 
-      make || {
+      if ! make; then
         echo -e "\033[31mError: make luarocks failed!\033[0m" >&2
         return 1
-      }
+      fi
 
-      sudo make install || {
+      if ! sudo make install; then
         echo -e "\033[31mError: make luarocks failed!\033[0m" >&2
         return 1
-      }
+      fi
     fi
   fi
 
-  sudo luarocks install luasocket || {
+  if ! sudo luarocks install luasocket; then
     echo -e "\033[31mError: install luasocket failed!\033[0m" >&2
     return 1
-  }
+  fi
 }
 
 function coc_nodejs() {
-  if [[ "$(command -v node)" ]]; then
+  if [ -n "$(command -v node)" ]; then
     return 0
   fi
 
@@ -587,30 +597,32 @@ function coc_nodejs() {
 }
 
 function install_lsp_bash() {
-  if [[ "$(command -v bash-language-server)" ]]; then
+  if [ -n "$(command -v bash-language-server)" ]; then
     return 0
   fi
 
   echo -e "● Install bash-language-server ..." >&1
-  sudo npm install -g bash-language-server || {
+  if ! sudo npm install -g bash-language-server; then
     echo -e "\033[31mError: Install bash-language-server failed!\033[0m" >&2
     return 1
-  }
+  fi
 }
 
 function install_lsp_clangd() {
-  if [[ "$(command -v clangd)" ]]; then
+  if [ -n "$(command -v clangd)" ]; then
     return 0
   fi
 
   if [[ "$OSTYPE" == "darwin"* ]]; then
-    brew install llvm || {
+    if ! brew install llvm; then
       echo -e "\033[31mError: Install llvm failed!\033[0m" >&2
       return 1
-    }
+    fi
+
+    return 0
   fi
 
-  sudo apt-get install clangd-12 || {
+  if ! sudo apt-get install clangd-12; then
     echo -e "\033[31mError: Install clangd failed!\033[0m" >&2
 
     sudo apt-get install -y clangd-9 \
@@ -621,210 +633,178 @@ function install_lsp_clangd() {
 
     }
 
-    sudo update-alternatives --install \
-      /usr/bin/clangd clangd /usr/bin/clangd-12 100 \
-      || {
-        echo -e "\033[31mError: update-alternatives clangd failed!\033[0m" >&2
-        return 1
-      }
-  }
+    if ! sudo update-alternatives --install /usr/bin/clangd clangd /usr/bin/clangd-12 100; then
+      echo -e "\033[31mError: update-alternatives clangd failed!\033[0m" >&2
+      return 1
+    fi
+  fi
 }
 
 function install_lsp_cmake() {
-  if [[ "$(command -v cmake-language-server)" ]]; then
+  if [ -n "$(command -v cmake-language-server)" ]; then
     return 0
   fi
 
-  pip install cmake-language-server || {
+  if ! pip install cmake-language-server; then
     echo -e "\033[31mError: Install cmake-language-server failed!\033[0m" >&2
     return 1
-  }
+  fi
 }
 
 function install_lsp_lua() {
-  if [[ "$(command -v lua-lsp)" ]]; then
+  if [ -n "$(command -v lua-lsp)" ]; then
     return 0
   fi
 
-  if [[ -z "$(command -v luarocks)" ]]; then
+  if [ -z "$(command -v luarocks)" ]; then
     echo -e "\033[31mError: Install lua-language-server failed!\033[0m" >&2
     return 1
   fi
 
-  sudo luarocks install --server=http://luarocks.org/dev lua-lsp || {
+  if ! sudo luarocks install --server=http://luarocks.org/dev lua-lsp; then
     echo -e "\033[31mError: Install lua-language-server failed!\033[0m" >&2
     return 1
-  }
+  fi
 
-  sudo luarocks install luacheck || {
+  if ! sudo luarocks install luacheck; then
     echo -e "\033[31mError: Install luacheck failed!\033[0m" >&2
     return 1
-  }
+  fi
 }
 
 function install_lsp_python() {
-  if [[ "$(command -v pyright)" ]]; then
+  if [ -n "$(command -v pyright)" ]; then
     return 0
   fi
 
-  pip install pyright || {
+  if ! pip install pyright; then
     echo -e "\033[31mError: Install pyright failed!\033[0m" >&2
     return 1
-  }
+  fi
 }
 
 function install_lsp_rust() {
-  if [[ "$(command -v rust-analyzer)" ]]; then
+  if [ -n "$(command -v rust-analyzer)" ]; then
     return 0
   fi
 
-  if [[ -z "$(command -v rustup)" ]]; then
+  if [ -z "$(command -v rustup)" ]; then
     echo -e "\033[31mError: Install rust-analyzer failed!\033[0m" >&2
     return 1
   fi
 
-  rustup component add rust-src || {
+  if ! rustup component add rust-src; then
     echo -e "\033[31mError: rustup component add rust-src failed!\033[0m" >&2
     return 1
-  }
+  fi
 }
 
 function install_linter_python() {
-  if [[ $(command -v pydocstyle) &&
-  $(command -v pycodestyle) &&
-  $(command -v flake8) &&
-  $(command -v pylint) &&
-  $(command -v ruff) ]] \
-    ; then
-    return 0
-  fi
+  require_python_linter=("pydocstyle" "pycodestyle" "flake8" "pylint" "ruff")
 
-  if [[ -z $(command -v pydocstyle) ||
-  -z $(command -v pycodestyle) ||
-  -z $(command -v flake8) ]]; then
-    pip install pydocstyle pycodestyle flake8 || {
-      echo -e "\033[31mError: Install python linter failed!\033[0m" >&2
+  for linter in "${require_python_linter[@]}"; do
+    if [ -n "$(command -v "$linter")" ]; then
+      continue
+    fi
+
+    echo -e "● Install $linter ..." >&1
+
+    if ! pip install "$linter"; then
+      echo -e "\033[31mError: Install $linter failed!\033[0m" >&2
       return 1
-    }
-  fi
-
-  if [ -z "$(command -v ruff)" ]; then
-    pip install ruff || {
-      echo -e "\033[31mError: Install ruff failed!\033[0m" >&2
-      return 1
-    }
-  fi
-
-  if [[ $(command -v pylint) ]]; then
-    return 0
-  fi
-
-  if [[ $OSTYPE == "linux-gnu"* ]]; then
-    sudo apt-get install -y pylint || {
-      echo -e "\033[31mError: Install python linter failed!\033[0m" >&2
-      return 1
-    }
-  elif [[ $OSTYPE == "darwin"* ]]; then
-    pip install pylint || {
-      echo -e "\033[31mError: Install python linter failed!\033[0m" >&2
-      return 1
-    }
-  else
-    return 3
-  fi
-
-  return 0
+    fi
+  done
 }
 
 function install_linter_markdown() {
-  if [[ $(command -v markdownlint) ]]; then
+  if [ -n "$(command -v markdownlint)" ]; then
     return 0
   fi
 
-  sudo npm install markdownlint --save-dev || {
+  if ! sudo npm install markdownlint --save-dev; then
     echo -e "\033[31mError: Install markdownlint failed!\033[0m" >&2
     return 1
-  }
+  fi
 
-  sudo npm install -g markdownlint-cli || {
+  if ! sudo npm install -g markdownlint-cli; then
     echo -e "\033[31mError: Install markdownlint-cli failed!\033[0m" >&2
     return 1
-  }
+  fi
 }
 
 function install_linter_cmake() {
-  if [[ $(command -v cmakelint.py) ]]; then
+  if [ -n "$(command -v cmakelint.py)" ]; then
     return 0
   fi
 
-  pip install cmakelint || {
+  if ! pip install cmakelint; then
     echo -e "\033[31mError: Install cmake linter failed!\033[0m" >&2
     return 1
-  }
+  fi
 }
 
 function install_linter_cpplint() {
-  if [[ $(command -v cpplint) ]]; then
+  if [ -n "$(command -v cpplint)" ]; then
     return 0
   fi
 
-  pip install cpplint || {
+  if ! pip install cpplint; then
     echo -e "\033[31mError: Install cpplint failed!\033[0m" >&2
     return 1
-  }
+  fi
 }
 
 function install_linter_shellcheck() {
-  if [[ $(command -v shellcheck) ]]; then
+  if [ -n "$(command -v shellcheck)" ]; then
     return 0
   fi
 
-  $pkg_install_cmd shellcheck || {
+  if ! install_package shellcheck; then
     echo -e "\033[31mError: Install spellcheck linter for bash script failed!\033[0m" >&2
     return 1
-  }
+  fi
 }
 
 function install_neovide() {
-  if [[ $(command -v neovide) ]]; then
+  if [ -n "$(command -v neovide)" ]; then
     return 0
   fi
 
   local dotfiles="$DOTFILES"
 
-  if [[ -z "$dotfiles" ]]; then
+  if [ -z "$dotfiles" ]; then
     dotfiles="$HOME/.dotfiles"
   fi
 
   local neovide_config="$dotfiles/data/neovide.toml"
 
-  if [[ ! -f "$neovide_config" ]]; then
+  if ! [ -f "$neovide_config" ]; then
     echo -e "warning: neovide configuration file not found!" >&2
   fi
 
-  if [[ -d '/run/WSL' ]] && [[ $(command -v powershell.exe) ]]; then
-    if [[ $(command -v neovide.exe) ]]; then
+  if [ -d '/run/WSL' ] && [ -n "$(command -v powershell.exe)" ]; then
+    if [ $(command -v neovide.exe) ]; then
       return 0
     fi
 
     local download_link='https://github.com/neovide/neovide/releases/download/0.11.2/neovide.msi'
 
-    powershell.exe curl -v -o '~\Downloads\neovide.msi' "$download_link" || {
+    if ! powershell.exe curl -v -o '~\Downloads\neovide.msi' "$download_link"; then
       echo -e "\033[31mError: Windows Download neovide failed!\033[0m" >&2
       return 1
-    }
+    fi
 
-    powershell.exe start '~\Downloads\neovide.msi' || {
+    if ! powershell.exe start '~\Downloads\neovide.msi'; then
       echo -e "\033[31mError: Windows Install neovide failed!\033[0m" >&2
       return 1
-    }
+    fi
 
-    if [[ -d '/mnt/c/Users' ]] && [[ -f "$neovide_config" ]]; then
+    if [ -d '/mnt/c/Users' ] && [ -f "$neovide_config" ]; then
       local win_usr="$(powershell.exe -C 'echo $env:USERNAME' | tr -d '\r')"
       local win_usr_path="/mnt/c/Users/$win_usr"
       local win_roaming_path="$win_usr_path/AppData/Roaming"
 
-      if [[ ! -d "$win_roaming_path" ]]; then
+      if ! [ -d "$win_roaming_path" ]; then
         echo -e "\033[33mWarning: Windows roaming path not found!\033[0m" >&2
       else
         local win_neovide_path="$win_roaming_path/neovide"
@@ -832,24 +812,22 @@ function install_neovide() {
         mkdir -p "$win_neovide_path" 2>/dev/null
         cp -f "$neovide_config" "$win_neovide_path/config.toml"
 
-        if [[ ! -f "$win_neovide_path/config.toml" ]]; then
+        if ! [ -f "$win_neovide_path/config.toml" ]; then
           echo -e "\033[33mWarning: Copy Neovide configuration file failed!\033[0m" >&2
         else
-          echo -e "copy Neovide configuration file to Windows roaming path:\n" \
-            "$win_neovide_path/config.toml"
+          echo -e "copy Neovide configuration file to Windows roaming path:\n" "$win_neovide_path/config.toml"
         fi
       fi
     fi
 
     return 0
   elif [[ $OSTYPE == "linux-gnu"* ]]; then
-    $pkg_install_cmd curl gnupg ca-certificates git cmake libssl-dev pkg-config \
-      libfreetype6-dev libasound2-dev libexpat1-dev libxcb-composite0-dev \
-      libbz2-dev libsndio-dev freeglut3-dev libxmu-dev libxi-dev libfontconfig1-dev \
-      libxcursor-dev || {
+    require_install_packages=("curl" "gnupg" "ca-certificates" "git" "cmake" "libssl-dev" "pkg-config" "libfreetype6-dev" "libasound2-dev" "libexpat1-dev" "libxcb-composite0-dev" "libbz2-dev" "libsndio-dev" "freeglut3-dev" "libxmu-dev" "libxi-dev" "libfontconfig1-dev" "libxcursor-dev")
+
+    if ! install_package "${require_install_packages[@]}"; then
       echo -e "\033[31mError: Install neovide failed!\033[0m" >&2
       return 1
-    }
+    fi
 
     if [[ $(uname -m) == 'aarch64' ]]; then
       local gcc_multilib="gcc-arm-linux-gnueabihf g++-arm-linux-gnueabihf"
@@ -857,32 +835,32 @@ function install_neovide() {
       local gcc_multilib="gcc-multilib g++-multilib"
     fi
 
-    $pkg_install_cmd $gcc_multilib || {
+    if ! install_package $gcc_multilib; then
       echo -e "\033[31mError: Install gcc multilib failed!\033[0m" >&2
       return 1
-    }
+    fi
 
-    if [[ -z $(command -v rustc) ]]; then
+    if [ -z "$(command -v rustc)" ]; then
       curl --proto '=https' --tlsv1.2 -sSf "https://sh.rustup.rs" | sh || {
         echo -e "\033[31mError: Install rust failed!\033[0m" >&2
         return 1
       }
     fi
 
-    cargo install --git https://github.com/neovide/neovide || {
+    if ! cargo install --git https://github.com/neovide/neovide; then
       echo -e "\033[31mError: Install neovide via cargo failed!\033[0m" >&2
       return 1
-    }
+    fi
   elif [[ $OSTYPE == "darwin"* ]]; then
-    brew install --cask neovide || {
+    if ! brew install --cask neovide; then
       echo -e "\033[31mError: Install neovide failed!\033[0m" >&2
       return 1
-    }
+    fi
   else
     return 3
   fi
 
-  if [[ -f "$neovide_config" ]]; then
+  if [ -f "$neovide_config" ]; then
     mkdir -p "$HOME/.config/neovide" 2>/dev/null
     ln -sfr "$neovide_config" "$HOME/.config/neovide/config.toml"
   fi
@@ -896,28 +874,28 @@ function post_install_neovim() {
     return 0
   fi
 
-  if [[ -d ~/.config/nvim ]]; then
+  if [ -d ~/.config/nvim ]; then
     echo -e "● remove ~/.config/nvim" >&1
 
-    rm -rf ~/.config/nvim || {
+    if ! rm -rf ~/.config/nvim; then
       echo -e "\033[31mError: Remove ~/.config/nvim failed!\033[0m" >&2
       return 1
-    }
+    fi
   fi
 
-  if [[ ! -d ~/.config ]]; then
+  if ! [ -d ~/.config ]; then
     echo -e "● mkdir ~/.config" >&1
 
-    mkdir -p ~/.config || {
+    if ! mkdir -p ~/.config; then
       echo -e "\033[31mError: mkdir ~/.config failed!\033[0m" >&2
       return 1
-    }
+    fi
   fi
 
-  git clone $neovim_config_git_link ~/.config/nvim || {
+  if ! git clone $neovim_config_git_link ~/.config/nvim; then
     echo -e "\033[31mError: Download neovim configuration files failed!\033[0m" >&2
     return 1
-  }
+  fi
 }
 
 function main {
@@ -933,8 +911,8 @@ function main {
     $pkg
     ret=$?
 
-    if [[ $ret -ne 0 ]]; then
-      if [[ $ret -eq 3 ]]; then
+    if [ $ret -ne 0 ]; then
+      if [ $ret -eq 3 ]; then
         echo -e "\e[33mWarning: skip install $(sed 's/\w*install_//g' <<<"$pkg")\e[0m" >&2
         status_pkgs+=("skip")
       else
@@ -968,7 +946,7 @@ function main {
     echo -e "\t[ $status ]\e[0m"
   done
 
-  if [[ $install_failed -eq 1 ]]; then
+  if [ $install_failed -eq 1 ]; then
     echo -e "\e[31mError: install failed !\e[0m"
     return 1
   fi
@@ -980,24 +958,20 @@ display_title "Setup Neovim"
 
 case "$OSTYPE" in
   "linux-gnu"*)
-    (sudo apt-get update -y && sudo apt-get upgrade -y 1>/dev/null) || {
+    if ! (sudo apt-get update -y && sudo apt-get upgrade -y 1>/dev/null); then
       echo -e "\033[31mError: Update apt failed!\033[0m" >&2
       exit 1
-    }
-
-    if [[ "$(command -v nala)" ]]; then
-      pkg_install_cmd="sudo nala install -y"
-    else
-      pkg_install_cmd="sudo apt-get install -y"
     fi
+
+    install_cmd="sudo apt-get install -y"
     ;;
   "darwin"*)
-    brew update || {
+    if ! brew update; then
       echo -e "\033[31mError: Update brew failed!\033[0m" >&2
       exit 1
-    }
+    fi
 
-    pkg_install_cmd="brew install"
+    install_cmd="brew install"
     ;;
   *)
     echo -e "OS-${OSTYPE} Not Support!" >&2

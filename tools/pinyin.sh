@@ -1,49 +1,50 @@
 #!/bin/bash
 
 tool="ibus-pinyin"
-path=$(dirname $(readlink -f $0))
-common="$path/../app/common.sh"
-install="$path/manual/install_pkg_cmd.sh"
+path="$(dirname $(readlink -f $0))"
+working_path="$(dirname "$path")"
+source "$working_path/app/common.sh"
 
-install() {
-  $common display_title "Install $tool"
+function install {
+  display_title "Install $tool"
 
   if [[ $OSTYPE == linux-gnu* ]]; then
     local os=''
 
     . /etc/os-release
 
-    if [[ -n $ID_LIKE ]]; then
+    if [ -n $ID_LIKE ]; then
       os=$ID_LIKE
     else
       os=$ID
     fi
 
-    if [ $os != 'debian' ]; then
-      $common display_error "Not support $os !"
+    if [[ $os != 'debian' ]]; then
+      display_error "Not support $os !"
       exit 3
     fi
   fi
 
-  $install $tool || {
-    $common display_error "install $tool failed !"
+  if ! install_package $tool; then
+    display_error "install $tool failed !"
     exit 1
-  }
+  fi
 
-  $common display_info "tips" "reboot is neccessary to load Chinese (Pinyin)"
-  $common display_info "tips" "goto Settings => Keyboard => Input Sources => Other => Chinese (PinYin) : Add"
-  $common display_info "tips" "clikc more options (3 dots）to select tradition chinese"
-  $common display_info "tips" "switch keyboard: Super key (Win key) + Space"
 }
 
 if [[ $OSTYPE != linux-gnu* ]]; then
-  $common display_error "This script is only for Linux !"
+  display_error "This script is only for Linux !"
   exit 3
 fi
 
-if [[ -z "$(which $tool)" ]] \
-  || [[ $1 == "install" ]]; then
+if [ -z "$(which $tool)" ] || [[ $1 =~ $common_force_install_param ]]; then
   install
+  display_info "install" "install $tool success"
 fi
+
+display_info "tips" "reboot is neccessary to load Chinese (Pinyin)"
+display_info "tips" "goto Settings => Keyboard => Input Sources => Other => Chinese (PinYin) : Add"
+display_info "tips" "clikc more options (3 dots）to select tradition chinese"
+display_info "tips" "switch keyboard: Super key (Win key) + Space"
 
 exit 0

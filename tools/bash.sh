@@ -2,44 +2,38 @@
 
 tool='bash'
 path="$(dirname $(readlink -f $0))"
-common="$path/../app/common.sh"
-data_path="$path/../data"
+working_path="$(dirname $path)"
+source "$working_path/app/common.sh"
 
 install() {
-  $common display_title "${tool}"
+  display_title "${tool}"
+  display_info "link" "$HOME/.bash_aliases -> $common_data_path/.bash_aliases"
 
-  if [[ -f $data_path/.bash_setup ]]; then
-    if [[ -f $HOME/.$(basename $SHELL)rc ]] \
-      && [[ $(grep -c "source $HOME/.bash_${USER}" \
-        $HOME/.$(basename $SHELL)rc) -eq 0 ]]; then
-      $common display_info "export" \
-        "source $HOME/.bash_${USER} >> $HOME/.$(basename $SHELL)rc"
-
-      echo "source $HOME/.bash_${USER}" >>$HOME/.$(basename $SHELL)rc
-    fi
-
-    $common display_info "link" \
-      "$HOME/.bash_setup -> $data_path/.bash_${USER} "
-
-    ln -sf $data_path/.bash_setup $HOME/.bash_${USER} || {
-      $common display_error ".bash_setup link failed"
-      exit 1
-    }
+  if ! ln -sf $common_data_path/.bash_aliases $HOME/.bash_aliases; then
+    display_error ".bash_aliases link failed"
+    exit 1
   fi
 
-  $common display_info "link" \
-    "$HOME/.bash_aliases -> $data_path/.bash_aliases"
+  if ! [ -f $common_data_path/.bash_setup ]; then
+    return 0
+  fi
 
-  ln -sf $data_path/.bash_aliases $HOME/.bash_aliases || {
-    $common display_error ".bash_aliases link failed"
+  if [ -f $HOME/.$(basename $SHELL)rc ] && [ $(grep -c "source $HOME/.bash_${USER}" $HOME/.$(basename $SHELL)rc) -eq 0 ]; then
+    display_info "export" "source $HOME/.bash_${USER} >> $HOME/.$(basename $SHELL)rc"
+    echo "source $HOME/.bash_${USER}" >>$HOME/.$(basename $SHELL)rc
+  fi
+
+  display_info "link" "$common_data_path/.bash_setup -> $HOME/.bash_${USER}"
+
+  if ! ln -sf $common_data_path/.bash_setup $HOME/.bash_${USER}; then
+    display_error ".bash_setup link failed"
     exit 1
-  }
-
-  $common display_info "install" "success"
+  fi
 }
 
-if [[ $# -ne 0 ]] && [[ $1 == 'install' ]]; then
+if [ $# -ne 0 ] && [[ $1 =~ $common_force_install_param ]]; then
   install
+  display_info "install" "success"
 fi
 
 exit 0

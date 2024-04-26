@@ -1,20 +1,24 @@
 #!/bin/bash
 
 tool='musikcube'
-path="$(dirname "$(readlink -f "$0")")"
-common="$path/../app/common.sh"
+path="$(dirname $(readlink -f $0))"
+working_path="$(dirname "$path")"
+source "$working_path/app/common.sh"
 
 version='3.0.1'
 
-install() {
+function install() {
   if [[ $OSTYPE == linux-gnu* ]]; then
     . /etc/os-release
 
-    distro="$ID"
-    [[ -n "$ID_LIKE" ]] && distro="$ID_LIKE"
+    if [ -n "$ID_LIKE" ]; then
+      distro="$ID_LIKE"
+    else
+      distro="$ID"
+    fi
 
     if [[ $distro != debian ]]; then
-      $common display_error "not support $tool on $distro !"
+      display_error "not support $tool on $distro !"
       exit 3
     fi
 
@@ -27,41 +31,38 @@ install() {
     kernel='linux'
     ext='deb'
   elif [[ $OSTYPE == darwin* ]]; then
-    brew install $tool || {
-      $common display_error "install $tool failed !"
+    if ! brew install $tool; then
+      display_error "install $tool failed !"
       exit 1
-    }
+    fi
   else
-    $common display_error "not support $tool on $OSTYPE !"
+    display_error "not support $tool on $OSTYPE !"
     exit 3
   fi
 
   local tmp_dir="$(mktemp -d)"
   local pkg="${tool}.${ext}"
-
   curl -Lo "$tmp_dir/$pkg" "https://github.com/clangen/musikcube/releases/download/${version}/musikcube_${kernel}_${version}_${plf}.${ext}"
 
-  sudo dpkg -i "$tmp_dir/$pkg" || {
-    $common display_error "install $tool failed !"
+  if ! sudo dpkg -i "$tmp_dir/$pkg"; then
+    display_error "install $tool failed !"
     exit 1
-  }
+  fi
 
-  sudo apt-get install -f || {
-    $common display_error "install $tool failed !"
+  if ! sudo apt-get install -f; then
+    display_error "install $tool failed !"
     exit 1
-  }
-
-  $common display_info "success" "$tool"
+  fi
 }
 
-if [[ $OSTYPE != linux-gnu* ]]; then
-  $common display_error "not support $tool on $OSTYPE !"
-  exit 1
+if [[ $OSTYPE != linux-gnu* ]] && [[ $OSTYPE != darwin* ]]; then
+  display_error "not support $tool on $OSTYPE !"
+  exit 3
 fi
 
-if [[ -z "$(which $tool)" ]] \
-  || [[ $1 == "install" ]]; then
+if [ -z "$(which $tool)" ] || [[ $1 =~ $common_force_install_param ]]; then
   install
+  display_info "success" "$tool"
 fi
 
 exit 0

@@ -1,45 +1,35 @@
 #!/bin/bash
 
 tool='trans'
-path=$(dirname $(readlink -f $0))
-common="$path/../app/common.sh"
-install="$path/manual/install_pkg_cmd.sh"
+path="$(dirname $(readlink -f $0))"
+working_path="$(dirname "$path")"
+source "$working_path/app/common.sh"
 
-install() {
-  $common display_title "Install $tool"
+function install {
+  display_title "Install $tool"
 
   local tmp_dir="$(mktemp -d)"
 
-  if [[ -z $(command -v gawk) ]]; then
-    $install gawk || {
-      $common display_error "failed to install gawk !"
-      exit 1
-    }
+  if [ -z "$(command -v gawk)" ] && ! install_package gawk; then
+    display_error "failed to install gawk !"
+    exit 1
   fi
 
-  git clone --depth 1 https://github.com/soimort/translate-shell $tmp_dir || {
-    $common display_error "failed to git clone $tool !"
+  if ! git clone --depth 1 https://github.com/soimort/translate-shell $tmp_dir; then
+    display_error "failed to git clone $tool !"
     exit 1
-  }
+  fi
 
-  cd $tmp_dir || {
-    $common display_error "change directory to $tmp_dir failed !"
-    exit 1
-  }
-
-  make || {
-    $common display_error "make $tool failed !"
-    exit 1
-  }
-
-  sudo make install || {
-    $common display_error "install $tool failed !"
-    exit 1
-  }
+  commands=("cd $tmp_dir" "make" "sudo make install")
+  for cmd in "${commands[@]}"; do
+    if ! eval $cmd; then
+      display_error "failed to $cmd !"
+      exit 1
+    fi
+  done
 }
 
-if [[ -z "$(which $tool)" ]] \
-  || [[ $1 == "install" ]]; then
+if [ -z "$(which $tool)" ] || [[ $1 =~ $common_force_install_param ]]; then
   install
 fi
 
