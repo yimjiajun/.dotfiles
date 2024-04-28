@@ -5,10 +5,26 @@ path="$(dirname $(readlink -f $0))"
 working_path="$(dirname "$path")"
 source "$working_path/app/common.sh"
 
+function introduction {
+    cat <<EOL
+
+highly customizable and functional document viewer based on the girara user interface library and several document libraries.
+
+Popple:
+- PDF rendering library based on Xpdf PDF viewer.
+
+EOL
+}
+
 function install {
   display_title "Install $tool"
+  introduction
 
-  if [[ $OSTYPE == "darwin"* ]]; then
+  if [[ $OSTYPE == "linux-gnu"* ]]; then
+    if ! install_package poppler-utils; then
+        display_error "install poppler-utils failed !"
+    fi
+  elif [[ $OSTYPE == "darwin"* ]]; then
     if ! brew tap zegervdv/zathura; then
       display_error "brew tap the repository failed !"
     fi
