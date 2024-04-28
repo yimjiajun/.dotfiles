@@ -6,7 +6,7 @@ working_path="$(dirname "$path")"
 source "$working_path/app/common.sh"
 
 function introduction {
-    cat <<EOL
+  cat <<EOL
 
 highly customizable and functional document viewer based on the girara user interface library and several document libraries.
 
@@ -22,7 +22,7 @@ function install {
 
   if [[ $OSTYPE == "linux-gnu"* ]]; then
     if ! install_package poppler-utils; then
-        display_error "install poppler-utils failed !"
+      display_error "install poppler-utils failed !"
     fi
   elif [[ $OSTYPE == "darwin"* ]]; then
     if ! brew tap zegervdv/zathura; then
