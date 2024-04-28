@@ -14,7 +14,7 @@ function install {
   fi
 
   display_title "Install $tool"
-  if ! cargo install --force $tool; then
+  if ! cargo install $tool; then
     display_error "Install $tool failed !"
     exit 1
   fi
@@ -34,6 +34,7 @@ function install {
 
 if [ -z "$(which $tool)" ] || [[ $1 =~ $common_force_install_param ]]; then
   install
+  display_info "installed" "$tool success !"
 fi
 
 exit 0
