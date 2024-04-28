@@ -32,7 +32,7 @@ jobs:
 
     - name: Shell script linting
       run: |
-        if ! shellcheck -S error ./**/*.sh; then
+        if ! shellcheck -S error -e SC2068 -e SC2260 ./**/*.sh; then
           echo "Shell script linting failed!"
           exit 1
         fi

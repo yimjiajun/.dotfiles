@@ -53,7 +53,7 @@ disk_manager() {
     $(which dutree)
   )
 
-  for i in ${!disk_tool[@]}; do
+  for i in "${!disk_tool[@]}"; do
     if [[ -z "${disk_tool[$i]}" ]]; then
       unset disk_tool[$i]
       continue
@@ -62,7 +62,7 @@ disk_manager() {
     disk_tool[$i]="$(basename ${disk_tool[$i]})"
   done
 
-  if [[ -z "${disk_tool[@]}" ]]; then
+  if [ -z "${disk_tool[@]}" ]; then
     du --all -h --max-depth=1
     return
   fi

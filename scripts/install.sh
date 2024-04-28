@@ -38,7 +38,7 @@ for tool in ${install_tools[@]}; do
     install_status[$cnt]='success'
   fi
 
-  if [[ $install_status[$cnt] == 'failed' ]]; then
+  if [[ ${install_status[$cnt]} == 'failed' ]]; then
     echo -e -n "\033[31m"
     display_status "${install_status[$cnt]^^}"
     echo -e -n "\033[0m"

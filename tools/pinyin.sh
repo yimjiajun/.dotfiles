@@ -13,7 +13,7 @@ function install {
 
     . /etc/os-release
 
-    if [ -n $ID_LIKE ]; then
+    if [ -n "$ID_LIKE" ]; then
       os=$ID_LIKE
     else
       os=$ID

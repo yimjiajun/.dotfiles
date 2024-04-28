@@ -96,7 +96,7 @@ function install_require_dependencies_package {
 
   . /etc/os-release
 
-  if [ -n $ID_LIKE ]; then
+  if [ -n "$ID_LIKE" ]; then
     ID=$ID_LIKE
   fi
 
