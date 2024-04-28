@@ -198,8 +198,6 @@ function install {
   done
 }
 
-if [[ $1 =~ $common_force_install_param ]]; then
-  install
-fi
+install
 
 exit 0
