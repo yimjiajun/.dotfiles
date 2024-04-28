@@ -66,76 +66,68 @@ function install_saleae {
       return 1
     fi
 
-    if ! $tmp_dir/saleae.AppImage 1>/dev/null 2>&1; then
-      display_info "move" "saleae to $bin_path/Logic ..."
-      if ! mv $tmp_dir/saleae.AppImage $bin_path/Logic; then
-        display_error "failed to move saleae to $bin_path/Logic"
-        return 1
-      fi
-    else
-      local extract_dir="$HOME/.local/share/saleae"
-      local extract_tmp_dir="$tmp_dir/saleae"
+    local extract_dir="$HOME/.local/share/saleae"
+    local extract_tmp_dir="$tmp_dir/saleae"
 
-      sudo mkdir -p $extract_tmp_dir 2>/dev/null
+    sudo mkdir -p $extract_tmp_dir 2>/dev/null
 
-      cd $extract_tmp_dir || {
+    cd $extract_tmp_dir || {
         display_error "failed to change directory to $extract_tmp_dir"
-        return 1
-      }
-
-      display_info "extract" "saleae to $extract_tmp_dir ..."
-
-      if ! sudo $tmp_dir/saleae.AppImage --appimage-extract >/dev/null; then
-        display_error "failed to extract saleae program"
-        return 1
-      fi
-
-      local appimage_extract_dir="$(ls $extract_tmp_dir | grep 'squashfs*' -m 1)"
-
-      if [ -d $extract_dir ]; then
-        sudo rm -rf $extract_dir
-      fi
-
-      display_info "move" "saleae to $extract_dir ..."
-
-      if ! sudo mv $appimage_extract_dir $extract_dir; then
-        display_error "failed to move saleae program"
-        return 1
-      fi
-
-      display_info "change" "owner to $USER of $extract_dir ..."
-
-      if ! sudo chown -R $USER:$(id -gn $USER) $extract_dir; then
-        display_error "failed to change owner to $USER of $extract_dir"
-        return 1
-      fi
-
-      display_info "link" "saleae to $bin_file ..."
-
-      if ! ln -sfr $extract_dir/Logic "$bin_file"; then
-        display_error "failed to link saleae program"
-        return 1
-      fi
-
-      display_info "install" "/etc/udev/rules.d/99-SaleaeLogic.rules ..."
-
-      (cat $extract_dir/resources/linux-x64/99-SaleaeLogic.rules \
-        | sudo tee /etc/udev/rules.d/99-SaleaeLogic.rules >/dev/null) \
-        || {
-          display_error \
-            "failed to install /etc/udev/rules.d/99-SaleaeLogic.rules"
-          return 1
+            return 1
         }
 
-      display_info "run" "saleae program ..."
+        display_info "extract" "saleae to $extract_tmp_dir ..."
 
-      Logic &
+        if ! sudo $tmp_dir/saleae.AppImage --appimage-extract >/dev/null; then
+            display_error "failed to extract saleae program"
+            return 1
+        fi
 
-      if [ "$?" -ne 0 ]; then
-        display_error "failed to run saleae program"
-        return 1
-      fi
-    fi
+        local appimage_extract_dir="$(ls $extract_tmp_dir | grep 'squashfs*' -m 1)"
+
+        if [ -d $extract_dir ]; then
+            sudo rm -rf $extract_dir
+        fi
+
+        display_info "move" "saleae to $extract_dir ..."
+
+        if ! sudo mv $appimage_extract_dir $extract_dir; then
+            display_error "failed to move saleae program"
+            return 1
+        fi
+
+        display_info "change" "owner to $USER of $extract_dir ..."
+
+        if ! sudo chown -R $USER:$(id -gn $USER) $extract_dir; then
+            display_error "failed to change owner to $USER of $extract_dir"
+            return 1
+        fi
+
+        display_info "link" "saleae to $bin_file ..."
+
+        if ! ln -sfr $extract_dir/Logic "$bin_file"; then
+            display_error "failed to link saleae program"
+            return 1
+        fi
+
+        display_info "install" "/etc/udev/rules.d/99-SaleaeLogic.rules ..."
+
+        (cat $extract_dir/resources/linux-x64/99-SaleaeLogic.rules \
+            | sudo tee /etc/udev/rules.d/99-SaleaeLogic.rules >/dev/null) \
+            || {
+            display_error \
+            "failed to install /etc/udev/rules.d/99-SaleaeLogic.rules"
+                    return 1
+                }
+
+                display_info "run" "saleae program ..."
+
+                Logic &
+
+                if [ "$?" -ne 0 ]; then
+                    display_error "failed to run saleae program"
+                    return 1
+                fi
 
     return 0
   }
