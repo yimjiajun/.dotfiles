@@ -21,9 +21,7 @@ jobs:
       run: |
         apk update
         apk add --no-cache curl
-        curl -sL https://github.com/mvdan/sh/releases/download/v3.4.0/shfmt_v3.4.0_linux_amd64.tar.gz | tar xz
-        mv shfmt /usr/local/bin/
-        apk add --no-cache shellcheck
+        apk add --no-cache shellcheck shfmt
 
     - name: Shell script formatting check
       run: |
