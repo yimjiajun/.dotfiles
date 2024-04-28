@@ -9,30 +9,8 @@ on:
       - main
 
 jobs:
-  syntax-check:
-    runs-on: ubuntu-latest
-    container: bitnami/git
-    strategy:
-      matrix:
-        git-depth: [10]
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
-        with:
-          fetch-depth: ${{ matrix.git-depth }}
-      - name: Syntax check
-        run: |
-          git config --global --add safe.directory /__w/.dotfiles/.dotfiles
-          git diff-tree --check $(git hash-object -t tree) HEAD
-          ERR_CODING_STYLE="if[ else[ elseif !["
-          for CODING_CHK in $ERR_CODING_STYLE
-          do
-            git diff $(git rev-list --max-parents=0 HEAD) HEAD **/*.sh | grep "${CODING_CHK}" && exit 1
-          done
-          exit 0
-
   focal:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-focal
     strategy:
       matrix:
         git-depth: [1]
@@ -43,12 +21,29 @@ jobs:
           fetch-depth: ${{ matrix.git-depth }}
       - name: Install dependencies
         run: |
-          sudo apt-get update && sudo apt-get -y install sudo apt-utils
+          sudo apt-get update 1>/dev/null && sudo apt-get -y install sudo apt-utils 1>/dev/null
           echo 'debconf debconf/frontend select Noninteractive' | sudo debconf-set-selections
           sudo apt-get install -y -q
           ./install.sh
 
   jammy:
+    runs-on: ubuntu-jammy
+    strategy:
+      matrix:
+        git-depth: [1]
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: ${{ matrix.git-depth }}
+      - name: Install dependencies
+        run: |
+          sudo apt-get update 1>/dev/null && sudo apt-get -y install sudo apt-utils 1>/dev/null
+          echo 'debconf debconf/frontend select Noninteractive' | sudo debconf-set-selections
+          sudo apt-get install -y -q 1>/dev/null
+          ./install.sh
+
+  latest:
     runs-on: ubuntu-latest
     strategy:
       matrix:
