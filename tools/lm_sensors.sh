@@ -18,7 +18,7 @@ function install {
     exit 1
   fi
 
-  if ! $tool; then
+  if ! [ "$GITHUB_ACTIONS" = true ] && ! [ "$CI" == "true" ] && ! $tool; then
     display_error "run $tool failed !"
     exit 1
   fi
