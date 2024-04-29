@@ -50,7 +50,7 @@ install() {
     fi
 
     display_info "download" "wezterm.deb"
-    if curl -Lo $tmp_dir/wezterm.deb "https://github.com/wez/wezterm/releases/download/20230712-072601-f4abf8fd/wezterm-20230712-072601-f4abf8fd.${ID}${VERSION_ID}.deb"; then
+    if ! curl -Lo $tmp_dir/wezterm.deb "https://github.com/wez/wezterm/releases/download/20230712-072601-f4abf8fd/wezterm-20230712-072601-f4abf8fd.${ID}${VERSION_ID}.deb"; then
       display_error "download wezterm.deb failed"
       exit 1
     fi
