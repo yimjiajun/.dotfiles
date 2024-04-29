@@ -27,7 +27,7 @@
 	}
 
 	alias n="neovim"
-	alias nn="neovim --cmd \'let g:noplugin=1\'"
+	alias nn="neovim --noplugin"
 	alias nc="neovim --clean"
 	alias ns="neovim +\'GetSession\'"
 }
