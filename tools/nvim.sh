@@ -4,8 +4,32 @@ neovim_config_git_link='https://github.com/yimjiajun/neovim.git'
 install_cmd=''
 
 function install_package {
-  $install_cmd "$@"
-  return "$?"
+  local status=0
+
+  for package in $@; do
+    if [[ $OSTYPE == "darwin"* ]]; then
+      wrapper_packages=('python3-pip')
+      darwin_packages=('pipx')
+      index=0
+
+      for w in $wrapper_packages; do
+        if [[ "$package" == "$w" ]]; then
+          package="${darwin_packages[$index]}"
+          break
+        fi
+
+        index=$((index + 1))
+      done
+    fi
+
+    if ! $install_cmd $package; then
+      echo -e "\033[31mError: install $package\033[0m" >&2
+      status=1
+      break
+    fi
+  done
+
+  return $status
 }
 
 function display_center {
@@ -91,10 +115,10 @@ function pre_install_build_prerequisites {
         exit 1
       }
   elif [[ $OSTYPE == "darwin"* ]]; then
-    install_package ninja cmake gettext curl || {
+    if ! install_package "ninja cmake gettext curl"; then
       echo -e "\033[31mError: Install neovim build prerequisites failed!\033[0m" >&2
       exit 1
-    }
+    fi
   else
     echo -e "\033[31mError: Unsupport $OSTYPE an install build prerequisites\033[0m" >&2
     exit 1
@@ -176,29 +200,40 @@ function pre_install_node {
 }
 
 function pre_install_python {
-  install_package python3 || {
+  if ! install_package python3; then
     echo -e "\033[31mError: Install python3 failed!\033[0m" >&2
     return 1
-  }
+  fi
 
-  install_package python3-pip || {
+  if ! install_package python3-pip; then
     echo -e "\033[31mError: Install python3-pip failed!\033[0m" >&2
     return 1
-  }
+  fi
 
   version=$(lsb_release -rs)
 
   if awk 'BEGIN { exit !('"$version"' >= 22.04) }'; then
     echo -e "Install python env for cmake and py lsp ..." >&1
-    install_package python3.10-venv || {
+    if ! install_package python3.10-venv; then
       echo -e "\033[31mError: Install python3.10-venv failed!\033[0m" >&2
       return 1
-    }
+    fi
   fi
 
-  python3 -m pip install --user --upgrade pynvim || {
-    echon -e "\033[31mError: Install pynvim failed!\033[0m" >&2
-  }
+  pynvim_install_cmd='pip install --user --upgrade'
+
+  if [[ $OSTYPE == "darwin"* ]]; then
+    pynvim_install_cmd+=" --break-system-packages"
+  fi
+
+  pynvim_install_cmd+=" pynvim"
+
+  if ! python3 -m $pynvim_install_cmd; then
+    echo -e "\033[31mError: Install pynvim failed!\033[0m" >&2
+    return 1
+  fi
+
+  return 0
 }
 
 function install_ctags {
