@@ -2,73 +2,64 @@ export LANG=en_US.UTF-8
 
 dotfiles="$(find $HOME -maxdepth 1 -type d -name '.dotfiles' | head -n 1)"
 
-if [[ -d "$dotfiles" ]];
-then
-	export DOTFILES="$dotfiles"
+if [ -d "$dotfiles" ]; then
+  export DOTFILES="$dotfiles"
 fi
 
-if [[ -f /opt/homebrew/bin/brew ]]; then
-	 eval "$(/opt/homebrew/bin/brew shellenv)"
+if [ -f '/opt/homebrew/bin/brew' ]; then
+  eval "$(/opt/homebrew/bin/brew shellenv)"
 fi
 
-if [ -f "$HOME/.cargo/env" ];
-then
-	. "$HOME/.cargo/env"
-	source /home/jun/.cargo/env
+if [ -f "$HOME/.cargo/env" ]; then
+  . "$HOME/.cargo/env"
+  source "$HOME/.cargo/env"
 fi
 
-if [ -d "$HOME/.local/bin" ] \
-	&& [[ $(echo "$PATH" | grep -c "$HOME/.local/bin") -eq 0 ]];
-then
-	export PATH=~/.local/bin:"$PATH"
+if [ -d "$HOME/.local/bin" ] && [ $(echo "$PATH" | grep -c "$HOME/.local/bin") -eq 0 ]; then
+  export PATH=~/.local/bin:"$PATH"
 fi
 
-if [[ -d /usr/local/go/bin ]]; then
-	export PATH=$PATH:/usr/local/go/bin
+if [ -d '/usr/local/go/bin' ]; then
+  export PATH=$PATH:/usr/local/go/bin
 fi
 
-if [ -d "$HOME/.nvm" ] && [[ -z "$NVM_DIR" ]];
-then
-	export NVM_DIR="$HOME/.nvm"
-	[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-	[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+if [ -d "$HOME/.nvm" ] && [ -z "$NVM_DIR" ]; then
+  export NVM_DIR="$HOME/.nvm"
+  [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"                   # This loads nvm
+  [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion" # This loads nvm bash_completion
 fi
 
-if [[ $(command -v nvim) ]]; then
-	export EDITOR=nvim
-elif [[ $(command -v vim) ]]; then
-	export EDITOR=vim
+if [ -n "$(command -v nvim)" ]; then
+  export EDITOR=nvim
+elif [ -n "$(command -v vim)" ]; then
+  export EDITOR=vim
 else
-	export EDITOR=vi
+  export EDITOR=vi
 fi
 
-[[ -n $TERM ]] && {
-	# colorise man pages
-	export LESS_TERMCAP_mb=$'\e[1;32m'
-	export LESS_TERMCAP_md=$'\e[1;32m'
-	export LESS_TERMCAP_me=$'\e[0m'
-	export LESS_TERMCAP_se=$'\e[0m'
-	export LESS_TERMCAP_so=$'\e[01;33m'
-	export LESS_TERMCAP_ue=$'\e[0m'
-	export LESS_TERMCAP_us=$'\e[1;4;31m'
-}
-
-if [[ -f "$HOME/.config/khal/notify.sh" ]];
-then
-	~/.config/khal/notify.sh --dry-run -p 15
+if [ -n $TERM ]; then
+  # colorise man pages
+  export LESS_TERMCAP_mb=$'\e[1;32m'
+  export LESS_TERMCAP_md=$'\e[1;32m'
+  export LESS_TERMCAP_me=$'\e[0m'
+  export LESS_TERMCAP_se=$'\e[0m'
+  export LESS_TERMCAP_so=$'\e[01;33m'
+  export LESS_TERMCAP_ue=$'\e[0m'
+  export LESS_TERMCAP_us=$'\e[1;4;31m'
 fi
 
-if [[ $(which zoxide) ]];
-then
-	eval "$(zoxide init bash)"
+if [ -f "$HOME/.config/khal/notify.sh" ]; then
+  ~/.config/khal/notify.sh --dry-run -p 15
 fi
 
-if [[ $(which thefuck) ]];
-then
-	eval "$(thefuck --alias)"
+if [ -n "$(command -v zoxide)" ]; then
+  eval "$(zoxide init "$(basename $SHELL)")"
 fi
 
-if [[ -f "$HOME/.bash_aliases" && -z $BASH_ALIASES_LOADED ]];
-then
-	source ~/.bash_aliases
+if [ -n "$(command -v thefuck)" ]; then
+  eval "$(thefuck --alias)"
+fi
+
+if [ -f "$HOME/.bash_aliases" ] && [ -z "$BASH_ALIASES_LOADED" ]; then
+  source ~/.bash_aliases
 fi
