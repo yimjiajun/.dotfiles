@@ -52,11 +52,11 @@ function display_title {
 
     echo ""
 
-    echo -e -n "\e[1;33m"
+    echo -e -n "\033[1;33m"
     if [ "$delimiter" -eq 1 ]; then
       display_center "$text"
     fi
-    echo -e -n "\e[0m"
+    echo -e -n "\033[0m"
   done
 }
 
@@ -468,7 +468,7 @@ function install_dutree {
   fi
 
   if [ -z "$(command -v cargo)" ]; then
-    echo -e "\e[33mWarning: skip to install dutree ... cargo nout found\e[0m" >&2
+    echo -e "\033[33mWarning: skip to install dutree ... cargo nout found\033[0m" >&2
     return 0
   fi
 
@@ -498,11 +498,11 @@ function install_gitui {
     elif [[ $arch == 'aarch64' ]]; then
       pkg='gitui-linux-aarch64.tar.gz'
     else
-      echo -e "\e[33mWarning: skip to install gitui ... arch $arch not supported\e[0m" >&2
+      echo -e "\033[33mWarning: skip to install gitui ... arch $arch not supported\033[0m" >&2
       return 0
     fi
   else
-    echo -e "\e[33mWarning: skip to install gitui ... os $OSTYPE not supported\e[0m" >&2
+    echo -e "\033[33mWarning: skip to install gitui ... os $OSTYPE not supported\033[0m" >&2
     return 0
   fi
 
@@ -948,15 +948,15 @@ function main {
 
     if [ $ret -ne 0 ]; then
       if [ $ret -eq 3 ]; then
-        echo -e "\e[33mWarning: skip install $(sed 's/\w*install_//g' <<<"$pkg")\e[0m" >&2
+        echo -e "\033[33mWarning: skip install $(sed 's/\w*install_//g' <<<"$pkg")\033[0m" >&2
         status_pkgs+=("skip")
       else
-        echo -e "\e[31mError: install $(sed 's/\w*install_//g' <<<"$pkg") failed!\e[0m" >&2
+        echo -e "\033[31mError: install $(sed 's/\w*install_//g' <<<"$pkg") failed!\033[0m" >&2
         install_failed=1
         status_pkgs+=("fail")
       fi
     else
-      echo -e "\e[32mSuccess: install $(sed 's/\w*install_//g' <<<"$pkg") success!\e[0m" >&2
+      echo -e "\033[32mSuccess: install $(sed 's/\w*install_//g' <<<"$pkg") success!\033[0m" >&2
       status_pkgs+=("ok")
     fi
   done
@@ -971,18 +971,18 @@ function main {
     printf "%-2d %20s" "$(($i + 1))" "$(sed 's/\w*install_//g' <<<"$pkg")"
 
     if [[ "$status" == fail ]]; then
-      echo -e -n "\e[31m"
+      echo -e -n "\033[31m"
     elif [[ "$status" == skip ]]; then
-      echo -e -n "\e[33m"
+      echo -e -n "\033[33m"
     else
-      echo -e -n "\e[32m"
+      echo -e -n "\033[32m"
     fi
 
-    echo -e "\t[ $status ]\e[0m"
+    echo -e "\t[ $status ]\033[0m"
   done
 
   if [ $install_failed -eq 1 ]; then
-    echo -e "\e[31mError: install failed !\e[0m"
+    echo -e "\033[31mError: install failed !\033[0m"
     return 1
   fi
 
@@ -1015,7 +1015,7 @@ case "$OSTYPE" in
 esac
 
 main "$@" || {
-  echo -e "\e[31mSetup Neovim failed !\e[0m" >&2
+  echo -e "\033[31mSetup Neovim failed !\033[0m" >&2
   exit 1
 }
 
