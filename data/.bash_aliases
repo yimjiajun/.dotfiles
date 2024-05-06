@@ -78,20 +78,26 @@ function system_open() {
 
 alias open='system_open'
 
-if [ -z "$(command -v d)" ]; then
+function track_directory_setup {
   function directory_manager {
     if [ "$#" -eq 0 ]; then
       dirs -v | head -n 10
       return
     fi
 
-    if [[ "$1" =~ "[c|clear]" ]]; then
+    if [[ "$1" =~ [c|clear] ]]; then
       dirs -c
       return
     fi
 
-    local selected="$(dirs -vl | grep -e "^$1")"
-    local path="$(cut -f 2 <<<"$selected")"
+    selected_index="$1"
+
+    if [[ ! "$selected_index" =~ ^[0-9]+$ ]]; then
+      echo "Invalid index !"
+      return 1
+    fi
+
+    local path="$(dirs -p -l | sed -n "$((selected_index+1))p")"
 
     if [ -z "$path" ]; then
       echo "Tracked path not found !"
@@ -101,6 +107,11 @@ if [ -z "$(command -v d)" ]; then
     if ! check_tracked_directory "$PWD"; then
       track_change_directory "$path"
       return "$?"
+    fi
+
+    if ! [ -d "$path" ]; then
+        echo "Path not found !"
+        return 1
     fi
 
     cd "$path" || return "$?"
@@ -122,19 +133,21 @@ if [ -z "$(command -v d)" ]; then
   }
 
   function track_change_directory {
-    if [ -z "$(command -v readlink)" ]; then
-      local path="${1}"
-
-      if ! [ -d "$path" ]; then
-        path=
-      fi
-    else
-      local path="$(readlink -f "${1}")"
+    if [ "$#" -eq 0 ]; then
+      echo "Path not provided !"
+      return 1
     fi
 
+    local path="$1"
+
     if [ -z "$path" ]; then
-      echo "$path not found !"
+      echo "Invalid path !"
       return 1
+    fi
+
+    if ! [ -d "$path" ]; then
+        echo "Path not found !"
+        return 1
     fi
 
     if ! check_tracked_directory "$PWD"; then
@@ -163,7 +176,7 @@ if [ -z "$(command -v d)" ]; then
 
   alias d='directory_manager'
   alias cd='track_change_directory'
-fi
+}; track_directory_setup
 
 if [ -n "$(command -v zoxide)" ]; then
   function zoxide_selection() {
