@@ -1,17 +1,14 @@
 #!/bin/bash
 
-func=('install_dediprog' 'install_saleae')
-
 path="$(dirname $(readlink -f ${BASH_SOURCE[0]}))"
 working_path="$(dirname $(dirname "$path"))"
 source "$working_path/app/common.sh"
 
-install_status=func
 ret=0
 cnt=0
 err=0
 
-install_dediprog() {
+function install_dediprog() {
   local bin_path="/usr/local/bin"
 
   if ! [[ -f $path/dediprog/Makefile ]]; then
@@ -120,15 +117,7 @@ function install_saleae {
         return 1
       }
 
-    display_info "run" "saleae program ..."
-
-    Logic &
-
-    if [ "$?" -ne 0 ]; then
-      display_error "failed to run saleae program"
-      return 1
-    fi
-
+    display_info "CMD" "\$ Logic &"
     return 0
   }
 
@@ -140,56 +129,80 @@ function install_saleae {
   fi
 }
 
-function install {
-  install_require_dependencies_package
+function install_tplink_py100 {
+  pip_cmd=('pip3' 'pip')
 
-  cd $path
-
-  for run_func in "${func[@]}"; do
-    display_title "$(sed 's/^.*_//g' <<<$run_func)"
-
-    if ! $run_func; then
-      err=1
-      install_status[$cnt]='failed'
-    else
-      install_status[$cnt]='success'
+  for cmd in "${pip_cmd[@]}"; do
+    if [ -n "$($cmd list | grep py100)" ]; then
+      return 0
     fi
 
-    if [[ $install_status[$cnt] == 'failed' ]]; then
-      echo -e -n "\033[31m"
-      display_status "${install_status[$cnt]^^}"
-      echo -e -n "\033[0m"
-    else
-      display_status "${install_status[$cnt]^^}"
+    if ! command -v $cmd &>/dev/null; then
+      continue
     fi
 
-    cnt=$cnt+1
+    if ! $cmd install py100; then
+      display_error "failed to install tplink py100"
+      return 1
+    fi
+
+    return 0
   done
 
-  display_title 'Installation Status'
-
-  for cnt in "${!install_status[@]}"; do
-
-    if [[ "${install_status[$cnt]}" == 'failed' ]]; then
-      printf "%2s." "*"
-    else
-      printf "%2d." "$(($cnt + 1))"
-    fi
-
-    printf "%-20s\t" "$(sed 's/.*_//g' <<<${func[$cnt]})"
-
-    if [[ "${install_status[$cnt]}" == 'failed' ]]; then
-      echo -e -n "\033[31m"
-    else
-      echo -e -n "\033[33m"
-    fi
-
-    printf "[%-s]\n" "${install_status[$cnt]}"
-
-    echo -e -n "\033[0m"
-  done
+  display_error "failed to find pip"
+  return 1
 }
 
-install
+if ! install_require_dependencies_package; then
+  display_error "failed to install require dependencies package"
+fi
 
-exit 0
+cd $path
+func=($(grep -e '^function\sinstall_' "$(readlink -f ${BASH_SOURCE[0]})" | sed 's/^function//g' | sed 's/[(){}]//g'))
+echo ${func[@]}
+install_status=()
+
+for run_func in "${func[@]}"; do
+  display_title "$(sed 's/^.*_//g' <<<$run_func)"
+
+  if ! $run_func; then
+    err=1
+    install_status[$cnt]='failed'
+  else
+    install_status[$cnt]='success'
+  fi
+
+  if [[ $install_status[$cnt] == 'failed' ]]; then
+    echo -e -n "\033[31m"
+    display_status "${install_status[$cnt]^^}"
+    echo -e -n "\033[0m"
+  else
+    display_status "${install_status[$cnt]^^}"
+  fi
+
+  cnt=$cnt+1
+done
+
+display_title 'Installation Status'
+
+for cnt in "${!install_status[@]}"; do
+  if [[ "${install_status[$cnt]}" == 'failed' ]]; then
+    printf "%2s." "*"
+  else
+    printf "%2d." "$(($cnt + 1))"
+  fi
+
+  printf "%-20s\t" "$(sed 's/.*_//g' <<<${func[$cnt]})"
+
+  if [[ "${install_status[$cnt]}" == 'failed' ]]; then
+    echo -e -n "\033[31m"
+  else
+    echo -e -n "\033[33m"
+  fi
+
+  printf "[%-s]\n" "${install_status[$cnt]}"
+
+  echo -e -n "\033[0m"
+done
+
+exit $err
