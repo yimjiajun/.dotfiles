@@ -11,12 +11,10 @@ err=0
 function install_dediprog() {
   local bin_path="/usr/local/bin"
 
-  if ! [[ -f $path/dediprog/Makefile ]]; then
+  if ! [ -f $path/dediprog/Makefile ]; then
     display_error "Failed to find dediprog"
     return 1
   fi
-
-  cd $path/dediprog
 
   if ! install_package libusb-1.0 libusb-dev; then
     display_error "Failed to install libusb-1.0"
@@ -24,7 +22,7 @@ function install_dediprog() {
   fi
 
   display_info "build" "dediprog ..."
-  if ! make 1>/dev/null; then
+  if ! make -C $path/dediprog; then
     display_error "Failed to make dediprog"
     return 1
   fi
@@ -35,7 +33,7 @@ function install_dediprog() {
   fi
 
   display_info "link" "dediprog to $bin_path/dpcmd ..."
-  if ! sudo ln -sfr $path/dediprog/dpcmd $bin_path/dpcmd; then
+  if ! sudo ln -sfr "${path}/dediprog/dpcmd" "$bin_path/dpcmd"; then
     display_error "Failed to link dediprog to $bin_path/dpcmd"
     return 1
   fi
@@ -129,6 +127,36 @@ function install_saleae {
   fi
 }
 
+function install_iteFlashTool {
+  download_url="https://www.ite.com.tw/uploads/product_download/itedlb4-linux-v106.tar.bz2"
+  file="$(basename $download_url)"
+  tmp_dir=$(mktemp -d)
+
+  if ! curl -Lo "${tmp_dir}/${file}" "$download_url"; then
+    display_error "failed to download ite flash tool"
+    return 1
+  fi
+
+  if ! tar -xf "${tmp_dir}/${file}" -C "${tmp_dir}"; then
+    display_error "failed to extract ite flash tool"
+    return 1
+  fi
+
+  if ! make -C "${tmp_dir}/${file%%.*}"; then
+    display_error "failed to make ite flash tool"
+    return 1
+  fi
+
+  if ! sudo cp "${tmp_dir}/${file%%.*}/ite" /usr/local/bin/; then
+    display_error "failed to copy ite flash tool to /usr/local/bin/"
+    return 1
+  fi
+
+  display_info "CMD" "sudo ite -f \${bin}"
+
+  return 0
+}
+
 function install_tplink_py100 {
   pip_cmd=('pip3' 'pip')
 
@@ -157,7 +185,6 @@ if ! install_require_dependencies_package; then
   display_error "failed to install require dependencies package"
 fi
 
-cd $path
 func=($(grep -e '^function\sinstall_' "$(readlink -f ${BASH_SOURCE[0]})" | sed 's/^function//g' | sed 's/[(){}]//g'))
 echo ${func[@]}
 install_status=()
