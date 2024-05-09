@@ -145,6 +145,11 @@ function track_directory_setup {
       return 1
     fi
 
+    if [ "$path" == '-' ]; then
+      \cd - || echo 'failed to change previous directory'
+      return "$?"
+    fi
+
     if ! [ -d "$path" ]; then
         echo "Path not found !"
         return 1
