@@ -37,6 +37,11 @@ if [[ $OSTYPE != linux-gnu* ]]; then
   exit 3
 fi
 
+if [ -d '/run/WSL' ]; then
+  display_error "This script is not support WSL !"
+  exit 3
+fi
+
 if [ -z "$(which $tool)" ] || [[ $1 =~ $common_force_install_param ]]; then
   install
   display_info "install" "install $tool success"
