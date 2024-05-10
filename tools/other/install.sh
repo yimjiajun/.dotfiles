@@ -9,9 +9,19 @@ cnt=0
 err=0
 
 function install_dediprog() {
-  local bin_path="/usr/local/bin"
+  if [ -n "$(command -v dpcmd)" ]; then
+    return 0
+  fi
 
-  if ! [ -f $path/dediprog/Makefile ]; then
+  local bin_path="/usr/local/bin"
+  local tmp_dir=$(mktemp -d)
+
+  if ! git clone 'https://github.com/DediProgSW/SF100Linux.git' "$tmp_dir"; then
+    display_error "failed to clone dediprog"
+    return 1
+  fi
+
+  if ! [ -f "$tmp_dir"/Makefile ]; then
     display_error "Failed to find dediprog"
     return 1
   fi
@@ -22,18 +32,18 @@ function install_dediprog() {
   fi
 
   display_info "build" "dediprog ..."
-  if ! make -C $path/dediprog; then
+  if ! make -C "$tmp_dir"; then
     display_error "Failed to make dediprog"
     return 1
   fi
 
-  if ! [ -f $path/dediprog/dpcmd ]; then
+  if ! [ -f "$tmp_dir"/dpcmd ]; then
     display_error "dpcmd to find dediprog binary"
     return 1
   fi
 
   display_info "link" "dediprog to $bin_path/dpcmd ..."
-  if ! sudo ln -sfr "${path}/dediprog/dpcmd" "$bin_path/dpcmd"; then
+  if ! sudo ln -sfr "${tmp_dir}/dpcmd" "$bin_path/dpcmd"; then
     display_error "Failed to link dediprog to $bin_path/dpcmd"
     return 1
   fi
@@ -100,7 +110,11 @@ function install_saleae {
 
     display_info "link" "saleae to $bin_file ..."
 
-    if ! ln -sfr $extract_dir/Logic "$bin_file"; then
+    if ! [ -d $(dirname $bin_file) ]; then
+      mkdir -p $(dirname $bin_file)
+    fi
+
+    if ! ln -sfr "${extract_dir}/Logic" "$bin_file"; then
       display_error "failed to link saleae program"
       return 1
     fi
