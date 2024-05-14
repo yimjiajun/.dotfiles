@@ -5,6 +5,7 @@ common_working_path="$(dirname $(dirname $(readlink -f ${BASH_SOURCE[0]})))"
 common_data_path="${common_working_path}/data"
 common_local_data_path="${common_working_path}/.localdata"
 common_force_install_param="(install|--force|-f)$"
+python_env="$HOME/python_env"
 
 display_center() {
   local text="$1"
@@ -149,6 +150,42 @@ function install_require_dependencies_package {
     display_message "failed to remove unnecessary package"
     exit 1
   fi
+
+  if [ -n "$ID_LIKE" ]; then
+    return 0
+  fi
+
+  display_info "reference" "https://www.raspberrypi.com/documentation/computers/os.html#python-on-raspberry-pi"
+  display_info "important" "From Bookworm onwards, packages installed via pip must be installed into a Python Virtual Environment using venv."
+  display_info "install" "install the Python 3 library to support the Raspberry Pi Build HAT"
+  display_info "reference" "https://www.raspberrypi.com/documentation/accessories/build-hat.html"
+
+  if ! sudo apt install python3-build-hat; then
+    display_error "failed to instgall rpi build hat !"
+    exit 1
+  fi
+
+  if ! [ -d "$python_env" ]; then
+    mkdir -p "$python_env"
+  fi
+
+  display_info "create" "python virtual environment in $python_env"
+
+  if ! python -m venv "$python_env/env"; then
+    display_error "failed to create a new virtual environment"
+    exit 1
+  fi
+
+  display_info "activate" "enter python virtual environment (env)"
+
+  if ! source $python_env/env/bin/activate; then
+    display_error "failed to active python virtual environment"
+    exit 1
+  fi
+
+  display_info "guide" "'$ deactivate' To deactivate python virtual environment (env)"
+
+  return 0
 }
 
 install_package() {
@@ -224,6 +261,14 @@ install_package() {
 
   return $failed
 }
+
+if [ -d "$python_env" ]; then
+  display_info "activate" "python virtual environment"
+
+  if ! source $python_env/env/bin/activate; then
+    display_error "failed to activate python virtual env"
+  fi
+fi
 
 if [ $# -ge 2 ]; then
   func="$1"
