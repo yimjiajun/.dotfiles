@@ -130,10 +130,18 @@ function install_require_dependencies_package {
     "python3-docutils"
     "libseccomp-dev" "libjansson-dev" "libyaml-dev" "libxml2-dev" "libusb-dev"
     "build-essential" "libncurses-dev" "libjansson-dev")
-  if ! sudo apt-get install -y --no-install-recommends ${packages[@]} 1>/dev/null; then
-    display_message "failed to install build-essential dependencies"
-    exit 1
-  fi
+  failure_packages=()
+  for p in ${packages[@]}; do
+    display_info "install" "$p"
+
+    if ! sudo apt-get install -y --no-install-recommends $p 1>/dev/null; then
+      failure_packages=($failure_packages $p)
+    fi
+  done
+
+  for p in ${failure_packages[@]}; do
+    display_error "Installing $p"
+  done
 
   display_info "remove" "unnecessary package for $ID ..."
 
