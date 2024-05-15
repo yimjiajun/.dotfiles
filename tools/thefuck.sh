@@ -16,7 +16,11 @@ function install {
       exit 1
     fi
 
-    if ! pip3 install $tool --user >/dev/null; then
+    if [ -z "$VIRTUAL_ENV" ]; then
+      py_user_intall_mode="--user"
+    fi
+
+    if ! pip3 install $tool $py_user_intall_mode >/dev/null; then
       display_error "install $tool failed !"
       exit 1
     fi

@@ -220,7 +220,13 @@ function pre_install_python {
     fi
   fi
 
-  pynvim_install_cmd='pip install --user --upgrade'
+  pynvim_install_cmd="pip install"
+
+  if [ -z "$VIRTUAL_ENV" ]; then
+    pynvim_install_cmd+=" --user"
+  fi
+
+  pynvim_install_cmd+=" --upgrade"
 
   if [[ $OSTYPE == "darwin"* ]]; then
     pynvim_install_cmd+=" --break-system-packages"
