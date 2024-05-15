@@ -5,37 +5,48 @@ working_path="$(dirname "$path")"
 source "$working_path/app/common.sh"
 
 function install {
-  local tmp_dir=$(mktemp -d)
   display_title "Install LazyGit"
 
-  if [[ $OSTYPE == linux-gnu* ]]; then
-    . /etc/os-release
+  local tmp_dir=$(mktemp -d)
 
-    if [[ $ID == 'ubuntu' ]]; then
-      cd $tmp_dir || {
+  if [[ $OSTYPE == linux-gnu* ]]; then
+    source /etc/os-release
+
+    if [ -n "$ID_LIKE" ]; then
+      ID="$ID_LIKE"
+    fi
+
+    if [[ $ID == 'debian' ]]; then
+      if ! cd $tmp_dir; then
         display_error "cd $tmp_dir failed !"
         exit 1
-      }
+      fi
 
       LAZYGIT_VERSION=$(curl -s "https://api.github.com/repos/jesseduffield/lazygit/releases/latest" | grep -Po '"tag_name": "v\K[^"]*') || {
         display_error "get lazygit version failed !"
         exit 1
       }
 
-      curl -Lo lazygit.tar.gz "https://github.com/jesseduffield/lazygit/releases/latest/download/lazygit_${LAZYGIT_VERSION}_Linux_x86_64.tar.gz" || {
+      architecture="$(uname -m)"
+
+      if [ $architecture == 'aarch64' ]; then
+        architecture='arm64'
+      fi
+
+      if ! curl -Lo lazygit.tar.gz "https://github.com/jesseduffield/lazygit/releases/latest/download/lazygit_${LAZYGIT_VERSION}_$(uname -s)_${architecture}.tar.gz"; then
         display_error "download lazygit failed !"
         exit 1
-      }
+      fi
 
-      tar xf lazygit.tar.gz lazygit || {
+      if ! tar xf lazygit.tar.gz lazygit; then
         display_error "extract lazygit failed !"
         exit 1
-      }
+      fi
 
-      sudo install lazygit /usr/local/bin || {
+      if ! sudo install lazygit /usr/local/bin; then
         display_error "install lazygit failed !"
         exit 1
-      }
+      fi
 
       display_info "installed" "lazygit"
 
