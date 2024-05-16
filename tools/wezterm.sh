@@ -39,18 +39,22 @@ install() {
     display_info "installed" "$tool"
 
     exit 0
-  elif [[ $OSTYPE == linux-gnu* ]]; then
+  fi
+
+  if [[ $OSTYPE == linux-gnu* ]]; then
     local tmp_dir=$(mktemp -d)
 
-    . /etc/os-release
+    source /etc/os-release
 
-    if [[ $ID != 'ubuntu' ]]; then
-      display_error "$ID not support"
-      exit 3
+    pack_date='20240203-110809-5046fc22/wezterm-20240203-110809-5046fc22'
+    arch=
+
+    if [ "$(uname -m)" == 'aarch64' ]; then
+      arch='.arm64'
     fi
 
     display_info "download" "wezterm.deb"
-    if ! curl -Lo $tmp_dir/wezterm.deb "https://github.com/wez/wezterm/releases/download/20230712-072601-f4abf8fd/wezterm-20230712-072601-f4abf8fd.${ID}${VERSION_ID}.deb"; then
+    if ! curl -Lo "${tmp_dir}/wezterm.deb" "https://github.com/wez/wezterm/releases/download/${pack_date}.${ID}${VERSION_ID}${arch}.deb"; then
       display_error "download wezterm.deb failed"
       exit 1
     fi
