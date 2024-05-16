@@ -663,21 +663,26 @@ function install_lsp_clangd() {
     return 0
   fi
 
-  if ! sudo apt-get install clangd-12; then
-    echo -e "\033[31mError: Install clangd failed!\033[0m" >&2
+  clang_package=("clang-14" "clang-12" "clang-9" "clang-8" "clang")
+  clang=
 
-    sudo apt-get install -y clangd-9 \
-      || sudo apt-get install clangd-8 \
-      || sudo apt-get install clangd || {
-      echo -e "\033[31mError: Install clangd failed!\033[0m" >&2
-      return 1
-
-    }
-
-    if ! sudo update-alternatives --install /usr/bin/clangd clangd /usr/bin/clangd-12 100; then
-      echo -e "\033[31mError: update-alternatives clangd failed!\033[0m" >&2
-      return 1
+  for p in ${clang_package[@]}; do
+    if install_package $p; then
+      display_info "installed" "$p"
+      clang="$p"
+      echo -e "● Installed $clang" >&1
+      break
     fi
+  done
+
+  if [ -z "$clang" ]; then
+    echo -e "\033[31mError: install $tool failed!\033[0m" >&2
+    exit 1
+  fi
+
+  if ! sudo update-alternatives --install /usr/bin/clangd clangd /usr/bin/"${clang}" 100 1>/dev/null; then
+    echo -e "\033[31mError: update $tool alternatives failed !\033[0m" >&2
+    exit 1
   fi
 }
 
