@@ -915,33 +915,30 @@ function install_neovide() {
 }
 
 function post_install_neovim() {
-  if [[ ~/.config/nvim -ef "$DOTFILES/nvim" ]]; then
+  if [ "$HOME/.config/nvim" -ef "$DOTFILES/nvim" ]; then
     echo -e "● Skip to download neovim configuration files, have been linked!" >&1
     return 0
   fi
 
-  if [ -d ~/.config/nvim ]; then
-    echo -e "● remove ~/.config/nvim" >&1
-
-    if ! rm -rf ~/.config/nvim; then
-      echo -e "\033[31mError: Remove ~/.config/nvim failed!\033[0m" >&2
-      return 1
-    fi
+  if [ -d "$HOME/.config/nvim" ]; then
+    echo -e "● skip setup exisiting neovim configuration" >&1
+    return 0
   fi
 
-  if ! [ -d ~/.config ]; then
-    echo -e "● mkdir ~/.config" >&1
-
-    if ! mkdir -p ~/.config; then
-      echo -e "\033[31mError: mkdir ~/.config failed!\033[0m" >&2
-      return 1
-    fi
+  if ! [ -d "$DOTFILES/nvim" ]; then
+    echo -e "● Skip to download neovim configuration files, not found!" >&1
+    return 0
   fi
 
-  if ! git clone $neovim_config_git_link ~/.config/nvim; then
-    echo -e "\033[31mError: Download neovim configuration files failed!\033[0m" >&2
+  mkdir -p ~/.config
+  echo -e "● link $DOTFILES/nvim to $HOME/.config/nvim" >&1
+
+  if ! ln -sfn "$DOTFILES/nvim" "$HOME/.config/nvim"; then
+    echo -e "\033[31mError: Link $DOTFILES/nvim to $HOME/.config/nvim failed!\033[0m" >&2
     return 1
   fi
+
+  return 0
 }
 
 function main {
