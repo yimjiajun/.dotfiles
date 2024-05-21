@@ -6,13 +6,14 @@ working_path="$(dirname "$path")"
 source "$working_path/app/common.sh"
 data_path="$common_data_path"
 data_file=".wezterm.lua"
+pack_date='20240203-110809-5046fc22/wezterm-20240203-110809-5046fc22'
 
 install() {
   display_title "Install $tool"
 
   if [ -d /run/WSL ]; then
     display_info "download" "wezterm.exe"
-    powershell.exe curl -v -o '~\Downloads\wezterm.exe https://github.com/wez/wezterm/releases/download/20230712-072601-f4abf8fd/WezTerm-20230712-072601-f4abf8fd-setup.exe' || {
+    powershell.exe curl -v -o '~\Downloads\wezterm.exe' "https://github.com/wez/wezterm/releases/download/${pack_date}-setup.exe" || {
       display_error "download wezterm.exe failed"
       exit 1
     }
@@ -46,7 +47,6 @@ install() {
 
     source /etc/os-release
 
-    pack_date='20240203-110809-5046fc22/wezterm-20240203-110809-5046fc22'
     arch=
 
     if [ "$(uname -m)" == 'aarch64' ]; then
