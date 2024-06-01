@@ -23,7 +23,12 @@ local function is_unix()
     return package.config:sub(1, 1) == "/"
 end-- Pull in the wezterm API
 
-config.color_scheme = 'Flexoki (Dark)'
+color_schemes = {
+  flexoki = 'Flexoki (Dark)',
+  gruvbox = 'GruvboxDarkHard',
+}
+
+config.color_scheme = color_schemes.gruvbox
 config.font =
   wezterm.font('JetBrains Mono', { weight = 'Regular'})
 
