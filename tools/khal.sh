@@ -18,6 +18,11 @@ sync_interval_min=1
 function add_calendar_notify_in_schedule {
   local job="*/$sync_interval_min * * * * (date; echo -e '\n* [Khal Calendar]\n'; $HOME/.config/khal/notify.sh --sync) 1>> /tmp/.crontab.log 2>&1"
 
+  if [ -n "${VIRTUAL_ENV}" ] && [[ "$(dirname "${VIRTUAL_ENV}")" == "${common_python_env}" ]]; then
+    local activate_python_virtual_env="source ${VIRTUAL_ENV}/bin/activate"
+    job="*/$sync_interval_min * * * * (date; echo -e '\n* [Khal Calendar]\n'; sudo su - $USER -c '${activate_python_virtual_env} && $local_conf_notify --sync') 1>> /tmp/.crontab.log 2>&1"
+  fi
+
   if [ $(crontab -l | grep -c "$local_conf_path/notify.sh") -ne 0 ]; then
     display_info "added" "Schedule calendar notification"
     return 0

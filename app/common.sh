@@ -5,7 +5,7 @@ common_working_path="$(dirname $(dirname $(readlink -f ${BASH_SOURCE[0]})))"
 common_data_path="${common_working_path}/data"
 common_local_data_path="${common_working_path}/.localdata"
 common_force_install_param="(install|--force|-f)$"
-python_env="$HOME/python_env"
+common_python_env="$HOME/python_env"
 
 display_center() {
   local text="$1"
@@ -165,20 +165,20 @@ function install_require_dependencies_package {
     exit 1
   fi
 
-  if ! [ -d "$python_env" ]; then
-    mkdir -p "$python_env"
+  if ! [ -d "$common_python_env" ]; then
+    mkdir -p "$common_python_env"
   fi
 
-  display_info "create" "python virtual environment in $python_env"
+  display_info "create" "python virtual environment in $common_python_env"
 
-  if ! python -m venv "$python_env/env"; then
+  if ! python -m venv "$common_python_env/env"; then
     display_error "failed to create a new virtual environment"
     exit 1
   fi
 
   display_info "activate" "enter python virtual environment (env)"
 
-  if ! source $python_env/env/bin/activate; then
+  if ! source $common_python_env/env/bin/activate; then
     display_error "failed to active python virtual environment"
     exit 1
   fi
@@ -262,10 +262,10 @@ install_package() {
   return $failed
 }
 
-if [ -d "$python_env" ]; then
+if [ -d "$common_python_env" ]; then
   display_info "activate" "python virtual environment"
 
-  if ! source $python_env/env/bin/activate; then
+  if ! source "${common_python_env}/env/bin/activate"; then
     display_error "failed to activate python virtual env"
   fi
 fi
