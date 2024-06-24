@@ -27,7 +27,8 @@ install() {
 
     local usr_path=$(find /mnt/c/Users -maxdepth 1 -type d -not \( \
       -name 'Default' -o -name 'Public' \
-      -o -name 'Administrator' -o -name 'User' \) \
+      -o -name 'Administrator' -o -name 'User' \
+      -o -name '[[:lower:]]*' \) \
       -not -path /mnt/c/Users)
 
     display_info "copy" "conifguration file to \e[1m$usr_path/$data_file\e[0m"
