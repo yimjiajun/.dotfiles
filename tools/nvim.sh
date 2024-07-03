@@ -822,7 +822,7 @@ function install_neovide() {
     dotfiles="$HOME/.dotfiles"
   fi
 
-  local neovide_config="$dotfiles/data/neovide.toml"
+  local neovide_config="$dotfiles/data/.config/neovide/config.toml"
 
   if ! [ -f "$neovide_config" ]; then
     echo -e "warning: neovide configuration file not found!" >&2
@@ -856,7 +856,7 @@ function install_neovide() {
         local win_neovide_path="$win_roaming_path/neovide"
 
         mkdir -p "$win_neovide_path" 2>/dev/null
-        cp -f "$neovide_config" "$win_neovide_path/config.toml"
+        ln -sfr "$neovide_config" "$win_neovide_path/config.toml"
 
         if ! [ -f "$win_neovide_path/config.toml" ]; then
           echo -e "\033[33mWarning: Copy Neovide configuration file failed!\033[0m" >&2

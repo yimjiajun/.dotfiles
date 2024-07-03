@@ -6,8 +6,9 @@ path="$(dirname $(readlink -f $0))"
 working_path="$(dirname "$path")"
 source "$working_path/app/common.sh"
 data_path="$common_data_path"
-data_file="${data_path}/config.kdl"
-dest_file="$HOME/.config/zellij/config.kdl"
+config_file='.config/zellij/config.kdl'
+data_file="${data_path}/${config_file}"
+dest_file="${HOME}/${config_file}"
 
 function introduction {
   cat <<EOL
