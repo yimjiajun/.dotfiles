@@ -89,37 +89,83 @@ display_message() {
   echo -e "● $msg"
 }
 
-function install_require_dependencies_package {
-  if [[ $OSTYPE != "linux-gnu"* ]]; then
-    display_error "OS-${OSTYPE} Not Support!"
+# @brief: setup python environment
+# @param: None
+# @return: 0 if success, non-zero if failed
+function setup_python_environment() {
+  if ! [ -d "$common_python_env" ]; then
+    mkdir -p "$common_python_env"
+  fi
+
+  display_info "create" "python virtual environment in $common_python_env"
+
+  if ! python -m venv "$common_python_env/env"; then
+    display_error "failed to create a new virtual environment"
     return 1
   fi
 
-  . /etc/os-release
+  display_info "activate" "enter python virtual environment (env)"
 
-  if [ -n "$ID_LIKE" ]; then
-    ID=$ID_LIKE
+  if ! source $common_python_env/env/bin/activate; then
+    display_error "failed to active python virtual environment"
+    return 1
   fi
 
-  display_title "Install $ID dependencies"
+  display_info "guide" "'$ deactivate' To deactivate python virtual environment (env)"
 
-  if [ "$ID" != 'debian' ]; then
-    display_error "OS-${ID} Not Support!"
-    return 3
-  fi
+  return 0
+}
 
-  display_info "update" "$ID dependencies"
+function install_require_dependencies_package {
+  for os in "darwin" "linux-gnu" "unsupported"; do
+    if [[ $os == "unsupported" ]]; then
+      display_error "OS-${OSTYPE} Not Support!"
+      return 1
+    fi
 
-  if ! sudo apt-get update 1>/dev/null; then
-    display_message "failed to update package"
-    exit 1
-  fi
+    if [[ $OSTYPE == "$os"* ]]; then
+      break
+    fi
+  done
 
-  display_info "upgrade" "package for $ID ..."
+  if [[ $OSTYPE == "linux-gnu"* ]]; then
+    . /etc/os-release
 
-  if ! sudo apt-get upgrade -y 1>/dev/null; then
-    display_message "failed to upgrade package"
-    exit 1
+    if [ -n "$ID_LIKE" ]; then
+      ID=$ID_LIKE
+    fi
+
+    display_title "Install $ID dependencies"
+
+    if [ "$ID" != 'debian' ]; then
+      display_error "OS-${ID} Not Support!"
+      return 3
+    fi
+
+    display_info "update" "$ID dependencies"
+
+    if ! sudo apt-get update 1>/dev/null; then
+      display_message "failed to update package"
+      exit 1
+    fi
+
+    display_info "upgrade" "package for $ID ..."
+
+    if ! sudo apt-get upgrade -y 1>/dev/null; then
+      display_message "failed to upgrade package"
+      exit 1
+    fi
+
+  elif [[ $OSTYPE == "darwin"* ]]; then
+    if [ -z $(command -v brew) ]; then
+      display_error "brew not install, please install brew first!"
+      return 1
+    fi
+
+    pkg_install_cmd="brew install"
+  else
+    display_error "kernel-${OSTYPE} Not Support!"
+    return 1
   fi
 
   display_info "install" "build-essential dependencies for $ID ..."
@@ -135,8 +181,14 @@ function install_require_dependencies_package {
   for p in ${packages[@]}; do
     display_info "install" "$p"
 
-    if ! sudo apt-get install -y --no-install-recommends $p 1>/dev/null; then
-      failure_packages=($failure_packages $p)
+    if [[ $OSTYPE == "darwin"* ]]; then
+      if ! brew install "$p" 1>/dev/null; then
+        failure_packages=($failure_packages $p)
+      fi
+    else
+      if ! sudo apt-get install -y --no-install-recommends $p 1>/dev/null; then
+        failure_packages=($failure_packages $p)
+      fi
     fi
   done
 
@@ -144,10 +196,17 @@ function install_require_dependencies_package {
     display_error "Installing $p"
   done
 
-  display_info "remove" "unnecessary package for $ID ..."
+  if [[ "$OSTYPE" == "linux-gnu"* ]]; then
+    display_info "remove" "unnecessary package for $ID ..."
 
-  if ! sudo apt-get autoremove -y 1>/dev/null; then
-    display_message "failed to remove unnecessary package"
+    if ! sudo apt-get autoremove -y 1>/dev/null; then
+      display_message "failed to remove unnecessary package"
+      exit 1
+    fi
+  fi
+
+  if ! setup_python_environment; then
+    display_error "failed to setup python environment"
     exit 1
   fi
 
@@ -164,28 +223,6 @@ function install_require_dependencies_package {
     display_error "failed to instgall rpi build hat !"
     exit 1
   fi
-
-  if ! [ -d "$common_python_env" ]; then
-    mkdir -p "$common_python_env"
-  fi
-
-  display_info "create" "python virtual environment in $common_python_env"
-
-  if ! python -m venv "$common_python_env/env"; then
-    display_error "failed to create a new virtual environment"
-    exit 1
-  fi
-
-  display_info "activate" "enter python virtual environment (env)"
-
-  if ! source $common_python_env/env/bin/activate; then
-    display_error "failed to active python virtual environment"
-    exit 1
-  fi
-
-  display_info "guide" "'$ deactivate' To deactivate python virtual environment (env)"
-
-  return 0
 }
 
 install_package() {
