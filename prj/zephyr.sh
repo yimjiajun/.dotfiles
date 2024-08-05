@@ -1,6 +1,6 @@
 #!/bin/bash
 
-zephyr_sdk_version="0.16.1"
+zephyr_sdk_version="0.16.8"
 arch="$(uname -m)"
 tmp_dir=$(mktemp -d)
 zephyr_dir="$HOME/zephyrproject"
@@ -34,17 +34,22 @@ fi
 
 echo -e "● Install west ..."
 
-if ! pip3 install --user -U west 1>/dev/null; then
-  echo -e "\e[31mError: Failed to install west\e[0m"
-  exit 1
+if [ -n "$VIRTUAL_ENV" ]; then
+  pip install west
+else
+  if ! pip3 install --user -U west 1>/dev/null; then
+    echo -e "\e[31mError: Failed to install west\e[0m"
+    exit 1
+  fi
+
+  if [ $(grep -c 'export PATH=~/.local/bin:$PATH' ~/.bashrc) -eq 0 ]; then
+    echo 'export PATH=~/.local/bin:$PATH' >>~/.bashrc
+    export PATH="$HOME/.local/bin:$PATH"
+  fi
+
+  source ~/.bashrc
 fi
 
-if [ $(grep -c 'export PATH=~/.local/bin:$PATH' ~/.bashrc) -eq 0 ]; then
-  echo 'export PATH=~/.local/bin:$PATH' >>~/.bashrc
-  export PATH="$HOME/.local/bin:$PATH"
-fi
-
-source ~/.bashrc
 echo -e "● Clone zephyrproject ..."
 
 if ! west init $zephyr_dir 2>/dev/null && ! [ -f $zephyr_dir/.west/config ]; then
@@ -75,7 +80,13 @@ fi
 
 echo -e "● Install Python dependencies ..."
 
-if ! pip3 install --user -r ~/zephyrproject/zephyr/scripts/requirements.txt 1>/dev/null; then
+if [ -n "$VIRTUAL_ENV" ]; then
+  pip_install_requirements="pip install -r $zephyr_dir/zephyr/scripts/requirements.txt"
+else
+  pip_install_requirements="pip3 install --user -r $zephyr_dir/zephyr/scripts/requirements.txt"
+fi
+
+if ! $pip_install_requirements; then
   echo -e "\e[31mError: Failed to install Python dependencies\e[0m"
   exit 1
 fi
