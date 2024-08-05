@@ -68,6 +68,6 @@ if [ -f "$HOME/.bash_aliases" ] && [ -z "$BASH_ALIASES_LOADED" ]; then
   source ~/.bash_aliases
 fi
 
-if [ -n "$(command -v raspi-config)" ] && [ -d "$HOME/python_env" ] && [[ "$VIRTUAL_ENV" != "$HOME/python_env/env" ]]; then
+if [ -d "$HOME/python_env" ] && [[ "$VIRTUAL_ENV" != "$HOME/python_env/env" ]]; then
   source "$HOME/python_env/env/bin/activate"
 fi
