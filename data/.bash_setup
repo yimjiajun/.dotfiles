@@ -1,5 +1,5 @@
-if  [ -n "$(command -v zellij)" ] && [ -z "$(echo $ZELLIJ)" ]; then
-    zellij
+if  [ -n "$(command -v tmux)" ] && [ -z "$(echo $TMUX)" ]; then
+    tmux
 fi
 
 export LANG=en_US.UTF-8
