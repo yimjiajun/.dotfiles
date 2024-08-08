@@ -93,6 +93,15 @@ display_message() {
 # @param: None
 # @return: 0 if success, non-zero if failed
 function setup_python_environment() {
+  python_version="$(python3 --version | cut -d ' ' -f 2 | cut -d . -f-2)"
+
+  if [ $OSTYPE == "linux-gnu" ]; then
+    if ! sudo apt-get install -y python${python_version}-venv; then
+      display_error "failed to install python${python_version}-venv"
+      return 1
+    fi
+  fi
+
   if ! [ -d "$common_python_env" ]; then
     mkdir -p "$common_python_env"
   fi
