@@ -5,7 +5,7 @@ stages:
 syntax-check:
   stage: check
   tags:
-    - "docker"
+    - "gitlab-org-docker"
   image: bitnami/git
   retry:
       max: 2
@@ -28,7 +28,7 @@ syntax-check:
 focal:
   stage: install
   tags:
-    - "docker"
+    - "gitlab-org-docker"
   image: ubuntu:20.04
   retry:
     max: 2
@@ -48,7 +48,7 @@ focal:
 jammy:
   stage: install
   tags:
-    - "docker"
+    - "gitlab-org-docker"
   image: ubuntu:22.04
   retry:
     max: 2
