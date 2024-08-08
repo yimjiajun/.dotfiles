@@ -299,7 +299,7 @@ install_package() {
   return $failed
 }
 
-if [ -d "$common_python_env" ]; then
+if [ -d "$common_python_env" ] && [ -z "$CI" ]; then
   display_info "activate" "python virtual environment"
 
   if ! source "${common_python_env}/env/bin/activate"; then

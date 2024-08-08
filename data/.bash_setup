@@ -10,6 +10,10 @@ if [ -d "$dotfiles" ]; then
   export DOTFILES="$dotfiles"
 fi
 
+if [ -z "$GITHUB_ACTIONS" ]; then
+  export CI=true
+fi
+
 if [ -f '/opt/homebrew/bin/brew' ]; then
   eval "$(/opt/homebrew/bin/brew shellenv)"
 fi
@@ -68,6 +72,7 @@ if [ -f "$HOME/.bash_aliases" ] && [ -z "$BASH_ALIASES_LOADED" ]; then
   source ~/.bash_aliases
 fi
 
-if [ -d "$HOME/python_env" ] && [[ "$VIRTUAL_ENV" != "$HOME/python_env/env" ]]; then
+if [ -d "$HOME/python_env" ] && [[ "$VIRTUAL_ENV" != "$HOME/python_env/env" ]]\
+  && [ -z "$CI" ]; then
   source "$HOME/python_env/env/bin/activate"
 fi
