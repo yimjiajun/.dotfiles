@@ -85,7 +85,7 @@ function track_directory_setup {
       return
     fi
 
-    if [[ "$1" =~ [c|clear] ]]; then
+    if [[ "$1" =~ 'c' ]] || [[ "$1" =~ 'clear' ]]; then
       dirs -c
       return
     fi
@@ -122,7 +122,7 @@ function track_directory_setup {
     local index=0
 
     for p in $(dirs -l); do
-      if [[ "$p" == "$path" ]] && [ $index -ne 0 ]; then
+      if [[ "$p" =~ "$path" ]] && [ $index -ne 0 ]; then
         return 0
       fi
 
@@ -145,7 +145,7 @@ function track_directory_setup {
       return 1
     fi
 
-    if [ "$path" == '-' ]; then
+    if [[ "$path" =~ '-' ]]; then
       \cd - || echo 'failed to change previous directory'
       return "$?"
     fi
