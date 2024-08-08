@@ -99,7 +99,7 @@ function setup_python_environment() {
 
   display_info "create" "python virtual environment in $common_python_env"
 
-  if ! python -m venv "$common_python_env/env"; then
+  if ! python3 -m venv "$common_python_env/env"; then
     display_error "failed to create a new virtual environment"
     return 1
   fi
