@@ -214,12 +214,17 @@ function install_require_dependencies_package {
     fi
   fi
 
+  if [ -n "$CI" ]; then
+    return 0
+  fi
+
   if ! setup_python_environment; then
     display_error "failed to setup python environment"
     exit 1
   fi
 
   if [ -n "$ID_LIKE" ]; then
+    # Raspberry Pi OS
     return 0
   fi
 
