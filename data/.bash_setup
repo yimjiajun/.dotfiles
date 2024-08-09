@@ -10,7 +10,7 @@ if [ -d "$dotfiles" ]; then
   export DOTFILES="$dotfiles"
 fi
 
-if [ -z "$GITHUB_ACTIONS" ]; then
+if [ -n "$GITHUB_ACTIONS" ]; then
   export CI=true
 fi
 
