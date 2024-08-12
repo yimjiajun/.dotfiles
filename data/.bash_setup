@@ -82,3 +82,5 @@ if [ -d "$HOME/python_env" ] && [[ "$VIRTUAL_ENV" != "$HOME/python_env/env" ]]\
   && [ -z "$CI" ]; then
   source "$HOME/python_env/env/bin/activate"
 fi
+
+# vim:tw=78:ft=bash:shiftwidth=2:tabstop=2
