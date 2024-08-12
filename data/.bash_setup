@@ -1,5 +1,11 @@
-if  [ -n "$(command -v zellij)" ] && [ -z "$(echo $ZELLIJ)" ]; then
-    zellij
+if [ -n "$(command -v nvim)" ] && [ -n "$NVIM" ]; then
+  in_terminal_session="nvim"
+elif [ -n "$(command -v tmux)" ] && [ -n "$TMUX" ]; then
+  in_terminal_session="tmux"
+elif [ -n "$(command -v zellij)" ] && [ -n "$ZELLIJ" ]; then
+  in_terminal_session="zellij"
+else
+  in_terminal_session=
 fi
 
 export LANG=en_US.UTF-8
@@ -8,6 +14,10 @@ dotfiles="$(find $HOME -maxdepth 1 -type d -name '.dotfiles' | head -n 1)"
 
 if [ -d "$dotfiles" ]; then
   export DOTFILES="$dotfiles"
+fi
+
+if [ -n "$GITHUB_ACTIONS" ]; then
+  export CI=true
 fi
 
 if [ -f '/opt/homebrew/bin/brew' ]; then
@@ -52,7 +62,7 @@ if [ -n $TERM ]; then
   export LESS_TERMCAP_us=$'\e[1;4;31m'
 fi
 
-if [ -f "$HOME/.config/khal/notify.sh" ]; then
+if [ -f "$HOME/.config/khal/notify.sh" ] && [ -z $in_terminal_session ] && [ -z $CI ]; then
   ~/.config/khal/notify.sh --dry-run -p 15
 fi
 
@@ -68,6 +78,7 @@ if [ -f "$HOME/.bash_aliases" ] && [ -z "$BASH_ALIASES_LOADED" ]; then
   source ~/.bash_aliases
 fi
 
-if [ -n "$(command -v raspi-config)" ] && [ -d "$HOME/python_env" ] && [[ "$VIRTUAL_ENV" != "$HOME/python_env/env" ]]; then
+if [ -d "$HOME/python_env" ] && [[ "$VIRTUAL_ENV" != "$HOME/python_env/env" ]]\
+  && [ -z "$CI" ]; then
   source "$HOME/python_env/env/bin/activate"
 fi
