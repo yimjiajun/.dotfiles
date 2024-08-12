@@ -218,14 +218,15 @@ function install_require_dependencies_package {
     return 0
   fi
 
+  if [[ "$(uname -m)" =~ "x86_64" ]]; then
+     return 0
+  fi
+
+  # Raspberry Pi OS
+
   if ! setup_python_environment; then
     display_error "failed to setup python environment"
     exit 1
-  fi
-
-  if [ -n "$ID_LIKE" ]; then
-    # Raspberry Pi OS
-    return 0
   fi
 
   display_info "reference" "https://www.raspberrypi.com/documentation/computers/os.html#python-on-raspberry-pi"
