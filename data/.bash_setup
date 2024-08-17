@@ -74,6 +74,12 @@ if [ -n "$(command -v thefuck)" ]; then
   eval "$(thefuck --alias)"
 fi
 
+if [ -n "$(command -v fzf)" ]; then
+  if [ -f "$HOME/.config/fzf/fzf-git.sh" ]; then
+    source "$HOME/.config/fzf/fzf-git.sh"
+  fi
+fi
+
 if [ -f "$HOME/.bash_aliases" ] && [ -z "$BASH_ALIASES_LOADED" ]; then
   source ~/.bash_aliases
 fi
