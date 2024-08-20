@@ -829,7 +829,7 @@ function install_neovide() {
   fi
 
   if [ -d '/run/WSL' ] && [ -n "$(command -v powershell.exe)" ]; then
-    if [ $(command -v neovide.exe) ]; then
+    if [ "$(command -v neovide.exe)" ]; then
       return 0
     fi
 
