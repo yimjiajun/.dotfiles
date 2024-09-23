@@ -46,6 +46,25 @@ function install {
     display_error "install $tool failed !"
     exit 1
   fi
+
+  if ! [ -f "${common_data_path}/.config/zathura/zathurarc" ]; then
+    display_error "zathurarc not found to install configuration !"
+    exit 1
+  fi
+
+  if ! [ -d "${HOME}/.config/zathura" ]; then
+    if ! mkdir -p "${HOME}/.config/zathura"; then
+      display_error "mkdir -p ${HOME}/.config/zathura failed !"
+      exit 1
+    fi
+  fi
+
+  if ! ln -sfr "${common_data_path}/.config/zathura/zathurarc" "${HOME}/.config/zathura/"; then
+    display_error "ln -sfr ${common_data_path}/.config/zathura/zathurarc ${HOME}/.config/zathura/zathurarc failed !"
+    exit 1
+  fi
+
+  display_info "link" "${common_data_path}/.config/zathura/zathurarc -> ${HOME}/.config/zathura/zathurarc"
 }
 
 if [ -z "$(which $tool)" ] || [[ $1 =~ $common_force_install_param ]]; then
