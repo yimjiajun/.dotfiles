@@ -95,15 +95,16 @@ function define_dates_times_format {
   display_subtitle "formatting dates, times, numbers, and currency"
   display_info "generate" "en_US.UTF-8"
 
-  if ! sudo locale-gen en_US.UTF-8 1>/dev/null; then
+  if ! sudo locale-gen en_US.UTF-8; then
     display_error "generate en_US.UTF-8 failed !"
     exit 1
   fi
 
   display_info "set" "en_US.UTF-8"
 
-  if ! sudo update-locale LANG=en_US.UTF-8 1>/dev/null; then
+  if ! sudo update-locale LANG=en_US.UTF-8; then
     display_error "set en_US.UTF-8 failed !"
+    display_error "uncommnet /etc/locale.gen and run sudo locale-gen en_US.UTF-8"
     exit 1
   fi
 
