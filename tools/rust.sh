@@ -13,7 +13,7 @@ function install {
 
   display_title "Install $tool"
 
-  curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- --default-toolchain none -y || {
+  curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- --default-toolchain nightly -y || {
     display_error "install $tool failed !"
     exit 1
   }
