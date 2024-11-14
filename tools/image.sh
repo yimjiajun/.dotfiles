@@ -14,7 +14,7 @@ if ! [[ $1 =~ $common_force_install_param ]] && [ -n "$(which convert)" ] && [ -
   exit 0
 fi
 
-display_title "Install $tool"
+display_title "Install Image Tools"
 cat <<EOL
 
 1. convert: Convert between image formats
@@ -25,14 +25,24 @@ cat <<EOL
            View image in terminal.
            Features similiar as 'Convert' but with more options.
 
-Link: https://imagemagick.org/index.php
+           Link: https://imagemagick.org/index.php
+
+3. pngquant: command-line utility and a library for lossy compression of PNG images.
+             The conversion reduces file sizes significantly (often as much as 70%) and preserves full alpha transparency.
+             Generated images are compatible with all web browsers and operating systems
+
+             Link: https://pngquant.org/
 
 EOL
 
-if ! install_package $tool; then
-  display_error "install $tool failed !"
+display_title "Install imagemagick"
+
+if ! install_package 'imagemagick'; then
+  display_error "install convert failed !"
   exit 1
 fi
+
+display_title "Install Magick"
 
 tmp_dir=$(mktemp -d)
 appimage="magick.AppImage"
@@ -64,6 +74,28 @@ fi
 
 if ! sudo ln -sfr squashfs-root/usr/bin/magick /usr/bin/; then
   display_error "copy $tool failed !"
+  exit 1
+fi
+
+display_title "Install Pngquant"
+
+if ! git clone --recursive https://github.com/kornelski/pngquant.git "$tmp_dir/pngquant"; then
+  display_error "git clone pngquant failed !"
+  exit 1
+fi
+
+if ! cd "$tmp_dir/pngquant"; then
+  display_error "cd pngquant failed !"
+  exit 1
+fi
+
+if ! cargo build --release; then
+  display_error "cargo build pngquant failed !"
+  exit 1
+fi
+
+if ! sudo cp target/release/pngquant /usr/bin/; then
+  display_error "copy pngquant failed !"
   exit 1
 fi
 
