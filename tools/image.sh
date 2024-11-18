@@ -79,7 +79,7 @@ fi
 
 display_title "Install Pngquant"
 
-if ! git clone --recursive https://github.com/kornelski/pngquant.git "$tmp_dir/pngquant"; then
+if ! git clone --depth 1 --recursive https://github.com/kornelski/pngquant.git "$tmp_dir/pngquant"; then
   display_error "git clone pngquant failed !"
   exit 1
 fi
@@ -98,5 +98,7 @@ if ! sudo cp target/release/pngquant /usr/bin/; then
   display_error "copy pngquant failed !"
   exit 1
 fi
+
+rm -rf "$tmp_dir"
 
 exit 0
