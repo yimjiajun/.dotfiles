@@ -63,7 +63,7 @@ if [ -n $TERM ]; then
 fi
 
 if [ -f "$HOME/.config/khal/notify.sh" ] && [ -z $in_terminal_session ] && [ -z $CI ]; then
-  ~/.config/khal/notify.sh --dry-run -p 15
+  (~/.config/khal/notify.sh --dry-run -p 15 &)
 fi
 
 if [ -n "$(command -v zoxide)" ]; then
@@ -78,6 +78,10 @@ if [ -n "$(command -v fzf)" ]; then
   if [ -f "$HOME/.config/fzf/fzf-git.sh" ]; then
     source "$HOME/.config/fzf/fzf-git.sh"
   fi
+fi
+
+if [ -n "$(command -v nvim)" ] && [ -f "${HOME}/.local/state/nvim/lsp.log" ]; then
+  (rm "${HOME}/.local/state/nvim/lsp.log" &)
 fi
 
 if [ -f "$HOME/.bash_aliases" ] && [ -z "$BASH_ALIASES_LOADED" ]; then
