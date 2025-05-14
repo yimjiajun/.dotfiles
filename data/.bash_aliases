@@ -85,7 +85,7 @@ function track_directory_setup {
       return
     fi
 
-    if [[ "$1" =~ [c|clear] ]]; then
+    if [[ "$1" =~ 'c' || "$1" =~ 'clear' ]]; then
       dirs -c
       return
     fi
