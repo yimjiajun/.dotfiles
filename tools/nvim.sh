@@ -200,6 +200,8 @@ function pre_install_node {
 }
 
 function pre_install_python {
+  python_env_package="python3.12-venv"
+
   if ! install_package python3; then
     echo -e "\033[31mError: Install python3 failed!\033[0m" >&2
     return 1
@@ -214,8 +216,8 @@ function pre_install_python {
 
   if awk 'BEGIN { exit !('"$version"' >= 22.04) }'; then
     echo -e "Install python env for cmake and py lsp ..." >&1
-    if ! install_package python3.10-venv; then
-      echo -e "\033[31mError: Install python3.10-venv failed!\033[0m" >&2
+    if ! install_package ${python_env_package}; then
+      echo -e "\033[31mError: Install ${python_env_package} failed!\033[0m" >&2
       return 1
     fi
   fi

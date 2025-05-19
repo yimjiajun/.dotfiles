@@ -89,6 +89,18 @@ display_message() {
   echo -e "● $msg"
 }
 
+function install_raspberrypi_package {
+  display_info "reference" "https://www.raspberrypi.com/documentation/computers/os.html#python-on-raspberry-pi"
+  display_info "important" "From Bookworm onwards, packages installed via pip must be installed into a Python Virtual Environment using venv."
+  display_info "install" "install the Python 3 library to support the Raspberry Pi Build HAT"
+  display_info "reference" "https://www.raspberrypi.com/documentation/accessories/build-hat.html"
+
+  if ! sudo apt install python3-build-hat; then
+    display_error "failed to instgall rpi build hat !"
+    return 1
+  fi
+}
+
 function install_require_dependencies_package {
   if [[ $OSTYPE != "linux-gnu"* ]]; then
     display_error "OS-${OSTYPE} Not Support!"
@@ -130,7 +142,8 @@ function install_require_dependencies_package {
     "pkg-config" "unzip" "curl" "doxygen" "gcc" "make" "pkg-config" "autoconf" "automake"
     "python3-docutils"
     "libseccomp-dev" "libjansson-dev" "libyaml-dev" "libxml2-dev" "libusb-dev"
-    "build-essential" "libncurses-dev" "libjansson-dev")
+    "build-essential" "libncurses-dev" "libjansson-dev"
+    "python3.12-venv")
   failure_packages=()
   for p in ${packages[@]}; do
     display_info "install" "$p"
@@ -151,18 +164,8 @@ function install_require_dependencies_package {
     exit 1
   fi
 
-  if [ -n "$ID_LIKE" ]; then
-    return 0
-  fi
-
-  display_info "reference" "https://www.raspberrypi.com/documentation/computers/os.html#python-on-raspberry-pi"
-  display_info "important" "From Bookworm onwards, packages installed via pip must be installed into a Python Virtual Environment using venv."
-  display_info "install" "install the Python 3 library to support the Raspberry Pi Build HAT"
-  display_info "reference" "https://www.raspberrypi.com/documentation/accessories/build-hat.html"
-
-  if ! sudo apt install python3-build-hat; then
-    display_error "failed to instgall rpi build hat !"
-    exit 1
+  if [ -z "$ID_LIKE" ]; then
+    install_raspberrypi_package
   fi
 
   if ! [ -d "$common_python_env" ]; then
