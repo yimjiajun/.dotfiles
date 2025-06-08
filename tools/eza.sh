@@ -1,6 +1,6 @@
 #!/bin/bash
 
-tool='exa'
+tool='eza' # previous version of 'exa', a modern replacement for 'ls'
 path="$(dirname $(readlink -f $0))"
 working_path="$(dirname "$path")"
 source "$working_path/app/common.sh"
