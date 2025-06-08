@@ -34,7 +34,7 @@ fi
 
 echo -e "● Install west ..."
 
-if ! pip3 install --user -U west 1>/dev/null; then
+if ! pip3 install -U west 1>/dev/null; then
   echo -e "\e[31mError: Failed to install west\e[0m"
   exit 1
 fi
