@@ -27,7 +27,7 @@ check_install_is_required "$tool" "$@" || {
 }
 
 install_package $tool || exit 1
-create_directoy "$HOME/.local/bin" || exit 1
+create_directory "$HOME/.local/bin" || exit 1
 
 if [ -f "/usr/bin/batcat" ]; then
     message "some of the systems use 'batcat' instead of 'bat' as the command name"

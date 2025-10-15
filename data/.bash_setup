@@ -63,7 +63,7 @@ if [ -n $TERM ]; then
 fi
 
 if [ -f "$HOME/.config/khal/notify.sh" ] && [ -z $in_terminal_session ] && [ -z $CI ]; then
-  (~/.config/khal/notify.sh --dry-run -p 15 &)
+  "${HOME}"/.config/khal/notify.sh --dry-run -p 1 &
 fi
 
 if [ -n "$(command -v zoxide)" ]; then

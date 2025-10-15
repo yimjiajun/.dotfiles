@@ -29,14 +29,10 @@ source "${path}/utils.sh"
 function install {
     check_install_is_required "$tool" "$@" || {
         buku --version
-        exit 0
+            exit 0
     }
-
-  if ! pip3_upgrade_strategy_install_package $tool; then
-    exit 1
-  fi
-
-  info_message "HELP:" "run this $0 script without arguments with selection to import bookmarks"
+    pip_upgrade_strategy_install_package $tool || exit 1
+    info_message "HELP:" "run this $0 script without arguments with selection to import bookmarks"
 }
 
 function import_replace_bookmarks {
