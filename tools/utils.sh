@@ -13,6 +13,10 @@
 #    exit 1
 # fi
 
+# Wrapper Packages for install_package: which will exchange the package name
+# Ex: "InstallPackage, ExchangeInstallPackage"
+darwin_wrapper_packages=("python3-pip,pipx")
+
 data_path_get() {
     local script_path
     script_path=$(dirname "$(readlink -f "$0")")
@@ -203,38 +207,65 @@ pip_install_package() {
     return 0
 }
 
+get_wrapper_install_package() {
+    local key="$1"
+    local pkgs
+
+    if [[ $OSTYPE == "darwin"* ]]; then
+        pkgs=("${darwin_wrapper_packages[@]}")
+    else
+        echo "$key"
+        return
+    fi
+
+    for pkg in "${pkgs[@]}"; do
+        IFS=',' read -r k v <<< "$pkg"
+        if [[ "$k" == "$key" ]]; then
+            echo "$v"
+            return
+        fi
+    done
+    echo "$key"
+}
+
 install_package() {
-    local package="$@"
+    local install_pkgs=("$@")
     local err=1
-    if [ -z "$package" ]; then
+    local pkgs
+
+    if [ -z "$install_pkgs" ]; then
         error_message "No package specified for installation."
         return 1
     fi
 
+    for pkg in "${install_pkgs[@]}"; do
+        pkgs="$pkgs $(get_wrapper_install_package $pkg)"
+    done
+
     if [ -n "$(which apt-get)" ]; then
-        if sudo apt-get install -y $package; then
+        if sudo apt-get install -y $pkgs; then
             err=0
         fi
     elif [ -n "$(which yum)" ]; then
-        if sudo yum install -y $package; then
+        if sudo yum install -y $pkgs; then
             err=0
         fi
     elif [ -n "$(which pacman)" ]; then
-        if sudo pacman -Syu --noconfirm $package; then
+        if sudo pacman -Syu --noconfirm $pkgs; then
             err=0
         fi
     elif [ -n "$(which brew)" ]; then
-        if brew install $package; then
+        if brew install $pkgs; then
             err=0
         fi
     else
-        error_message "Unsupported package manager. Please install $package manually."
+        error_message "Unsupported package manager. Please install $pkgs manually."
         return 2
     fi
 
     if [ $err -ne 0 ]; then
-        package=$(echo "$package" | tr '[:lower:]' '[:upper:]')
-        error_message "Failed to install $package."
+        package=$(echo "$pkgs" | tr '[:lower:]' '[:upper:]')
+        error_message "Failed to install $pkgs."
         return 1
     fi
 
