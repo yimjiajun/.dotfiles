@@ -199,7 +199,7 @@ pip_install_package() {
       py_installer="pip3"
   fi
 
-    if ! ${py_installer} install "${@}"; then
+    if ! ${py_installer} install --user --break-system-packages "${@}"; then
         error_message "Failed to install" "${@}" "using ${py_installer}."
         return 1
     fi
