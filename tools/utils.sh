@@ -31,17 +31,17 @@ py_env_path_get() {
 
 error_message() {
     local message="$*"
-    echo -e "\e[31m[ERROR] $message\e[0m" 1>&2
+    echo -e "\033[31m[ERROR] $message\033[0m" 1>&2
 }
 
 warn_message() {
     local message="$*"
-    echo -e "\e[33m[WARNING] $message\e[0m"
+    echo -e "\033[33m[WARNING] $message\033[0m"
 }
 
 info_message() {
     local message="$*"
-    echo -e "\e[32m[INFO] $message\e[0m"
+    echo -e "\033[32m[INFO] $message\033[0m"
 }
 
 message() {
@@ -73,14 +73,14 @@ title_message() {
     done
 
     echo ""
-    echo -e -n "\e[1;33m"
+    echo -e -n "\033[1;33m"
 
     if [ "$delimiter" -eq 1 ]; then
       text=$(echo "$text" | tr '[:lower:]' '[:upper:]')
       center_message "$text"
     fi
 
-    echo -e -n "\e[0m"
+    echo -e -n "\033[0m"
   done
 }
 
@@ -204,7 +204,7 @@ pip_install_package() {
 }
 
 install_package() {
-    local package="$1"
+    local package="$@"
     local err=1
     if [ -z "$package" ]; then
         error_message "No package specified for installation."
@@ -212,19 +212,19 @@ install_package() {
     fi
 
     if [ -n "$(which apt-get)" ]; then
-        if sudo apt-get install -y "$package"; then
+        if sudo apt-get install -y $package; then
             err=0
         fi
     elif [ -n "$(which yum)" ]; then
-        if sudo yum install -y "$package"; then
+        if sudo yum install -y $package; then
             err=0
         fi
     elif [ -n "$(which pacman)" ]; then
-        if sudo pacman -Syu --noconfirm "$package"; then
+        if sudo pacman -Syu --noconfirm $package; then
             err=0
         fi
     elif [ -n "$(which brew)" ]; then
-        if brew install "$package"; then
+        if brew install $package; then
             err=0
         fi
     else
