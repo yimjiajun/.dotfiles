@@ -15,7 +15,8 @@
 
 # Wrapper Packages for install_package: which will exchange the package name
 # Ex: "InstallPackage, ExchangeInstallPackage"
-darwin_wrapper_packages=("python3-pip,pipx")
+darwin_wrapper_packages=("python3-pip,pipx" "openssh-client,openssh" "openssh-server,openssh"
+    "tar,gnu-tar")
 
 data_path_get() {
     local script_path
