@@ -503,6 +503,15 @@ install_linter_shellcheck() {
   install_package shellcheck || return 1
 }
 
+install_tool_fzf() {
+    info_message "Install" "Fzf"
+    check_install_is_required fzf "$@" || {
+        fzf --version
+        return 0
+    }
+    install_package fzf || return 1
+}
+
 install_nvim() {
   local path
   info_message "Install:" "NeoVim"
@@ -526,14 +535,17 @@ install_nvim() {
       error_message "Failed to install Neovim"
       return
   fi
-
-  message "NeoVim installed on /usr/local/"
 }
 
 failed_func=
 input_parameters="$*"
 title_message "$tool"
-installations=("install_build_prerequisites" "install_node" "install_python" "install_cargo" "install_luarocks" "install_ctags" "install_ripgrep" "install_lsp_bash" "install_lsp_clangd" "install_lsp_cmake" "install_lsp_lua" "install_lsp_python" "install_lsp_rust" "install_linter_python" "install_linter_markdown" "install_linter_cmake" "install_linter_cpplint" "install_linter_shellcheck"  "install_nvim")
+installations=("install_build_prerequisites" "install_node" \
+    "install_python" "install_cargo" "install_luarocks" "install_ctags" "install_ripgrep" "install_lsp_bash" \
+    "install_lsp_clangd" "install_lsp_cmake" "install_lsp_lua" "install_lsp_python" "install_lsp_rust" \
+    "install_linter_python" "install_linter_markdown" "install_linter_cmake" "install_linter_cpplint" "install_linter_shellcheck" \
+    "install_tool_fzf" \
+    "install_nvim")
 
 for func in "${installations[@]}"; do
     if ! $func "$input_parameters"; then
@@ -546,4 +558,5 @@ if [ -n "$failed_func" ]; then
     for func in $failed_func; do
         error_message "$func"
     done
+    exit 1
 fi

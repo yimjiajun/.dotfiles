@@ -1,49 +1,29 @@
 #!/bin/bash
 
 tool='mdbook'
-path="$(dirname $(readlink -f $0))"
-working_path="$(dirname "$(dirname $path)")"
-source "$working_path/app/common.sh"
+path=$(dirname "$(readlink -f "$0")")
+source "${path}/utils.sh"
 
-function install {
-  if [ -z "$(which cargo)" ] && ! ${working_path}/tools/rust.sh '--force'; then
-    echo -e "\033[31mError: install rust failed ! \033[0m" >&2
-    exit 1
-  fi
+title_message "$tool"
 
-  local install='cargo install'
-  display_title "Install $tool"
-
-  if ! $install $tool; then
-    echo -e "\033[31mError: install $tool failed ! \033[0m" >&2
-    exit 1
-  fi
-
-  if [ -z "$(which mdbook-pdf)" ]; then
-    if ! cargo install mdbook-pdf; then
-      echo -e "\033[31mError: install mdbook pdf failed ! \033[0m" >&2
-      exit 1
-    fi
-
-    if ! pip3 install mdbook-pdf-outline; then
-      echo -e "\033[31mError: install mdbook pdf outline failed ! \033[0m" >&2
-      exit 1
-    fi
-  fi
-
-  if [ -z "$(which mdbook-mermaid)" ] && ! $install mdbook-mermaid; then
-    echo -e "\033[31mError: install mdbook mermaid failed ! \033[0m" >&2
-    exit 1
-  fi
-
-  if [ -z "$(which mdbook-toc)" ] && ! $install mdbook-toc; then
-    echo -e "\033[31mError: install mdbook toc failed ! \033[0m" >&2
-    exit 1
-  fi
+check_install_is_required cargo "$@" && {
+    cargo_install_package $tool || exit 1
 }
 
-if [ -z "$(which $tool)" ] || [[ $1 =~ $common_force_install_param ]]; then
-  install
-fi
+check_install_is_required mdbook "$@" && {
+    cargo_install_package mdbook || exit 1
+}
+mdbook --version
 
-exit 0
+check_install_is_required mdbook-pdf "$@" && {
+    cargo_install_package mdbook-pdf || exit 1
+    pip_install_package mdbook-pdf-outline || exit 1
+}
+
+check_install_is_required mdbook-mermaid "$@" && {
+    cargo_install_package mdbook-mermaid || exit 1
+}
+
+check_install_is_required mdbook-toc "$@" && {
+    cargo_install_package mdbook-toc || exit 1
+}

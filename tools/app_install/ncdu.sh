@@ -22,12 +22,6 @@ path=$(dirname "$(readlink -f "$0")")
 source "${path}/utils.sh"
 
 title_message "${tool}"
-
-if [[ $OSTYPE != linux-gnu* ]]; then
-  error_message "Unsupport:" "not support $tool on $OSTYPE !"
-  exit 2
-fi
-
 check_install_is_required "${tool}" "$@" || {
     ${tool} --version
     exit 0
