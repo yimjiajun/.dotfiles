@@ -346,7 +346,7 @@ install_lsp_bash() {
       return 0
     }
 
-  if ! sudo npm install -g bash-language-server; then
+  if ! npm install -g bash-language-server; then
       error_message "Failed to install bash language server"
     return 1
   fi
@@ -417,7 +417,7 @@ install_lsp_lua() {
         return 1
     fi
 
-  # if ! sudo luarocks install  lua-lsp; then
+  # if ! sudo luarocks install lua-lsp; then
     # error_message "Failed install lua-lsp"
     # return 1
   # fi
