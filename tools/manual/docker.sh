@@ -13,6 +13,8 @@ check_install_is_required "$tool" "$@" || {
 
 if [[ $OSTYPE == "darwin"* ]]; then
     install_package colima docker docker-compose || exit 1
+    warn_message "Docker" "Enable colima to start on login"
+    brew services start colima || exit 1
 elif [[ $OSTYPE != "linux-gnu"* ]]; then
     error_message "$OSTYPE system not support"
     exit 1

@@ -25,12 +25,6 @@ path=$(dirname "$(readlink -f "$0")")
 source "${path}/utils.sh"
 
 title_message "${tool}"
-
-if [[ $OSTYPE != linux-gnu* ]]; then
-  warn_message "Unsupport:" "Only support Linux !"
-  exit 2
-fi
-
 check_install_is_required "$tool" "$@" || {
     bpytop --version
     exit 0
