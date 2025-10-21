@@ -512,6 +512,20 @@ install_tool_fzf() {
     install_package fzf || return 1
 }
 
+install_tool_ai() {
+    info_message "Install" "AI - copilot"
+    check_install_is_required copilot "$@" && {
+        npm install -g @github/copilot || return 1
+    }
+    copilot --version
+
+    info_message "Install" "AI - claude-code"
+    check_install_is_required claude "$@" && {
+        npm install -g @anthropic-ai/claude-code || return 1
+    }
+    claude --version
+}
+
 install_nvim() {
   local path
   info_message "Install:" "NeoVim"
@@ -544,7 +558,7 @@ installations=("install_build_prerequisites" "install_node" \
     "install_python" "install_cargo" "install_luarocks" "install_ctags" "install_ripgrep" "install_lsp_bash" \
     "install_lsp_clangd" "install_lsp_cmake" "install_lsp_lua" "install_lsp_python" "install_lsp_rust" \
     "install_linter_python" "install_linter_markdown" "install_linter_cmake" "install_linter_cpplint" "install_linter_shellcheck" \
-    "install_tool_fzf" \
+    "install_tool_fzf" "install_tool_ai" \
     "install_nvim")
 
 for func in "${installations[@]}"; do
