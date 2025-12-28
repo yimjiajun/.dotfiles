@@ -30,6 +30,10 @@
 # $ convert input.jpg output.png
 # $ magick input.png output.jpg
 # $ pngquant --quality=65-80 input.png
+#
+# Screenshot:
+# 1. Capture the entire screen: import -window root ~/Picutures/screenshot.png
+# 2. Select a window or area (interactive): import ~/Picutures/screenshot.png
 
 tool='imagemagick'
 path=$(dirname "$(readlink -f "$0")")
