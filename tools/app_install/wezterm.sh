@@ -55,3 +55,11 @@ if ! ln -sf $common_data_path/.wezterm.lua $HOME/.wezterm.lua; then
     error_message "Link $common_data_path/.wezterm.lua to $HOME/.wezterm.lua failed"
     exit 1
 fi
+
+if [[ "$OSTYPE" = "linux-gnu"* ]]; then
+    info_message "Set ${tool} as default terminal emulator"
+    if ! sudo update-alternatives --install /usr/bin/x-terminal-emulator x-terminal-emulator "$(which wezterm)" 50; then
+        error_message "Set ${tool} as default terminal emulator failed"
+        exit 1
+    fi
+fi
