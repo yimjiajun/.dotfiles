@@ -90,3 +90,11 @@ check_install_is_required "gammastep" "${@}" && {
 }
 
 gammastep -V
+
+if ! [ -f "/etc/udev/rules.d/99-brightnessctl.rules" ]; then
+    if [ -f "${data_path}/etc/udev/rules.d/99-brightnessctl.rules" ]; then
+        info_message "Installing udev rule for brightnessctl control..."
+        sudo cp "${data_path}/etc/udev/rules.d/99-brightnessctl.rules" /etc/udev/rules.d/ || exit 1
+        sudo udevadm control --reload-rules && sudo udevadm trigger || exit 1
+    fi
+fi
