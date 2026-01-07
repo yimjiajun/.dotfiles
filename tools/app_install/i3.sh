@@ -69,12 +69,21 @@ check_install_is_required "${tool}" "${@}" && {
     fi
 
     link_file "${data_path}/.config/i3/config" "${HOME}/.config/i3/" || exit 1
+
+    if ! [ -d "${HOME}/.config/i3status" ]; then
+        if ! mkdir -p "${HOME}/.config/i3status"; then
+            error_message "mkdir -p ${HOME}/.config/i3status failed !"
+            exit 1
+        fi
+    fi
+
+    link_file "${data_path}/.config/i3status/config" "${HOME}/.config/i3status/config" || exit 1
 }
 
 $tool --version
 
 check_install_is_required "amixer" "${@}" && {
-    install_package "amixer" || exit 1
+    install_package "alsa-utils" || exit 1
 }
 
 amixer --version
