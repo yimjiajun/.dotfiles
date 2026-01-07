@@ -28,7 +28,12 @@
 #
 # imagemagick tool usage examples:
 # $ convert input.jpg output.png
+# $ convert -resize 50% input.jpg output.jpg
+# $ convert -rotate 90 input.jpg output.jpg
+# $ convert -quality 85 input.jpg output.jpg
+#
 # $ magick input.png output.jpg
+#
 # $ pngquant --quality=65-80 input.png
 #
 # Screenshot:
