@@ -14,9 +14,11 @@
 # Tools:
 #
 # 1. sphinx-quickstart: Command-line tool to create a new Sphinx documentation project.
-# 2. myst-parse: A Sphinx extension that allows parsing of Markdown files using the MyST syntax.
-# 3. latexpdf: Command to build PDF documents from Sphinx documentation using LaTe (make latexpdf)
-# 4. latexmk: A Perl script that automates the process of generating LaTeX documents. (make latexpdf)
+# 2. sphinx_rtd_theme: A Sphinx theme designed for Read the Docs.
+# 3. sphinx-design: A Sphinx extension that provides design components for better documentation.
+# 4. myst-parse: A Sphinx extension that allows parsing of Markdown files using the MyST syntax.
+# 5. latexpdf: Command to build PDF documents from Sphinx documentation using LaTe (make latexpdf)
+# 6. latexmk: A Perl script that automates the process of generating LaTeX documents. (make latexpdf)
 #
 # Guide:
 #
@@ -27,15 +29,19 @@
 #   # conf.py
 #   html_theme = 'sphinx_rtd_theme'
 #
+# 2. sphinx-design provides design components for Sphinx documentation.
 #
-# 2. myst-parser is a markdown compatible parser for Sphinx.
+#    sphinx-design usage example: add the following lines to your Sphinx conf.py
+#
+#    # conf.py
+#    extensions = [ 'sphinx_design', ]
+#
+# 3. myst-parser is a markdown compatible parser for Sphinx.
 #
 #   myst-parser usage example: add the following lines to your Sphinx conf.py
 #
 #   # conf.py
-#   extensions = [
-#       'myst_parser',
-#   ]
+#   extensions = [ 'myst_parser', ]
 
 tool='sphinx'
 path=$(dirname "$(readlink -f "$0")")
@@ -46,6 +52,7 @@ title_message "${tool}"
 check_install_is_required 'sphinx-quickstart' "${@}" && {
     pip_install_package "$tool" || exit 1
     pip_install_package 'sphinx_rtd_theme' || exit 1
+    pip_install_package 'sphinx-design' || exit 1
 }
 
 sphinx-quickstart --version
