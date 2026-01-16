@@ -51,6 +51,9 @@
 #
 #    $ mmdc -i input.mmd -o output.png
 #
+#    # On Ubuntu 23.04 or later, you may need to add '--no-sandbox' flag due to Chromium sandboxing issues
+#    $ mmdc -i input.mmdc -o output.png -p /dev/stdin <<< '{"args":["--no-sandbox"]}
+#
 #    - latexpdf is a Sphinx build command to generate PDF documents using LaTeX.
 #
 #      latexpdf usage example: run the following command in your Sphinx documentation directory
