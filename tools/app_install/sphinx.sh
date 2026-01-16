@@ -16,9 +16,11 @@
 # 1. sphinx-quickstart: Command-line tool to create a new Sphinx documentation project.
 # 2. sphinx_rtd_theme: A Sphinx theme designed for Read the Docs.
 # 3. sphinx-design: A Sphinx extension that provides design components for better documentation.
-# 4. myst-parse: A Sphinx extension that allows parsing of Markdown files using the MyST syntax.
-# 5. latexpdf: Command to build PDF documents from Sphinx documentation using LaTe (make latexpdf)
-# 6. latexmk: A Perl script that automates the process of generating LaTeX documents. (make latexpdf)
+# 4. sphinxcontrib-mermaid: A Sphinx extension to include Mermaid diagrams in documentation.
+# 5. mermaid-cli: A command-line interface for generating diagrams and flowcharts from Mermaid syntax.
+# 6. myst-parse: A Sphinx extension that allows parsing of Markdown files using the MyST syntax.
+# 7. latexpdf: Command to build PDF documents from Sphinx documentation using LaTe (make latexpdf)
+# 8. latexmk: A Perl script that automates the process of generating LaTeX documents. (make latexpdf)
 #
 # Guide:
 #
@@ -36,6 +38,30 @@
 #    # conf.py
 #    extensions = [ 'sphinx_design', ]
 #
+# 3. sphinxcontrib-mermaid allows inclusion of Mermaid diagrams in Sphinx documentation.
+#
+#    sphinxcontrib-mermaid usage example: add the following lines to your Sphinx conf.py
+#
+#    # conf.py
+#    extensions = [ 'sphinxcontrib.mermaid', ]
+#
+# 4. mermaid-cli is a command-line interface for generating diagrams from Mermaid syntax.
+#
+#    mermaid-cli usage example: generate a PNG diagram from a Mermaid file
+#
+#    $ mmdc -i input.mmd -o output.png
+#
+#    - latexpdf is a Sphinx build command to generate PDF documents using LaTeX.
+#
+#      latexpdf usage example: run the following command in your Sphinx documentation directory
+#
+#      # conf.py
+#      mermaid_output_format = "png"
+#      mermaind_params = { '--theme', 'default',
+#                          '--width', '2000',
+#                          '--backgroundColor', 'transparent' }
+#
+#
 # 3. myst-parser is a markdown compatible parser for Sphinx.
 #
 #   myst-parser usage example: add the following lines to your Sphinx conf.py
@@ -50,27 +76,34 @@ source "${path}/utils.sh"
 title_message "${tool}"
 
 check_install_is_required 'sphinx-quickstart' "${@}" && {
-    pip_install_package "$tool" || exit 1
-    pip_install_package 'sphinx_rtd_theme' || exit 1
-    pip_install_package 'sphinx-design' || exit 1
+  pip_install_package "$tool" || exit 1
+  pip_install_package 'sphinx_rtd_theme' || exit 1
+  pip_install_package 'sphinx-design' || exit 1
+  pip_install_package 'sphinxcontrib-mermaid' || exit 1
 }
 
 sphinx-quickstart --version
 
 check_install_is_required "myst-docutils-demo" "${@}" && {
-    pip_install_package 'myst-parser' || exit 1
+  pip_install_package 'myst-parser' || exit 1
 }
 
 myst-docutils-demo --version
 
 check_install_is_required "pdflatex" "${@}" && {
-    install_package 'texlive-latex-extra' || exit 1
+  install_package 'texlive-latex-extra' || exit 1
 }
 
 pdflatex --version
 
 check_install_is_required "latexmk" "${@}" && {
-    install_package 'latexmk' || exit 1
+  install_package 'latexmk' || exit 1
 }
 
 latexmk --version
+
+check_install_is_required "mmdc" "${@}" && {
+  npm install -g @mermaid-js/mermaid-cli || exit 1
+}
+
+mmdc --version

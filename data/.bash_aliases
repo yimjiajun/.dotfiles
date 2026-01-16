@@ -195,6 +195,20 @@ if [ -n "$(command -v zoxide)" ]; then
   alias zd='zoxide_selection'
 fi
 
+function copilot_commit() {
+  if [ -n "$(command -v copilot)" ]; then
+      copilot -p "\
+          Write commit message for the change with commitizen convention. \
+          Keep the title under 50 characters and wrap message at 72 characters. \
+          Format as a gitcommit code block. \
+          And Commit it" \
+          --allow-all-tools
+  else
+      echo -e "\033[0;31mCopilot CLI is not installed. Please install it to use this feature.\033[0m"
+      return 1
+  fi
+}
+
 alias p='cd -'
 alias c='cd ..'
 
