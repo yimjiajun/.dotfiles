@@ -93,4 +93,8 @@ if [ -d "$HOME/python_env" ] && [[ "$VIRTUAL_ENV" != "$HOME/python_env/env" ]]\
   source "$HOME/python_env/env/bin/activate"
 fi
 
+if [ -f "$HOME/.bash_functions" ] && [ -z "$BASH_FUNCTIONS_LOADED" ]; then
+  source ~/.bash_functions
+fi
+
 # vim:tw=78:ft=bash:shiftwidth=2:tabstop=2
