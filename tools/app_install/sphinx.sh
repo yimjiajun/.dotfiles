@@ -17,10 +17,11 @@
 # 2. sphinx_rtd_theme: A Sphinx theme designed for Read the Docs.
 # 3. sphinx-design: A Sphinx extension that provides design components for better documentation.
 # 4. sphinxcontrib-mermaid: A Sphinx extension to include Mermaid diagrams in documentation.
-# 5. mermaid-cli: A command-line interface for generating diagrams and flowcharts from Mermaid syntax.
-# 6. myst-parse: A Sphinx extension that allows parsing of Markdown files using the MyST syntax.
-# 7. latexpdf: Command to build PDF documents from Sphinx documentation using LaTe (make latexpdf)
-# 8. latexmk: A Perl script that automates the process of generating LaTeX documents. (make latexpdf)
+# 5. rstfmt: A tool to format reStructuredText files.
+# 6. mermaid-cli: A command-line interface for generating diagrams and flowcharts from Mermaid syntax.
+# 7. myst-parse: A Sphinx extension that allows parsing of Markdown files using the MyST syntax.
+# 8. latexpdf: Command to build PDF documents from Sphinx documentation using LaTeX (make latexpdf)
+# 9. latexmk: A Perl script that automates the process of generating LaTeX documents. (make latexpdf)
 #
 # Guide:
 #
@@ -52,7 +53,7 @@
 #    $ mmdc -i input.mmd -o output.png
 #
 #    # On Ubuntu 23.04 or later, you may need to add '--no-sandbox' flag due to Chromium sandboxing issues
-#    $ mmdc -i input.mmdc -o output.png -p /dev/stdin <<< '{"args":["--no-sandbox"]}
+#    $ mmdc -i input.mmdc -o output.png -p /dev/stdin <<< '{"args":["--no-sandbox"]}'
 #
 #    - latexpdf is a Sphinx build command to generate PDF documents using LaTeX.
 #
@@ -83,6 +84,7 @@ check_install_is_required 'sphinx-quickstart' "${@}" && {
   pip_install_package 'sphinx_rtd_theme' || exit 1
   pip_install_package 'sphinx-design' || exit 1
   pip_install_package 'sphinxcontrib-mermaid' || exit 1
+  pip_install_package 'rstfmt' || exit 1
 }
 
 sphinx-quickstart --version
