@@ -149,6 +149,22 @@ link_file() {
     return 0
 }
 
+function append_to_file_if_not_exists() {
+    local file="$1"
+    local content="$2"
+
+    if [ -z "$file" ] || [ -z "$content" ]; then
+        error_message "File path or content not specified."
+        return 1
+    fi
+
+    touch "$file" || return 1
+
+    if ! grep -Fxq "$content" "$file"; then
+        echo "$content" >> "$file"
+    fi
+}
+
 check_is_installed() {
     local tool="$1"
 

@@ -35,6 +35,9 @@ exec --no-startup-id xss-lock --transfer-sleep-lock -- i3lock --nofork -c 000000
 # and nm-applet is a desktop environment-independent system tray GUI for it.
 exec --no-startup-id nm-applet
 
+# Start the keyboard input method framework fcitx5 in daemon mode.
+exec --no-startup-id fcitx5 -d
+
 # Use pactl to adjust volume in PulseAudio.
 set $refresh_i3status killall -SIGUSR1 i3status
 bindsym XF86AudioRaiseVolume exec --no-startup-id amixer set Master 10%+ && $refresh_i3status
