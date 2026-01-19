@@ -42,8 +42,8 @@
 [commit]
 	template = ~/.gitmessage
 [user]
-	name = JiaJun Yim
-	email = yimjiajun@icloud.com
+	name = Richard Yim
+	email = richardyim@ami.com
 [init]
 	defaultBranch = main
 [include]
